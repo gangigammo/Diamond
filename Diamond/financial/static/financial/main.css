@@ -1,0 +1,79 @@
+.cp_tab *, .cp_tab *:before, .cp_tab *:after {
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+.cp_tab ::selection {
+	background-color: #4EC6DE;
+}
+.cp_tab {
+	margin: 1em auto;
+}
+.cp_tab input[type='radio'] {
+	margin: 0;
+	padding: 0;
+	border: none;
+	border-radius: 0;
+	outline: none;
+	background: none;
+	-webkit-appearance: none;
+	        appearance: none;
+	display: none;
+}
+.cp_tab > label {
+	display: block;
+	float: left;
+	margin-right: 5px;
+	padding: 12px 20px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+.cp_tab > label:hover,
+.cp_tab > input:checked + label {
+	border-radius: 6px 6px 0 0;
+	background: #DCEDC8;
+}
+.cp_tab .cp_tabpanels {
+	clear: both;
+	perspective: 600px;
+	min-height: 150px;/* エリアの高さ */
+}
+.cp_tab .cp_tabpanels .cp_tabpanel {
+	line-height: 1.4em;
+	position: absolute;
+	z-index: 0;
+	width: 100%;
+	padding: 10px 30px 40px;
+	transition: opacity 0.3s, transform 1s;
+	transform: rotateX(-20deg);
+	transform-origin: top center;
+	opacity: 0;
+	border: 1px solid #DCEDC8;
+	background: #DCEDC8;
+}
+.cp_tab #tab4_1:checked ~ .cp_tabpanels .cp_tabpanel:nth-of-type(1),
+.cp_tab #tab4_2:checked ~ .cp_tabpanels .cp_tabpanel:nth-of-type(2),
+.cp_tab #tab4_3:checked ~ .cp_tabpanels .cp_tabpanel:nth-of-type(3) {
+	z-index: 1;
+	transform: rotateX(0);
+	opacity: 1;
+}
+@media screen and (max-width: 480px) {
+	.cp_tab {
+		width: 100%;
+	}
+	.cp_tab > label {
+		display: none;
+	}
+	.cp_tab .cp_tabpanels .cp_tabpanel {
+	position: relative;
+	margin-bottom: 1em;
+	padding: 0.5em;
+	transform: none;
+	opacity: 1;
+	border: none;
+	}
+	.cp_tab .cp_tabpanels .cp_tabpanel h2 {
+		border-bottom: 1px solid #7CB342;
+		padding-bottom: 0.5em;
+	}
+}
