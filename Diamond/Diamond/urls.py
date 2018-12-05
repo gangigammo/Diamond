@@ -20,7 +20,7 @@ import financial.views as financial_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', financial_view.home),
+    path('', financial_view.home),
     path('view/', financial_view.view),
     path('delete/', financial_view.delete),
     path('income/', financial_view.income),
