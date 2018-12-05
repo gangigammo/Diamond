@@ -1,0 +1,5 @@
+# python のキャッシュファイル
+*.pyc
+
+# Django のデータベースファイル
+*.sqlite3
