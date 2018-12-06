@@ -3,3 +3,6 @@
 
 # Django のデータベースファイル
 *.sqlite3
+
+# テストに使うChromeのdriver
+chromedriver*
