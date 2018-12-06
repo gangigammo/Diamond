@@ -28,16 +28,15 @@ class Drivers:
 	def get(cls, browser: Browser):
 		path = cls.dir_path + cls.bin_paths[browser] + cls.suffix[os.name]
 		abs_path = pathlib.Path(path).resolve()
-		try:
-			driver = cls.factories[browser](str(abs_path))
-		except FileNotFoundError as e:
-			print(e)
-			message = 'ブラウザのドライバ ' + abs_path + ' が存在しません.'
+		if (os.path.exists(abs_path)):
+			try:
+				driver = cls.factories[browser](str(abs_path))
+			except WebDriverException:
+				message = 'ブラウザ ' + browser.name + ' はインストールされていません.'
+				raise EnvironmentError(message)
+		else:
+			message = 'ブラウザのドライバ ' + str(abs_path) + ' が存在しません.'
 			raise FileNotFoundError(message)
-		except WebDriverException as e:
-			print(e)
-			message = 'ブラウザ ' + browser.name + ' はインストールされていません.'
-			raise EnvironmentError(message)
 		return driver
 
 
@@ -48,5 +47,6 @@ class MyTests(TestCase):
 		except Exception as e:
 			print(e)
 			message = 'テスト用ブラウザを初期化できませんでした.'
+			print(message)
 			raise SystemExit(message)
 		driver.get('http://seleniumhq.org/')
