@@ -18,6 +18,9 @@ class Drivers:
 	# ドライバー本体のファイル名を指定
 	bin_paths = {Browser.Chrome: 'chromedriver'}
 
+	# ダウンロードURLのメモ
+	bin_urls = {
+            Browser.Chrome: 'https://sites.google.com/a/chromium.org/chromedriver/downloads'}
 	# ドライバーの取得関数
 	factories = {Browser.Chrome: webdriver.Chrome}
 	# OSによって異なる実行ファイルの拡張子
@@ -35,7 +38,9 @@ class Drivers:
 				message = 'ブラウザ ' + browser.name + ' はインストールされていません.'
 				raise EnvironmentError(message)
 		else:
-			message = 'ブラウザのドライバ ' + str(abs_path) + ' が存在しません.'
+			message = 'ブラウザのドライバ ' + \
+                            str(abs_path) + ' が存在しません.' + \
+                            '\n ' + abs_path.name +' のダウンロード: ' + cls.bin_urls[browser]
 			raise FileNotFoundError(message)
 		return driver
 
