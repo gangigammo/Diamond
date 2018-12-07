@@ -24,5 +24,6 @@ urlpatterns = [
     path('view/', financial_view.view),
     path('delete/', financial_view.delete),
     path('income/', financial_view.income),
-    path('expence/', financial_view.expence)
+    path('expence/', financial_view.expence),
+    path('account/', financial_view.signin)
 ]

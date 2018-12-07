@@ -14,5 +14,5 @@ class Expense(models.Model): #支出のモデル
 
 
 class User(models.Model): #ユーザーのモデル
-    name = description = models.CharField(max_length=128)
-    password = description = models.CharField(max_length=128)
+    name = models.CharField(max_length=128)
+    password = models.CharField(max_length=128)
