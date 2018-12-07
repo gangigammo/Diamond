@@ -1,0 +1,16 @@
+{% extends "main.html" %}
+{% block title %}
+収支表閲覧
+{% endblock %}
+
+{% block body %}
+<form id="expenceForm" method="POST" action="/home/">
+        <p>値</p>
+        <input type="text" name="name">
+        <p>内容</p>
+        <input type="text" name="password">
+        {% csrf_token %}
+        <input type="submit" value="送信">
+</form>
+<a href="/signup/">新規登録</a>
+{% endblock %}
