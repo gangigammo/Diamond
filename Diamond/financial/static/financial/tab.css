@@ -1,3 +1,4 @@
+/*タブ機能を実現するcss*/
 
 .cp_tab *, .cp_tab *:before, .cp_tab *:after {
 	-webkit-box-sizing: border-box;
