@@ -11,6 +11,11 @@
         <input type="text" name="income">
         <p>内容</p>
         <input type="text" name="incomeDescription">
+        <p>カテゴリー</p>
+        <input type="radio" name="incomeCategory" value="work"> 仕事
+        <input type="radio" name="incomeCategory" value="school"> 学校
+        <input type="radio" name="incomeCategory" value="hobby"> 娯楽
+        <br>
         {% csrf_token %}
         <input type="submit" value="送信">
     </form>
@@ -20,6 +25,11 @@
         <input type="text" name="expence">
         <p>内容</p>
         <input type="text" name="expenceDescription">
+        <p>カテゴリー</p>
+        <input type="radio" name="expenceCategory" value="work"> 仕事
+        <input type="radio" name="expenceCategory" value="school"> 学校
+        <input type="radio" name="expenceCategory" value="hobby"> 娯楽
+        <br>
         {% csrf_token %}
         <input type="submit" value="送信">
     </form>

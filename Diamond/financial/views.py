@@ -22,7 +22,8 @@ def income(request):
     inputIncomeStr = request.POST["income"]
     inputIncome = int(inputIncomeStr)
     description = request.POST["incomeDescription"]
-    income = Income(description=description, amount=inputIncome)
+    category = request.POST["incomeCategory"]
+    income = Income(description=description, amount=inputIncome, category=category)
     income.save()
     return render(request, "income.html")
 
@@ -30,7 +31,8 @@ def expence(request):
     inputExpenceStr = request.POST["expence"]
     inputExpence = int(inputExpenceStr)
     description = request.POST["expenceDescription"]
-    expence = Expense(description=description, amount=inputExpence)
+    category = request.POST["expeceCategory"]
+    expence = Expense(description=description, amount=inputExpence, category=category)
     expence.save()
     return render(request, "expence.html")
 
