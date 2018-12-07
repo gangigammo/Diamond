@@ -1,6 +1,7 @@
 from django.shortcuts import render
-
+from django.shortcuts import redirect
 from financial.models import *
+
 # Create your views here.
 
 def home(request):
@@ -43,3 +44,27 @@ def delete(request):
 
 def signin(request):
     return render(request, "signin.html")
+
+def signup(request):
+    return render(request, "signup.html")
+
+def signinconfirm(request):
+    Name = request.POST["name"]
+    Password = request.POST["password"]
+    #if User.objects.filter(name="Name"):
+        #response.set_cookie("name", Name)
+
+    #else:
+
+    return redirect("/home/")
+
+def signupconfirm(request):
+    Name = request.POST["name"]
+    Password = request.POST["password"]
+    #if not User.objects.filter(name="Name"):
+        #user = User(name = "Name", password = Password)
+        #user.save
+        #response.set_cookie("name", Name)
+    #else:
+
+    return redirect("/home/")
