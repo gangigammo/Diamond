@@ -40,3 +40,6 @@ def delete(request):
     incomes.delete()
     expences.delete()
     return render(request, "delete.html")
+
+def signin(request):
+    return render(request, "signin.html")
