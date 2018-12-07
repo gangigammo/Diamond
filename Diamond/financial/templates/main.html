@@ -6,6 +6,9 @@
     {% block title %}
     {% endblock %}
   </title>
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'financial/tab.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'financial/menyu.css' %}">
 </head>
 <body>
 {% block body %}

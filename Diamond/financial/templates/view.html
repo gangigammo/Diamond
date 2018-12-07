@@ -4,64 +4,104 @@
 {% endblock %}
 
 {% block body %}
-    <a href="/delete/">データベース削除</a>
-    <p>収入入力フォーム</p>
-    <form id="incomeForm" method="POST" action="/income/">
-        <p>値</p>
-        <input type="text" name="income">
-        <p>内容</p>
-        <input type="text" name="incomeDescription">
-        {% csrf_token %}
-        <input type="submit" value="送信">
-    </form>
-    <p>支出入力フォーム</p>
-    <form id="expenceForm" method="POST" action="/expence/">
-        <p>値</p>
-        <input type="text" name="expence">
-        <p>内容</p>
-        <input type="text" name="expenceDescription">
-        {% csrf_token %}
-        <input type="submit" value="送信">
-    </form>
-    <h3>あなたの現在の収支は{{gain}}です。</h3>
-    <table>
-        <thead>
-          <tr>
-            <th>収入</th>
-            <th>内容</th>
-          </tr>
-        </thead>
-        <tbody>
-            {% for income in incomes %}
-            <tr>
-              <td>{{income.amount}}</td>
-              <td>{{income.description}}</td>
-            </tr>
-            {% endfor %}
-            <tr>
-                <td>{{sumIncomes}}</td>
-                <td>合計</td>
-            </tr>
-        </tbody>
-    </table>
-    <table>
-        <thead>
-          <tr>
-            <th>支出</th>
-            <th>内容</th>
-          </tr>
-        </thead>
-        <tbody>
-            {% for expence in expences %}
-            <tr>
-                <td>{{expence.amount}}</td>
-                <td>{{expence.description}}</td>
-            </tr>
-            {% endfor %}
-            <tr>
-                <td>{{sumExpences}}</td>
-                <td>合計</td>
-            </tr>
-        </tbody>
-    </table>
+<div class="cp_cont">
+    <div class="cp_offcm01">
+        <input type="checkbox" id="cp_toggle01">
+        <label for="cp_toggle01"><span></span></label>
+        <div class="cp_menu">
+            <ul>
+                <li><a href="#">menu1</a></li>
+                <li><a href="#">menu2</a></li>
+                <li><a href="#">menu3</a></li>
+                <li><a href="#">menu4</a></li>
+                <li><a href="#">menu5</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="cp_contents">
+        <h1>contents</h1>
+    </div>
+</div>
+
+<div class="cp_tab">
+    <input type="radio" name="cp_tab" id="tab4_1" checked>
+    <label for="tab4_1">一覧</label>
+    <input type="radio" name="cp_tab" id="tab4_2">
+    <label for="tab4_2">円グラフ</label>
+    <input type="radio" name="cp_tab" id="tab4_3">
+    <label for="tab4_3">折れ線グラフ</label>
+    <div class="cp_tabpanels">
+        <div class="cp_tabpanel">
+            <h2>収支一覧</h2>
+            <p>収入入力フォーム</p>
+            <form id="incomeForm" method="POST" action="/income/">
+                <p>値</p>
+                <input type="text" name="income">
+                <p>内容</p>
+                <input type="text" name="incomeDescription">
+                {% csrf_token %}
+                <input type="submit" value="送信">
+            </form>
+            <p>支出入力フォーム</p>
+            <form id="expenceForm" method="POST" action="/expence/">
+                <p>値</p>
+                <input type="text" name="expence">
+                <p>内容</p>
+                <input type="text" name="expenceDescription">
+                {% csrf_token %}
+                <input type="submit" value="送信">
+            </form>
+            <h3>あなたの現在の収支は{{gain}}です。</h3>
+            <a href="/delete/">データベース削除</a>
+            <table>
+                <thead>
+                    <tr>
+                        <th>収入</th>
+                        <th>内容</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for income in incomes %}
+                    <tr>
+                        <td>{{income.amount}}</td>
+                        <td>{{income.description}}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td>{{sumIncomes}}</td>
+                        <td>合計</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>支出</th>
+                        <th>内容</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for expence in expences %}
+                    <tr>
+                        <td>{{expence.amount}}</td>
+                        <td>{{expence.description}}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td>{{sumExpences}}</td>
+                        <td>合計</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="cp_tabpanel">
+            <h2>円グラフ</h2>
+            <p>円グラフをここに表示</p>
+        </div>
+        <div class="cp_tabpanel">
+            <h2>折れ線グラフ</h2>
+            <p>折れ線グラフをここに表示</p>
+        </div>
+    </div>
+</div>
 {% endblock %}
