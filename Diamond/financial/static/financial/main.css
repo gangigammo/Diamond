@@ -1,0 +1,25 @@
+/*主要な装飾を実現するcss*/
+
+/*URLリンクの色を変え、ホバーするとアンダーラインが出る*/
+a {
+	padding: 0.1em 0.3em;
+	position: relative;
+	display: inline-block;
+	transition: .3s;
+	color: rgb(44, 24, 226);
+}
+a::after {
+	position: absolute;
+	bottom: .3em;
+	left: 0;
+	content: '';
+	width: 100%;
+	height: 1px;
+	background-color: rgb(44, 24, 226);
+	opacity: 0;
+	transition: .3s;
+}
+a:hover::after {
+	bottom: 0;
+	opacity: 1;
+}

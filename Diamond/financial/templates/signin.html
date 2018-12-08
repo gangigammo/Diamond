@@ -4,14 +4,28 @@
 {% endblock %}
 
 {% block body %}
+<h2>ログイン</h2>
+<script>
+        window.onload = function() {
+            error = "{{error}}";
+            if(error == "name"){
+                document.getElementById("{{error}}").innerHTML = "その名前のアカウントはありません";
+            }else if(error == "password"){ 
+                document.getElementById("{{error}}").innerHTML = "パスワードを間違えています";
+            }
+        }
+
+</script>
 <form id="signinForm" method="POST" action="/signinconfirm/">
         <p>名前</p>
         <input type="text" name="name">
+        <font color="red"><p id="name"></p></font>
         <p>パスワード</p>
-        <input type="text" name="password">
+        <input type="password" name="password">
+        <font color="red"><p id="password"></p></font>
         {% csrf_token %}
         <input type="submit" value="送信">
 </form>
 <a href="/signup/">新規登録</a>
-<a href="/home/">戻る</a>
+<a href="/">戻る</a>
 {% endblock %}
