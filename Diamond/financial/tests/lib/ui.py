@@ -60,19 +60,20 @@ class Drivers:
         return driver
 
 
-class MyTests(TestCase):
-    def test_sample(self):
-        try:
-            driver = Drivers.get(Browser.Chrome)
-        except Exception as e:
-            print(e)
-            message = 'テスト用ブラウザを初期化できませんでした.'
-            print(message)
-            raise SystemExit(message)
-        driver.implicitly_wait(10)  # seconds
-        driver.get('http://127.0.0.1:8000/home')
-        driver.find_element_by_xpath("/html/body/a").click()
-        driver.find_element_by_xpath("/html/body/a").click()
-        driver.find_element_by_xpath("/html/body/a").click()
-        driver.close()
-        driver.quit()
+def test_sample():
+    try:
+        driver = Drivers.get(Browser.Chrome)
+    except Exception as e:
+        print(e)
+        message = 'テスト用ブラウザを初期化できませんでした.'
+        print(message)
+        raise SystemExit(message)
+    driver.implicitly_wait(10)  # seconds
+    driver.get('http://127.0.0.1:8000')
+    driver.find_element_by_xpath("/html/body/a").click()
+    driver.close()
+    driver.quit()
+
+
+def sample():
+    print('unko')
