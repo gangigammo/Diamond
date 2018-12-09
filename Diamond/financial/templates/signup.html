@@ -1,0 +1,29 @@
+{% extends "main.html" %}
+{% block title %}
+新規登録
+{% endblock %}
+
+{% block body %}
+<h2>アカウント作成</h2>
+<script>
+        window.onload = function() {
+            error = "{{error}}";
+            if(error == "name"){
+                document.getElementById("{{error}}").innerHTML = "そのユーザー名は既に使用されています";
+            }else if(error == "password"){ /*パスワードエラーを作成するならここに*/
+                /*document.getElementById("@danger").innerHTML = "パスワードは8文字以上で数字、小文字、大文字を全て含んだものにしてください";*/
+            }
+        }
+
+</script>
+<form id="signupForm" method="POST" action="/signupconfirm/">
+        <p>名前</p>
+        <input type="text" name="name">
+        <font color="red"><p id="name"></p></font>
+        <p>パスワード</p>
+        <input type="password" name="password">
+        {% csrf_token %}
+        <input type="submit" value="送信">
+</form>
+<a href="/">戻る</a>
+{% endblock %}
