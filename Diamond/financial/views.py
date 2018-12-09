@@ -1,10 +1,11 @@
 from django.shortcuts import render
-
+from django.shortcuts import redirect
 from financial.models import *
+
 # Create your views here.
 
 def home(request):
-    return render(request, "home.html")
+    return render(request, "home.html", {"name":request.session.get("name")})
 
 def view(request):
     incomes = Income.objects.all()
@@ -37,9 +38,42 @@ def expence(request):
 def delete(request):
     incomes = Income.objects.all()
     expences = Expense.objects.all()
+    user = User.objects.all()
     incomes.delete()
     expences.delete()
+    user.delete()
+    request.session.flush()
     return render(request, "delete.html")
 
 def signin(request):
-    return render(request, "signin.html")
+    return render(request, "signin.html",{"error":"none"})
+
+def signup(request):
+    return render(request, "signup.html",{"error":"none"})
+
+def signinconfirm(request):
+    name = request.POST["name"]
+    password = request.POST["password"]
+
+    if len(User.objects.filter(name=name)) != 0:
+        if User.objects.filter(name=name)[0].password == password:
+            request.session["name"] = name
+            return render(request, "home.html", {"name":request.session.get("name")})
+        else:
+            return render(request, "signin.html", {"error":"password"})
+    else:
+        return render(request, "signin.html", {"error":"name"})
+
+def signupconfirm(request):
+    name = request.POST["name"]
+    password = request.POST["password"]
+    if len(User.objects.filter(name=name)) == 0:
+        user = User(name = name, password = password)
+        user.save()
+        return render(request, "home.html")
+    else:
+        return render(request, "signup.html", {"error":"name"})
+
+def signout(request):
+    request.session.clear()
+    return render(request, "home.html", {"name":request.session.get("name")})
