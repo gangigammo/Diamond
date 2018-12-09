@@ -29,5 +29,6 @@ urlpatterns = [
     path('signup/', financial_view.signup),
     path('signinconfirm/', financial_view.signinconfirm),
     path('signupconfirm/', financial_view.signupconfirm),
-    path('signout/', financial_view.signout)
+    path('signout/', financial_view.signout),
+    path('category/', financial_view.category)
 ]
