@@ -93,26 +93,32 @@ def category(request):#カテゴリー登録関数
     expences = Expense.objects.all()
     incomeCategories = IncomeCategory.objects.all()
     expenseCategories = ExpenseCategory.objects.all()
-
+    sumIncomes = 0
+    for income in incomes:
+        sumIncomes = sumIncomes + income.amount
+    sumExpences = 0
+    for expence in expences:
+        sumExpences = sumExpences + expence.amount
+    gain = sumIncomes - sumExpences
     inputCategory = request.POST["registrationCategory"]
     categoryType = request.POST["categoryType"]
-    if inputCategory == "":#入力が空白の時にエラー処理（URLがviewからcategoryに変更されてしまうので修正案件）
+    if inputCategory == "":
         return render(request, "view.html",{"categorySubscribeError":"blank",
-                                            "incomes": incomes, "expences": expences,
+                                            "incomes": incomes, "expences": expences, "sumIncomes":sumIncomes, "sumExpences":sumExpences, "gain":gain,
                                             "incomeCategories": incomeCategories, "expenseCategories": expenseCategories
                                             })
     if categoryType == "income":
         if len(IncomeCategory.objects.filter(categoryName=inputCategory)) == 0:
             newcategory = IncomeCategory(categoryName=inputCategory)
             newcategory.save()
-        else:#入力が重複した時のエラー処理（URLがviewからcategoryに変更されてしまうので修正案件）
-            return render(request, "view.html", {"categorySubscribeError": "duplication", "incomes": incomes, "expences": expences,
+        else:
+            return render(request, "view.html", {"categorySubscribeError": "duplication", "incomes": incomes, "expences": expences, "sumIncomes":sumIncomes, "sumExpences":sumExpences, "gain":gain,
                                             "incomeCategories": incomeCategories, "expenseCategories": expenseCategories})
     else:
         if len(ExpenseCategory.objects.filter(categoryName=inputCategory)) == 0:
             newcategory = ExpenseCategory(categoryName=inputCategory)
             newcategory.save()
-        else:#入力が重複した時のエラー処理（URLがviewからcategoryに変更されてしまうので修正案件）
-            return render(request, "view.html", {"categorySubscribeError": "duplication", "incomes": incomes, "expences": expences,
+        else:
+            return render(request, "view.html", {"categorySubscribeError": "duplication", "incomes": incomes, "expences": expences, "sumIncomes":sumIncomes, "sumExpences":sumExpences, "gain":gain,
                                             "incomeCategories": incomeCategories, "expenseCategories": expenseCategories})
     return render(request, "category.html")
