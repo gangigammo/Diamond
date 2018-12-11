@@ -19,7 +19,7 @@
 	display: block;
 	color: white;
 	text-align: center;
-	padding: 14px 16px; 
+	padding: 14px 16px;
 	text-decoration: none;
 }
 .homemenu li a:hover:not(.active) {
@@ -45,19 +45,30 @@
 
 .description {
     position: relative;
-    background-color: aquamarine;
+    background-color: rgb(228, 72, 10);
     font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
     width:50%;
     height: 100%;
-    padding: 15px 15px;
+    padding: 8px 19px;
+    color: #2c2c2f;
+    background: #e4fcff;/*背景色*/
+    border-top: solid 5px #1dc1d6;
+    border-bottom: solid 5px #1dc1d6;
     float: left;
 }
 
 .description h2 {
     text-align: center;
+    color: rgb(0, 0, 0);
+    font-size: 40px;
+    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
 }
 .description p {
     text-align: center;
+    padding: 70px 140px;
+    color: rgb(0, 0, 0);
+    font-size: 30px;
+    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
 }
 
 .icon {
@@ -66,10 +77,16 @@
     height: 100%;
     float: right;
     text-align: center;
-    background-color: aquamarine;
+    padding: 8px 19px;
+    color: #2c2c2f;
+    background: #e4fcff;/*背景色*/
+    border-top: solid 5px #1dc1d6;
+    border-bottom: solid 5px #1dc1d6;
 }
 
 .icon img {
     width: 20em;
     height: 20em;
 }
+
+/*ホーム画面下部の機能説明部分*/
