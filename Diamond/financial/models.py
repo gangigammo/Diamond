@@ -17,3 +17,7 @@ class IncomeCategory(models.Model):
 
 class ExpenseCategory(models.Model):
     categoryName = models.CharField(max_length=128)
+
+
+
+
