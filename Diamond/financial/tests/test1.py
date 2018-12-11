@@ -1,7 +1,7 @@
 from django.test import TestCase
 from selenium import webdriver
 import itertools
-
+from financial.models import User
 from .lib.driver import Browsers
 from .lib.driver.browser import Browser
 from .lib.driver import DriverFactory
@@ -13,6 +13,9 @@ from .lib.driver import driver_util
 
 class Test1(TestCase):
     def test_main(self):
+        # テスト前にデータベースを削除
+        User.objects.all().delete()
+        print('テスト準備: Userデータベースを削除しました.')
 
         # (ユーザー名・パスワード) の列挙
         users = [("username", "password"),
@@ -21,8 +24,6 @@ class Test1(TestCase):
 
         # webdriver を作成
         driver = DriverFactory.new(Browsers.Chrome)
-        driver.click_url("delete")
-        driver.back()
 
         for user, password in users:
             print('[Case]\nuser : ' + user + '\npass:' + password)
