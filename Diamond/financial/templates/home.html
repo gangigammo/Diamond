@@ -4,6 +4,7 @@
 {% endblock %}
 
 {% block body %}
+<div class="homemenu">
     <ul>
         {% if name == None %}
         <li><a href="/signup">アカウント作成</a></li>
@@ -18,4 +19,5 @@
         {% endif %}
         <li><a href="/delete/">データベース削除</a></li>
     </ul>
+</div>
 {% endblock %}
