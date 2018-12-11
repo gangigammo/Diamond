@@ -24,7 +24,7 @@
     <div class="description">
         <h2>金剛会計とは？</h2>
         <p>
-            収入と支出をカジュアルに管理したい人向けの簡単な会計アプリです。
+            収入と支出をカジュアルに管理したい人向けの簡単な会計アプリです
         </p>
     </div>
 
@@ -37,7 +37,10 @@
 <!--ホーム画面下部の機能説明部分-->
 <div class="function1">
     <div class="text1">
-
+        <h2>収入と支出をしっかり記録</h2>
+        <p>
+            収入と支出を簡単に記録し、検索や並び替えも自由にできます
+        </p>
     </div>
     <div class="img1">
         {% load static %}
@@ -47,7 +50,10 @@
 
 <div class="function2">
     <div class="text2">
-
+        <h2>円グラフで支出の傾向を分析</h2>
+        <p>
+            収支のカテゴリー別に円グラフを表示することであなたの収支の傾向がわかります
+        </p>
     </div>
     <div class="img2">
         {% load static %}
@@ -57,12 +63,22 @@
 
 <div class="function3">
     <div class="text3">
-
+        <h2>折れ線グラフで月別の支出をチェック</h2>
+        <p>
+            収支を月別に折れ線グラフで表示することで収支の分析を助けます
+        </p>
     </div>
     <div class="img3">
         {% load static %}
         <img src="{% static 'financial/home/img3.png' %}">
     </div>
+</div>
+
+<!--ホーム画面最下部のユーザー登録ボタン-->
+
+<div class="invite">
+    <h1>まずはユーザー登録から</h1>
+    <button onclick="location.href='/signup'">ユーザー登録</button>
 </div>
 
 {% endblock %}
