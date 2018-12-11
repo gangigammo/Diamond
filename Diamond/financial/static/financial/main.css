@@ -1,6 +1,6 @@
 /*主要な装飾を実現するcss*/
 
-/*URLリンクの色を変え、ホバーするとアンダーラインが出る*/
+/*URLリンクの色を変え、ホバーするとアンダーラインが出る
 a {
 	padding: 0.1em 0.3em;
 	position: relative;
@@ -22,4 +22,29 @@ a::after {
 a:hover::after {
 	bottom: 0;
 	opacity: 1;
+}
+*/
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #1b2538;
+}
+li {
+	float: left;
+	border-right: 1px solid #bbbbbb;
+}
+li:last-child {
+	border-right: none;
+}
+li a {
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+li a:hover:not(.active) {
+	background-color: #a9bce2;
 }
