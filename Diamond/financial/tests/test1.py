@@ -40,5 +40,5 @@ class Test1(TestCase):
 
         # 閉じる
         driver.close()
-        driver.q1t()
+        driver.quit()
         del driver
