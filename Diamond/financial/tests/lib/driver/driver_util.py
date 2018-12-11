@@ -7,7 +7,7 @@ from selenium.common.exceptions import NoSuchElementException
 
 # リンクをクリックする
 
-def click_url(self, partial_url: str):
+def click_url(self: WebDriver, partial_url: str):
     elements = self.find_elements_by_xpath(
         "//a[contains(@href, '" + partial_url + "')]")
     if (len(elements) == 0):
@@ -15,7 +15,9 @@ def click_url(self, partial_url: str):
     elements[0].click()
 
 
-def form_input(self, form_id: str, input_dict: dict):
+# フォームを送信する
+
+def form_submit(self: WebDriver, form_id: str, input_dict: dict):
     forms = self.find_elements_by_xpath("//form[@id='" + form_id + "']")
     if (len(forms) == 0):
         raise NoSuchElementException('フォーム ' + form_id + ' が見つかりません.')
@@ -31,6 +33,15 @@ def form_input(self, form_id: str, input_dict: dict):
         elements[0].send_keys(value)
     form.submit()
 
+
+# ページに文字列が存在するか
+
+def exists(self: WebDriver, string: str):
+    elements = self.find_elements_by_xpath("//*[text()='" + string + "']")
+    return (len(elements) > 0)
+
+
+
 # メソッドをWebDriverに追加
 
 
@@ -39,4 +50,5 @@ def __setattr(method):
 
 
 __setattr(click_url)
-__setattr(form_input)
+__setattr(form_submit)
+__setattr(exists)
