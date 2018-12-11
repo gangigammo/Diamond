@@ -90,3 +90,159 @@
 }
 
 /*ホーム画面下部の機能説明部分*/
+
+.function1 {
+    position: relative;
+    width: 100%;
+    height: 350px;
+}
+
+.text1 {
+    position: relative;
+    background-color: rgb(228, 72, 10);
+    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
+    width:50%;
+    height: 100%;
+    padding: 8px 19px;
+    color: #2c2c2f;
+    background: #e4fcff;/*背景色*/
+    border-top: solid 5px #1dc1d6;
+    border-bottom: solid 5px #1dc1d6;
+    float: left;
+}
+
+.text1 h2 {
+    text-align: center;
+    color: rgb(0, 0, 0);
+    font-size: 40px;
+    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
+}
+.text1 p {
+    text-align: center;
+    padding: 70px 140px;
+    color: rgb(0, 0, 0);
+    font-size: 30px;
+    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
+}
+
+.img1 {
+    position: relative;
+    width: 50%;
+    height: 100%;
+    float: right;
+    text-align: center;
+    padding: 8px 19px;
+    color: #2c2c2f;
+    background: #e4fcff;/*背景色*/
+    border-top: solid 5px #1dc1d6;
+    border-bottom: solid 5px #1dc1d6;
+}
+
+.img1 img {
+    width: 20em;
+    height: 20em;
+}
+
+.function2 {
+    position: relative;
+    width: 100%;
+    height: 350px;
+}
+
+.text2 {
+    position: relative;
+    background-color: rgb(228, 72, 10);
+    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
+    width:50%;
+    height: 100%;
+    padding: 8px 19px;
+    color: #2c2c2f;
+    background: #e4fcff;/*背景色*/
+    border-top: solid 5px #1dc1d6;
+    border-bottom: solid 5px #1dc1d6;
+    float: left;
+}
+
+.text2 h2 {
+    text-align: center;
+    color: rgb(0, 0, 0);
+    font-size: 40px;
+    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
+}
+.text2 p {
+    text-align: center;
+    padding: 70px 140px;
+    color: rgb(0, 0, 0);
+    font-size: 30px;
+    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
+}
+
+.img2 {
+    position: relative;
+    width: 50%;
+    height: 100%;
+    float: right;
+    text-align: center;
+    padding: 8px 19px;
+    color: #2c2c2f;
+    background: #e4fcff;/*背景色*/
+    border-top: solid 5px #1dc1d6;
+    border-bottom: solid 5px #1dc1d6;
+}
+
+.img2 img {
+    width: 20em;
+    height: 20em;
+}
+
+.function3 {
+    position: relative;
+    width: 100%;
+    height: 350px;
+}
+
+.text3 {
+    position: relative;
+    background-color: rgb(228, 72, 10);
+    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
+    width:50%;
+    height: 100%;
+    padding: 8px 19px;
+    color: #2c2c2f;
+    background: #e4fcff;/*背景色*/
+    border-top: solid 5px #1dc1d6;
+    border-bottom: solid 5px #1dc1d6;
+    float: left;
+}
+
+.text3 h2 {
+    text-align: center;
+    color: rgb(0, 0, 0);
+    font-size: 40px;
+    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
+}
+.text3 p {
+    text-align: center;
+    padding: 70px 140px;
+    color: rgb(0, 0, 0);
+    font-size: 30px;
+    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
+}
+
+.img3 {
+    position: relative;
+    width: 50%;
+    height: 100%;
+    float: right;
+    text-align: center;
+    padding: 8px 19px;
+    color: #2c2c2f;
+    background: #e4fcff;/*背景色*/
+    border-top: solid 5px #1dc1d6;
+    border-bottom: solid 5px #1dc1d6;
+}
+
+.img3 img {
+    width: 20em;
+    height: 20em;
+}
