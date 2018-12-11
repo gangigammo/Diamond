@@ -1,4 +1,4 @@
-/*ホーム画面の上部メニュー*/
+/*トップ画面の上部メニュー*/
 .homemenu a{
 	position: relative;
 }
@@ -35,7 +35,7 @@
     font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
 }
 
-/*ホーム画面のアプリの簡易説明部分*/
+/*トップ画面のアプリの簡易説明部分*/
 
 .descriptionBox {
     position: relative;
@@ -88,7 +88,7 @@
     height: 20em;
 }
 
-/*ホーム画面下部の機能説明部分*/
+/*トップ画面下部の機能説明部分*/
 
 .function1 {
     position: relative;
@@ -243,7 +243,7 @@
     height: 20em;
 }
 
-/*ホーム画面最下部のユーザー登録ボタン*/
+/*トップ画面最下部のユーザー登録ボタン*/
 
 .invite {
     position: relative;
