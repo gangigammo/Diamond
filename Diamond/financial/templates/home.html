@@ -6,18 +6,28 @@
 {% block body %}
 <div class="homemenu">
     <ul>
+        <li>金剛会計</li>
         {% if name == None %}
         <li><a href="/signup">アカウント作成</a></li>
-        <br>
         <li><a href="/signin">ログイン</a></li>
-        <br>
         {% else %}
         <li><a href="/view">収支表閲覧</a></li>
-        <br>
         <li><a href="/signout">ログアウト</a></li>
-        <br>
         {% endif %}
         <li><a href="/delete/">データベース削除</a></li>
     </ul>
 </div>
+
+<div class="descriptionBox">
+    <div class="description">
+        <h2>金剛会計とは？</h2>
+        <p>ほげ</p>
+    </div>
+
+    <div class="icon">
+        {% load static %}
+        <img src="{% static 'financial/icon/icon.png' %}">
+    </div>
+</div>
+
 {% endblock %}
