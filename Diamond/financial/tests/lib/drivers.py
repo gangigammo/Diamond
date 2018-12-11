@@ -38,7 +38,7 @@ class Drivers:
 
     # テスト用ブラウザを取得する
     @classmethod
-    def get(cls, browser: Browser):
+    def new(cls, browser: Browser):
         path = cls.dir_path + cls.bin_paths[browser] + cls.suffix[os.name]
         abs_path = pathlib.Path(path).resolve()
         if (os.path.exists(abs_path)):

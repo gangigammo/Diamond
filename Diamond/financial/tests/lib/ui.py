@@ -12,7 +12,7 @@ from .drivers import Browser
 
 def test_sample():
     try:
-        driver = Drivers.get(Browser.Chrome)
+        driver = Drivers.new(Browser.Chrome)
     except Exception as e:
         print(e)
         message = 'テスト用ブラウザを初期化できませんでした.'
