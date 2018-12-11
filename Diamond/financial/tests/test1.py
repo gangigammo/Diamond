@@ -4,6 +4,7 @@ import itertools
 
 from .lib.browsers import Browsers
 from .lib.driver import Driver
+from .lib.signup import *
 from . import cases
 
 
@@ -12,7 +13,6 @@ class Test1(TestCase):
         # webdriver を作成
         ui = Driver(Browsers.Chrome)
         # webdriver を操作
-        map(print, cases.users)
-
+        signup(ui)
         # 閉じる
         del ui

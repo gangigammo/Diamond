@@ -23,6 +23,13 @@ class Driver(WebDriver):
         self.close()
         self.quit()
 
+    # リンクをクリックする
+    def click_url(self, partial_url: str):
+        elements = self.find_elements_by_xpath(
+            "//a[contains(@href, '" + partial_url + "')]")
+        if (elements.count() == 0):
+            raise SyntaxWarning('リンク' + partial_url + 'が見つかりません.')
+
 
 # ドライバーの生成に関する設定
 
