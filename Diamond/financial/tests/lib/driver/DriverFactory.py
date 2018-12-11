@@ -39,8 +39,8 @@ def __get_bin_path(browser: Browser) -> str:
     path = pathlib.Path(relative_path).resolve()
 
     if (not os.path.exists(path)):
-        message = 'ブラウザのドライバ ' + \
-            str(path) + ' が存在しません.' + \
-            '\n ' + path.name + ' のダウンロード: ' + browser.download_url
+        message = 'ブラウザのドライバが存在しません.ドライバをダウンロードしてください. \nダウンロードURL=> ' + browser.download_url + \
+            '\n実行ファイル ' + path.name + ' を \n' + \
+            'ディレクトリ ' + str(path) + ' に配置してください.'
         raise EnvironmentError(message)
     return path
