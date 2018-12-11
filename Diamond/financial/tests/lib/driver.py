@@ -17,6 +17,12 @@ class Driver(WebDriver):
     def __init__(self, browser: Browser):
         self = DriverFactory.new(browser)
 
+    # デストラクタ
+
+    def __del__(self):
+        self.close()
+        self.quit()
+
 
 # ドライバーの生成に関する設定
 
