@@ -136,6 +136,24 @@
                             </tr>
                         </tbody>
                     </table>
+
+
+                    <p>カテゴリー別収支</p>
+                    <form id="categoryexpensesearch" method="POST" action="/expence/">
+                     <p>カテゴリー</p>
+                        <select name="expenseCategory">
+                            <option value="選択なし">選択なし</option>
+                            {% for expenseCategory in expenseCategories %}
+                            <option value={{expenseCategory.categoryName}}>{{expenseCategory.categoryName}}</option>
+                            {% endfor %}
+                        </select>
+                        {% csrf_token %}
+                        <input type="submit" value="送信">
+                    </form>
+
+
+
+
                 </div>
                 <div class="cp_tabpanel">
                     <h2>円グラフ</h2>

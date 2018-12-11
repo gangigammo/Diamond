@@ -23,6 +23,22 @@ def view(request):
                   {"incomes":incomes, "expences":expences, "sumIncomes":sumIncomes, "sumExpences":sumExpences, "gain":gain,
                    "incomeCategories":incomeCategories, "expenseCategories":expenseCategories})
 
+def categoryview(request):
+    incomes = Income.objects.all()
+    expences = Expense.objects.all()
+    incomeCategories = IncomeCategory.objects.all()
+    expenseCategories = ExpenseCategory.objects.all()
+    sumIncomes = 0
+    for income in incomes:
+        sumIncomes = sumIncomes + income.amount
+    sumExpences = 0
+    for expence in expences:
+        sumExpences = sumExpences + expence.amount
+    gain = sumIncomes - sumExpences
+    return render(request, "view.html",
+                  {"incomes":incomes, "expences":expences, "sumIncomes":sumIncomes, "sumExpences":sumExpences, "gain":gain,
+                   "incomeCategories":incomeCategories, "expenseCategories":expenseCategories})
+
 def income(request):
     inputIncomeStr = request.POST["income"]
     inputIncome = int(inputIncomeStr)
