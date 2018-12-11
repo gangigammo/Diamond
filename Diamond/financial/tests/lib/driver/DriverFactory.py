@@ -13,7 +13,7 @@ from . import DriverConfig
 def new(browser: Browser) -> WebDriver:
     driver = __create_driver(browser)
     # ブラウザ処理の待機時間を設定(seconds)
-    driver.implicitly_wait(10)
+    driver.implicitly_wait(DriverConfig.wait_time)
     # サイトにアクセス
     driver.get(DriverConfig.default_url)
     return driver
