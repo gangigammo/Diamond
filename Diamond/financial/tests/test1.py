@@ -1,12 +1,10 @@
 from django.test import TestCase
 from selenium import webdriver
-import itertools
 from financial.models import User
 from .lib.driver import Browsers
-from .lib.driver.browser import Browser
 from .lib.driver import DriverFactory
-from .lib.sign import *
 from .lib.driver import driver_util
+from .lib.sign import *
 
 
 # 色々なユーザー名・パスワードでログイン可能かのテスト
