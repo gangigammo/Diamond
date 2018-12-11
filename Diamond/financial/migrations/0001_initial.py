@@ -17,6 +17,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('description', models.CharField(max_length=128)),
                 ('amount', models.IntegerField()),
+                ('categoryName', models.CharField(max_length=128)),
             ],
         ),
         migrations.CreateModel(
@@ -25,6 +26,21 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('description', models.CharField(max_length=128)),
                 ('amount', models.IntegerField()),
+                ('categoryName', models.CharField(max_length=128)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='IncomeCategory',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('CategoryName', models.CharField(max_length=128)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='ExpenseCategory',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('CategoryName', models.CharField(max_length=128)),
             ],
         ),
     ]

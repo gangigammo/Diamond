@@ -11,7 +11,7 @@
         <div class="cp_menu">
             <ul>
                 <!--ここにメニュー（アカウントなど）のリンク-->
-                <li><a href="#">menu1</a></li>
+                <li><a href="/">ホーム</a></li>
                 <li><a href="#">menu2</a></li>
                 <li><a href="#">menu3</a></li>
                 <li><a href="#">menu4</a></li>
@@ -31,12 +31,46 @@
             <div class="cp_tabpanels">
                 <div class="cp_tabpanel">
                     <h2>収支一覧</h2>
+                    <p>カテゴリー入力フォーム</p>
+                    <script>
+                        window.onload = function () {
+                            error = "{{categorySubscribeError}}";
+                            if (error == "blank") {
+                                document.getElementById("category").innerHTML = "カテゴリー入力がされていません";
+                            } else if (error == "duplication") {
+                                document.getElementById("category").innerHTML = "すでにそのカテゴリーは登録されています";
+                            }
+                        }
+                    </script>
+                    <form id="categoryForm" method="POST" action="/category/">
+                        <font color="red">
+                            <p id="category"></p>
+                        </font>
+                        <p>カテゴリー名</p>
+                        <input type="text" name="registrationCategory">
+                        <p>種類</p>
+                        <select name="categoryType">
+                            <option value="income">収入</option>
+                            <option value="expense">支出</option>
+                        </select>
+                        <br>
+                        {% csrf_token %}
+                        <input type="submit" value="送信">
+                    </form>
                     <p>収入入力フォーム</p>
                     <form id="incomeForm" method="POST" action="/income/">
                         <p>値</p>
                         <input type="text" name="income">
                         <p>内容</p>
                         <input type="text" name="incomeDescription">
+                        <p>カテゴリー</p>
+                        <select name="incomeCategory">
+                            <option value="選択なし">選択なし</option>
+                            {% for incomeCategory in incomeCategories %}
+                            <option value={{incomeCategory.categoryName}}>{{incomeCategory.categoryName}}</option>
+                            {% endfor %}
+                        </select>
+                        <br>
                         {% csrf_token %}
                         <input type="submit" value="送信">
                     </form>
@@ -46,6 +80,14 @@
                         <input type="text" name="expence">
                         <p>内容</p>
                         <input type="text" name="expenceDescription">
+                        <p>カテゴリー</p>
+                        <select name="expenseCategory">
+                            <option value="選択なし">選択なし</option>
+                            {% for expenseCategory in expenseCategories %}
+                            <option value={{expenseCategory.categoryName}}>{{expenseCategory.categoryName}}</option>
+                            {% endfor %}
+                        </select>
+                        <br>
                         {% csrf_token %}
                         <input type="submit" value="送信">
                     </form>
@@ -55,6 +97,7 @@
                             <tr>
                                 <th>収入</th>
                                 <th>内容</th>
+                                <th>カテゴリー</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,6 +105,7 @@
                             <tr>
                                 <td>{{income.amount}}</td>
                                 <td>{{income.description}}</td>
+                                <td>{{income.categoryName}}</td>
                             </tr>
                             {% endfor %}
                             <tr>
@@ -75,6 +119,7 @@
                             <tr>
                                 <th>支出</th>
                                 <th>内容</th>
+                                <th>カテゴリー</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -82,6 +127,7 @@
                             <tr>
                                 <td>{{expence.amount}}</td>
                                 <td>{{expence.description}}</td>
+                                <td>{{expence.categoryName}}</td>
                             </tr>
                             {% endfor %}
                             <tr>
