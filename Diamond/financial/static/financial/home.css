@@ -1,4 +1,10 @@
+.wrap {
+    width:100%;
+    min-width:1200px;
+}
+
 /*トップ画面の上部メニュー*/
+
 .homemenu a{
 	position: relative;
 }
