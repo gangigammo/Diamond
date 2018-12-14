@@ -86,7 +86,7 @@ def expence(request):
         expence = Balance(description=description, amount=inputExpence, isIncome=False, date=datetime.date.today(),
                       categoryName=categoryName)
         expence.save()
-    return render(request, "expence.html")
+        return render(request, "expence.html")
     else: #入力エラーの時
         if not inputExpenceStr.isdecimal():
             return viewError(request, "expenseError", "notDecimalError")
@@ -144,22 +144,6 @@ def signout(request):
     return render(request, "home.html", {"name": request.session.get("name")})
 
 def category(request):#カテゴリー登録関数
-    balances = Balance.objects.all()
-    incomes = []
-    expences = []
-    incomeCategories = IncomeCategory.objects.all()
-    expenseCategories = ExpenseCategory.objects.all()
-    sumIncomes = 0
-    sumExpences = 0
-    for balance in balances:
-        if balance.isIncome:
-            incomes += [balance]
-            sumIncomes += balance.amount
-        else:
-            expences += [balance]
-            sumExpences += balance.amount
-
-    gain = sumIncomes - sumExpences
     inputCategory = request.POST["registrationCategory"]
     categoryType = request.POST["categoryType"]
     if inputCategory == "":
@@ -179,16 +163,21 @@ def category(request):#カテゴリー登録関数
     return render(request, "category.html")
 
 def viewError(request,errorName,errorType):
-    incomes = Income.objects.all()
-    expences = Expense.objects.all()
+    balances = Balance.objects.all()
+    incomes = []
+    expences = []
     incomeCategories = IncomeCategory.objects.all()
     expenseCategories = ExpenseCategory.objects.all()
     sumIncomes = 0
-    for income in incomes:
-        sumIncomes = sumIncomes + income.amount
     sumExpences = 0
-    for expence in expences:
-        sumExpences = sumExpences + expence.amount
+    for balance in balances:
+        if balance.isIncome:
+            incomes += [balance]
+            sumIncomes += balance.amount
+        else:
+            expences += [balance]
+            sumExpences += balance.amount
+
     gain = sumIncomes - sumExpences
     return render(request, "view.html",
                   {errorName: errorType, "incomes": incomes, "expences": expences,
