@@ -86,7 +86,7 @@ def expence(request):
         expence = Balance(description=description, amount=inputExpence, isIncome=False, date=datetime.date.today(),
                       categoryName=categoryName)
         expence.save()
-    return render(request, "expence.html")
+        return render(request, "expence.html")
     else: #入力エラーの時
         if not inputExpenceStr.isdecimal():
             return viewError(request, "expenseError", "notDecimalError")
