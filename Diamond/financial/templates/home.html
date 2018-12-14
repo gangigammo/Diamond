@@ -4,5 +4,16 @@
 {% endblock %}
 
 {% block body %}
+{% if name == None %}
+<a href="/signup">アカウント作成</a>
+<br>
+<a href="/signin">ログイン</a>
+<br>
+{% else %}
 <a href="/view">収支表閲覧</a>
+<br>
+<a href="/signout">ログアウト</a>
+<br>
+{% endif %}
+<a href="/delete/">データベース削除</a>
 {% endblock %}
