@@ -4,16 +4,83 @@
 {% endblock %}
 
 {% block body %}
-{% if name == None %}
-<a href="/signup">アカウント作成</a>
-<br>
-<a href="/signin">ログイン</a>
-<br>
-{% else %}
-<a href="/view">収支表閲覧</a>
-<br>
-<a href="/signout">ログアウト</a>
-<br>
-{% endif %}
-<a href="/delete/">データベース削除</a>
+<div class="wrap">
+    
+    <!--トップ画面の上部メニュー-->
+    <div class="homemenu">
+        <ul>
+            <li>金剛会計</li>
+            {% if name == None %}
+            <li><a href="/signup">アカウント作成</a></li>
+            <li><a href="/signin">ログイン</a></li>
+            {% else %}
+            <li><a href="/view">収支表閲覧</a></li>
+            <li><a href="/signout">ログアウト</a></li>
+            {% endif %}
+            <li><a href="/delete/">データベース削除</a></li>
+        </ul>
+    </div>
+
+    <!--トップ画面のアプリの簡易説明部分-->
+    <div class="descriptionBox">
+        <div class="description">
+            <h2>金剛会計とは？</h2>
+            <p>
+                収入と支出をカジュアルに管理したい人向けの簡単な会計アプリです
+            </p>
+        </div>
+
+        <div class="icon">
+            {% load static %}
+            <img src="{% static 'financial/home/icon.png' %}">
+        </div>
+    </div>
+
+    <!--トップ画面下部の機能説明部分-->
+    <div class="function1">
+        <div class="text1">
+            <h2>収入と支出をしっかり記録</h2>
+            <p>
+                収入と支出を簡単に記録し、検索や並び替えも自由にできます
+            </p>
+        </div>
+        <div class="img1">
+            {% load static %}
+            <img src="{% static 'financial/home/img1.png' %}">
+        </div>
+    </div>
+
+    <div class="function2">
+        <div class="text2">
+            <h2>円グラフで収支の傾向を分析</h2>
+            <p>
+                収支のカテゴリー別に円グラフを表示することであなたの収支の傾向がわかります
+            </p>
+        </div>
+        <div class="img2">
+            {% load static %}
+            <img src="{% static 'financial/home/img2.png' %}">
+        </div>
+    </div>
+
+    <div class="function3">
+        <div class="text3">
+            <h2>折れ線グラフで月別の収支をチェック</h2>
+            <p>
+                収支を月別に折れ線グラフで表示することで収支の分析を助けます
+            </p>
+        </div>
+        <div class="img3">
+            {% load static %}
+            <img src="{% static 'financial/home/img3.png' %}">
+        </div>
+    </div>
+
+    <!--トップ画面最下部のユーザー登録ボタン-->
+
+    <div class="invite">
+        <h1>まずはユーザー登録から</h1>
+        <button onclick="location.href='/signup'">ユーザー登録</button>
+    </div>
+</div>
 {% endblock %}
