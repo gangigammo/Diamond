@@ -4,6 +4,28 @@
 {% endblock %}
 
 {% block body %}
+<script>
+    window.onload = function () {
+        error = "{{categorySubscribeError}}";
+        if (error == "blank") {
+            document.getElementById("category").innerHTML = "カテゴリー入力がされていません";
+        } else if (error == "duplication") {
+            document.getElementById("category").innerHTML = "すでにそのカテゴリーは登録されています";
+        }
+        error = "{{incomeError}}";
+        if (error == "notDecimalError") {
+            document.getElementById("income").innerHTML = "値は数字で入力してください";
+        }else if (error == "contentBlankError") {
+            document.getElementById("income").innerHTML = "内容が入力されていません";
+        }
+        error = "{{expenseError}}";
+        if (error == "notDecimalError") {
+            document.getElementById("expense").innerHTML = "値は数字で入力してください";
+        }else if (error == "contentBlankError") {
+            document.getElementById("expense").innerHTML = "内容が入力されていません";
+        }
+}
+</script>
 <div class="cp_cont">
     <div class="cp_offcm01">
         <input type="checkbox" id="cp_toggle01">
@@ -11,7 +33,7 @@
         <div class="cp_menu">
             <ul>
                 <!--ここにメニュー（アカウントなど）のリンク-->
-                <li><a href="#">menu1</a></li>
+                <li><a href="/">ホーム</a></li>
                 <li><a href="#">menu2</a></li>
                 <li><a href="#">menu3</a></li>
                 <li><a href="#">menu4</a></li>
@@ -32,16 +54,6 @@
                 <div class="cp_tabpanel">
                     <h2>収支一覧</h2>
                     <p>カテゴリー入力フォーム</p>
-                    <script>
-                        window.onload = function () {
-                            error = "{{categorySubscribeError}}";
-                            if (error == "blank") {
-                                document.getElementById("category").innerHTML = "カテゴリー入力がされていません";
-                            } else if (error == "duplication") {
-                                document.getElementById("category").innerHTML = "すでにそのカテゴリーは登録されています";
-                            }
-                        }
-                    </script>
                     <form id="categoryForm" method="POST" action="/category/">
                         <font color="red">
                             <p id="category"></p>
@@ -58,7 +70,11 @@
                         <input type="submit" value="送信">
                     </form>
                     <p>収入入力フォーム</p>
+
                     <form id="incomeForm" method="POST" action="/income/">
+                        <font color="red">
+                            <p id="income"></p>
+                        </font>
                         <p>値</p>
                         <input type="text" name="income">
                         <p>内容</p>
@@ -75,7 +91,11 @@
                         <input type="submit" value="送信">
                     </form>
                     <p>支出入力フォーム</p>
+
                     <form id="expenceForm" method="POST" action="/expence/">
+                        <font color="red">
+                            <p id="expense"></p>
+                        </font>
                         <p>値</p>
                         <input type="text" name="expence">
                         <p>内容</p>
