@@ -61,24 +61,37 @@ def view(request):
 
 def income(request):
     inputIncomeStr = request.POST["income"]
-    inputIncome = int(inputIncomeStr)
     description = request.POST["incomeDescription"]
-    categoryName = request.POST["incomeCategory"]
-    income = Balance(description=description, amount=inputIncome, isIncome=True, date=datetime.date.today(),
+    if inputIncomeStr.isdecimal() and description != "": #入力が数字の時
+        inputIncome = int(inputIncomeStr)
+        categoryName = request.POST["incomeCategory"]
+        income = Balance(description=description, amount=inputIncome, isIncome=True, date=datetime.date.today(),
                      categoryName=categoryName)
-    income.save()
-    return render(request, "income.html")
+        income.save()
+        return render(request, "income.html")
+    else: #入力が数字でない時のエラー
+        if not inputIncomeStr.isdecimal():
+            return viewError(request, "incomeError", "notDecimalError")
+        else:
+            return viewError(request, "incomeError", "contentBlankError")
+
 
 
 def expence(request):
     inputExpenceStr = request.POST["expence"]
-    inputExpence = int(inputExpenceStr)
     description = request.POST["expenceDescription"]
-    categoryName = request.POST["expenseCategory"]
-    expence = Balance(description=description, amount=inputExpence, isIncome=False, date=datetime.date.today(),
+    if inputExpenceStr.isdecimal() and description != "":
+        inputExpence = int(inputExpenceStr)
+        categoryName = request.POST["expenseCategory"]
+        expence = Balance(description=description, amount=inputExpence, isIncome=False, date=datetime.date.today(),
                       categoryName=categoryName)
-    expence.save()
+        expence.save()
     return render(request, "expence.html")
+    else: #入力エラーの時
+        if not inputExpenceStr.isdecimal():
+            return viewError(request, "expenseError", "notDecimalError")
+        else:
+            return viewError(request, "expenseError", "contentBlankError")
 
 
 def delete(request):
@@ -105,7 +118,6 @@ def signup(request):
 def signinconfirm(request):
     name = request.POST["name"]
     password = request.POST["password"]
-
     if len(User.objects.filter(name=name)) != 0:
         if User.objects.filter(name=name)[0].password == password:
             request.session["name"] = name
@@ -151,22 +163,35 @@ def category(request):#カテゴリー登録関数
     inputCategory = request.POST["registrationCategory"]
     categoryType = request.POST["categoryType"]
     if inputCategory == "":
-        return render(request, "view.html", {"categorySubscribeError": "blank",
-                                             "incomes": incomes, "expences": expences, "sumIncomes": sumIncomes, "sumExpences": sumExpences, "gain": gain,
-                                             "incomeCategories": incomeCategories, "expenseCategories": expenseCategories
-                                             })
+        return viewError(request, "categorySubscribeError", "blank")
     if categoryType == "income":
         if len(IncomeCategory.objects.filter(categoryName=inputCategory)) == 0:
             newcategory = IncomeCategory(categoryName=inputCategory)
             newcategory.save()
         else:
-            return render(request, "view.html", {"categorySubscribeError": "duplication", "incomes": incomes, "expences": expences, "sumIncomes": sumIncomes, "sumExpences": sumExpences, "gain": gain,
-                                                 "incomeCategories": incomeCategories, "expenseCategories": expenseCategories})
+            return viewError(request, "categorySubscribeError", "duplication")
     else:
         if len(ExpenseCategory.objects.filter(categoryName=inputCategory)) == 0:
             newcategory = ExpenseCategory(categoryName=inputCategory)
             newcategory.save()
         else:
-            return render(request, "view.html", {"categorySubscribeError": "duplication", "incomes": incomes, "expences": expences, "sumIncomes": sumIncomes, "sumExpences": sumExpences, "gain": gain,
-                                                 "incomeCategories": incomeCategories, "expenseCategories": expenseCategories})
+            return viewError(request, "categorySubscribeError", "duplication")
     return render(request, "category.html")
+
+def viewError(request,errorName,errorType):
+    incomes = Income.objects.all()
+    expences = Expense.objects.all()
+    incomeCategories = IncomeCategory.objects.all()
+    expenseCategories = ExpenseCategory.objects.all()
+    sumIncomes = 0
+    for income in incomes:
+        sumIncomes = sumIncomes + income.amount
+    sumExpences = 0
+    for expence in expences:
+        sumExpences = sumExpences + expence.amount
+    gain = sumIncomes - sumExpences
+    return render(request, "view.html",
+                  {errorName: errorType, "incomes": incomes, "expences": expences,
+                   "sumIncomes": sumIncomes, "sumExpences": sumExpences, "gain": gain,
+                   "incomeCategories": incomeCategories, "expenseCategories": expenseCategories})
+
