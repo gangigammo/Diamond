@@ -34,10 +34,8 @@ def __create_driver(browser: Browser) -> WebDriver:
 # ドライバー実行ファイルの絶対パスを取得
 
 def __get_bin_path(browser: Browser) -> str:
-    base_path = pathlib.Path(__package__)
-    relative_path = pathlib.Path(DriverConfig.bin_dir + browser.bin_path +
-                                 DriverConfig.suffixes[os.name])
-    path = (base_path / relative_path).resolve()
+    path = pathlib.Path(DriverConfig.bin_dir + browser.bin_path +
+                        DriverConfig.suffixes[os.name]).resolve()
 
     if (not os.path.exists(path)):
         message = 'ブラウザのドライバが存在しません.ドライバをダウンロードしてください. \nダウンロードURL=> ' + browser.download_url + \

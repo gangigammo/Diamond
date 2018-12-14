@@ -2,7 +2,7 @@
 # ドライバーの生成に関する設定
 
 # ドライバー実行ファイルがあるディレクトリを指定
-bin_dir = '../Diamond/webdrivers/'
+bin_dir = __file__ + '../../../../../../../Diamond/webdrivers/'
 # OSによって異なる実行ファイルの拡張子
 suffixes = {'nt': '.exe', 'posix': ''}
 # 初めに接続するURLを指定
