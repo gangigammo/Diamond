@@ -1,3 +1,5 @@
+
+
 .signin {
     position: relative;
     width: 100%;
@@ -19,32 +21,13 @@
 .signinh2 {
     position: relative;
 	text-align: center;
-	color: rgb(39, 218, 68);
+	color: rgb(255, 156, 27);
 }
 
-.signinh3 {
-	position: relative;
-	display: inline-block;
-	width: 70%;
-	padding: 0 17%;
+.signinh4 {
+    position: relative;
 	text-align: center;
-	color:#00acc1;
-}
-.signinh3::before,
-.signinh3::after {
-	content: '';
-	position: absolute;
-	top: 50%;
-	display: inline-block;
-	width: 15%;
-	height: 3px;
-	border-top: 3px solid #00acc1;
-}
-.signinh3::before {
-	left:0;
-}
-.signinh3::after {
-	right: 0;
+	color: rgb(255, 156, 27);
 }
 
 .signin input[type='text'] {

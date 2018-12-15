@@ -3,6 +3,7 @@
 収支表閲覧
 {% endblock %}
 
+
 {% block body %}
 <script>
     window.onload = function () {
@@ -15,16 +16,16 @@
         error = "{{incomeError}}";
         if (error == "notDecimalError") {
             document.getElementById("income").innerHTML = "値は数字で入力してください";
-        }else if (error == "contentBlankError") {
+        } else if (error == "contentBlankError") {
             document.getElementById("income").innerHTML = "内容が入力されていません";
         }
         error = "{{expenseError}}";
         if (error == "notDecimalError") {
             document.getElementById("expense").innerHTML = "値は数字で入力してください";
-        }else if (error == "contentBlankError") {
+        } else if (error == "contentBlankError") {
             document.getElementById("expense").innerHTML = "内容が入力されていません";
         }
-}
+    }
 </script>
 <div class="cp_cont">
     <div class="cp_offcm01">
