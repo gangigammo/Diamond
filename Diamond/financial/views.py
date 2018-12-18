@@ -157,17 +157,20 @@ def signout(request):
 def category(request):#カテゴリー登録関数
     inputCategory = request.POST["registrationCategory"]
     categoryType = request.POST["categoryType"]
+
+    IncomeCategory = Category.objects.filter(balance=True)
+    ExpenseCategory = Category.objects.filter(balance=False)
     if inputCategory == "":
         return viewError(request, "categorySubscribeError", "blank")
     if categoryType == "income":
-        if len(IncomeCategory.objects.filter(categoryName=inputCategory)) == 0:
-            newcategory = IncomeCategory(categoryName=inputCategory)
+        if len(Category.objects.filter(categoryName=inputCategory, balance=True)) == 0:
+            newcategory = Category(categoryName=inputCategory, balance = True)
             newcategory.save()
         else:
             return viewError(request, "categorySubscribeError", "duplication")
     else:
-        if len(ExpenseCategory.objects.filter(categoryName=inputCategory)) == 0:
-            newcategory = ExpenseCategory(categoryName=inputCategory)
+        if len(Category.objects.filter(categoryName=inputCategory, balance = False)) == 0:
+            newcategory = Category(categoryName=inputCategory, balance = False)
             newcategory.save()
         else:
             return viewError(request, "categorySubscribeError", "duplication")
