@@ -129,8 +129,9 @@ def signinconfirm(request):
     password = request.POST["password"]
     if len(User.objects.filter(name=name)) != 0:
         if User.objects.filter(name=name)[0].password == password:
-            request.session["name"] = name
-            return render(request, "home.html", {"name": request.session.get("name")})
+            #request.session["name"] = name
+            #return render(request, "home.html", {"name": request.session.get("name")})
+            return view(request)
         else:
             return render(request, "signin.html", {"error": "password"})
     else:
