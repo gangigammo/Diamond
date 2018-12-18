@@ -12,9 +12,7 @@ class User(models.Model): #ユーザーのモデル
     password = models.CharField(max_length=128)
 
 
-class IncomeCategory(models.Model):
+class Category(models.Model):
     categoryName = models.CharField(max_length=128)
+    balance = models.BooleanField()  #if income true, else false
 
-
-class ExpenseCategory(models.Model):
-    categoryName = models.CharField(max_length=128)

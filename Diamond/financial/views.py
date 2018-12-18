@@ -12,14 +12,25 @@ def home(request):
 
 
 def view(request):
+
+
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
-    balances = Balance.objects.all()
+    if request.method == 'POST':
+        if 'Category' in request.POST:
+            categoryName = request.POST["Category"]
+            balances = Balance.objects.filter(categoryName=categoryName)
+        else:
+            balances = Balance.objects.all()
+    else:
+        balances = Balance.objects.all()
     incomes = []
     expences = []
-    incomeCategories = IncomeCategory.objects.all()
-    expenseCategories = ExpenseCategory.objects.all()
+    categories = Category.objects.all()
+    incomeCategories = Category.objects.filter(balance = True)
+    expenseCategories = Category.objects.filter(balance = False)
+    categories = categories.values('categoryName').order_by('categoryName').distinct()
     sumIncomes = 0
     sumExpences = 0
     for balance in balances:
@@ -55,9 +66,9 @@ def view(request):
                     )
         plt.savefig('figure.png')
     return render(request, "view.html",
-                  {"incomes": incomes, "expences": expences, "sumIncomes": sumIncomes, "sumExpences": sumExpences, "gain": gain,
-                   "incomeCategories": incomeCategories, "expenseCategories": expenseCategories})
 
+                  {"incomes":incomes, "expences":expences, "sumIncomes":sumIncomes, "sumExpences":sumExpences, "gain":gain,
+                   "incomeCategories":incomeCategories, "expenseCategories":expenseCategories, "Category":categories})
 
 def income(request):
     inputIncomeStr = request.POST["income"]
@@ -146,17 +157,20 @@ def signout(request):
 def category(request):#カテゴリー登録関数
     inputCategory = request.POST["registrationCategory"]
     categoryType = request.POST["categoryType"]
+
+    IncomeCategory = Category.objects.filter(balance=True)
+    ExpenseCategory = Category.objects.filter(balance=False)
     if inputCategory == "":
         return viewError(request, "categorySubscribeError", "blank")
     if categoryType == "income":
-        if len(IncomeCategory.objects.filter(categoryName=inputCategory)) == 0:
-            newcategory = IncomeCategory(categoryName=inputCategory)
+        if len(Category.objects.filter(categoryName=inputCategory, balance=True)) == 0:
+            newcategory = Category(categoryName=inputCategory, balance = True)
             newcategory.save()
         else:
             return viewError(request, "categorySubscribeError", "duplication")
     else:
-        if len(ExpenseCategory.objects.filter(categoryName=inputCategory)) == 0:
-            newcategory = ExpenseCategory(categoryName=inputCategory)
+        if len(Category.objects.filter(categoryName=inputCategory, balance = False)) == 0:
+            newcategory = Category(categoryName=inputCategory, balance = False)
             newcategory.save()
         else:
             return viewError(request, "categorySubscribeError", "duplication")
@@ -166,8 +180,10 @@ def viewError(request,errorName,errorType):
     balances = Balance.objects.all()
     incomes = []
     expences = []
-    incomeCategories = IncomeCategory.objects.all()
-    expenseCategories = ExpenseCategory.objects.all()
+    categories = Category.objects.all()
+    incomeCategories = Category.objects.filter(balance=True)
+    expenseCategories = Category.objects.filter(balance=False)
+
     sumIncomes = 0
     sumExpences = 0
     for balance in balances:
@@ -179,8 +195,27 @@ def viewError(request,errorName,errorType):
             sumExpences += balance.amount
 
     gain = sumIncomes - sumExpences
-    return render(request, "view.html",
-                  {errorName: errorType, "incomes": incomes, "expences": expences,
-                   "sumIncomes": sumIncomes, "sumExpences": sumExpences, "gain": gain,
-                   "incomeCategories": incomeCategories, "expenseCategories": expenseCategories})
+
+    inputCategory = request.POST["registrationCategory"]
+    categoryType = request.POST["categoryType"]
+    if inputCategory == "":
+        return render(request, "view.html",{"categorySubscribeError":"blank",
+                                            "incomes": incomes, "expences": expences, "sumIncomes":sumIncomes, "sumExpences":sumExpences, "gain":gain,
+                                            "incomeCategories": incomeCategories, "expenseCategories": expenseCategories
+                                            })
+    if categoryType == "income":
+        if len(Category.objects.filter(categoryName=inputCategory, balance = True)) == 0:
+            newcategory = Category(categoryName=inputCategory, balance = True)
+            newcategory.save()
+        else:
+            return render(request, "view.html", {"categorySubscribeError": "duplication", "incomes": incomes, "expences": expences, "sumIncomes":sumIncomes, "sumExpences":sumExpences, "gain":gain,
+                                            "incomeCategories": incomeCategories, "expenseCategories": expenseCategories})
+    else:
+        if len(Category.objects.filter(categoryName=inputCategory, balance = False)) == 0:
+            newcategory = Category(categoryName=inputCategory, balance = False)
+            newcategory.save()
+        else:
+            return render(request, "view.html", {"categorySubscribeError": "duplication", "incomes": incomes, "expences": expences, "sumIncomes":sumIncomes, "sumExpences":sumExpences, "gain":gain,
+                                            "incomeCategories": incomeCategories, "expenseCategories": expenseCategories})
+    return render(request, "category.html")
 
