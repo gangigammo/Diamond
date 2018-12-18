@@ -134,7 +134,7 @@ def signupconfirm(request):
     if len(User.objects.filter(name=name)) == 0:
         user = User(name=name, password=password)
         user.save()
-        return render(request, "home.html")
+        return render(request, "signupconfirm.html")
     else:
         return render(request, "signup.html", {"error": "name"})
 

@@ -1,0 +1,27 @@
+{% extends "main.html" %}
+{% block title %}
+アカウント登録完了
+{% endblock %}
+
+{% block body %}
+<div class="wrap">
+    <!--上部メニュー-->
+    <div class="homemenu">
+        <ul>
+            <li>金剛会計</li>
+            <li><a href="/signup">アカウント作成</a></li>
+            <li><a href="/signin">ログイン</a></li>
+            <li><a href="/delete/">データベース削除</a></li>
+        </ul>
+    </div>
+    <div class="signupconfirm">
+        <h2 class="signupconfirmh2">アカウント登録完了！</h2>
+
+        <h4 class="signupconfirmh4">そのままログインしますか？</h4>
+        <a href="/signin/">ログイン</a>
+        <br>
+        <br>
+        <a href="/">トップに戻る</a>
+    </div>
+</div>
+{% endblock %}
