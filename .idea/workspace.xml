@@ -2,18 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e27dcade-4f66-4ef7-bcf8-2afb82f0d5b4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/diamond.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diamond/Diamond/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Diamond/Diamond/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diamond/financial/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diamond/financial/migrations/0002_user.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diamond/financial/migrations/0003_auto_20181209_1846.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diamond/financial/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Diamond/financial/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diamond/financial/templates/view.html" beforeDir="false" afterPath="$PROJECT_DIR$/Diamond/financial/templates/view.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diamond/financial/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Diamond/financial/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,8 +15,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Diamond/financial/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="18" column="37" selection-start-line="18" selection-start-column="37" selection-end-line="18" selection-end-column="37" />
+            <state relative-caret-position="170">
+              <caret line="20" column="72" lean-forward="true" selection-start-line="20" selection-start-column="72" selection-end-line="20" selection-end-column="72" />
             </state>
           </provider>
         </entry>
@@ -152,42 +141,6 @@
               <item name="diamond" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
               <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
             </path>
-            <path>
-              <item name="diamond" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name=".idea" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="diamond" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="Diamond" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="diamond" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="Diamond" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="Diamond" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="diamond" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="Diamond" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="financial" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="diamond" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="Diamond" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="financial" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="migrations" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="diamond" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="Diamond" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="financial" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="templates" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -217,12 +170,20 @@
       <option name="presentableId" value="Default" />
       <updated>1543893089163</updated>
     </task>
+    <task id="LOCAL-00001" summary="カテゴリー検索">
+      <created>1545100895741</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1545100895741</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="775" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16693164" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16693164" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -234,12 +195,17 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49761525" weight="0.32970452" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5254372" side_tool="true" visible="true" weight="0.33125973" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.4745628" visible="true" weight="0.33125973" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.4745628" visible="true" weight="0.33125973" />
       <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.49682036" weight="0.32970452" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="カテゴリー検索" />
+    <MESSAGE value="カテゴリー検索&#10;カテゴリーmodelを一つに統一" />
+    <option name="LAST_COMMIT_MESSAGE" value="カテゴリー検索&#10;カテゴリーmodelを一つに統一" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Diamond/.gitignore">
@@ -358,8 +324,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Diamond/financial/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="18" column="37" selection-start-line="18" selection-start-column="37" selection-end-line="18" selection-end-column="37" />
+        <state relative-caret-position="170">
+          <caret line="20" column="72" lean-forward="true" selection-start-line="20" selection-start-column="72" selection-end-line="20" selection-end-column="72" />
         </state>
       </provider>
     </entry>
