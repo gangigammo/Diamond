@@ -1,15 +1,17 @@
 /*メニュー機能を実現するcss*/
 
-*, *:before, *:after {
+*, *::before, *::after {
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
 }
-ol, ul {
+
+
+.cp_menu ul {
 	list-style: none;
 }
 
-a {
+.cp_menu a {
 	text-decoration: none;
 	color: inherit;
 }
