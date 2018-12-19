@@ -1,0 +1,38 @@
+.signupconfirm {
+    position: relative;
+    width: 100%;
+    height: 2000px;
+    background: #e4fcff;/*背景色*/
+    text-align: center;
+    padding: 5%;
+}
+
+.signupconfirm {
+    position: relative;
+    width: 100%;
+    height: 2000px;
+    background: #e4fcff;/*背景色*/
+    text-align: center;
+    padding: 5%;
+}
+
+.signupconfirmh2 {
+	display: flex;
+	overflow: hidden;
+	background: rgb(255, 57, 57);
+	padding: .3em;
+	align-items: center;
+    color:#ffffff;
+}
+.signupconfirmh2:before,.signupconfirmh2:after {
+	content: "";
+	flex: 1;
+	background: #fff;
+	padding: 1px 0;
+	height: 0;
+	transform: rotate(45deg);
+}
+
+.signupconfirmh4 {
+    color: rgb(21, 8, 201);
+}
