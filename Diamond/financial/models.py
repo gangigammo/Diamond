@@ -1,6 +1,8 @@
 from django.db import models
 
 # Create your models here.
+
+
 class Balance(models.Model):  # 収支のモデル
     description = models.CharField(max_length=128)
     amount = models.PositiveIntegerField()
@@ -13,9 +15,6 @@ class User(models.Model): #ユーザーのモデル
     password = models.CharField(max_length=128)
 
 
-class IncomeCategory(models.Model):
+class Category(models.Model):
     categoryName = models.CharField(max_length=128)
-
-
-class ExpenseCategory(models.Model):
-    categoryName = models.CharField(max_length=128)
+    balance = models.BooleanField()  # if income true, else false

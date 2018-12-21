@@ -30,5 +30,6 @@ urlpatterns = [
     path('signinconfirm/', financial_view.signinconfirm),
     path('signupconfirm/', financial_view.signupconfirm),
     path('signout/', financial_view.signout),
-    path('category/', financial_view.category)
+    path('category/', financial_view.category),
+    path('categorysearch/', financial_view.view)
 ]

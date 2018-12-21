@@ -1,0 +1,135 @@
+
+
+.signin {
+    position: relative;
+    width: 100%;
+    height: 2000px;
+    background: #e4fcff;/*背景色*/
+    text-align: center;
+    padding: 5%;
+}
+
+.signin p {
+    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
+    padding: 0.5%;
+}
+
+.signin form {
+    padding: 3%;
+}
+
+.signinh2 {
+    position: relative;
+	text-align: center;
+	color: rgb(255, 156, 27);
+}
+
+.signinh4 {
+    position: relative;
+	text-align: center;
+	color: rgb(255, 156, 27);
+}
+
+.signin input[type='text'] {
+	font: 15px/24px sans-serif;
+	box-sizing: border-box;
+	letter-spacing: 1px;
+	border: 1px solid #1b2538;
+    border-radius: 4px;
+    width: 40%;
+}
+.signin input[type='text']:focus {
+	border: 1px solid #da3c41;
+	outline: none;
+	box-shadow: 0 0 5px 1px rgba(218,60,65, .5);
+}
+
+.signin input[type='password'] {
+	font: 15px/24px sans-serif;
+	box-sizing: border-box;
+	letter-spacing: 1px;
+	border: 1px solid #1b2538;
+    border-radius: 4px;
+    width: 40%;
+}
+.signin input[type='password']:focus {
+	border: 1px solid #da3c41;
+	outline: none;
+	box-shadow: 0 0 5px 1px rgba(218,60,65, .5);
+}
+
+
+.signinButton {
+	position: relative;
+	z-index: 1;
+	display: inline-block;
+	box-sizing: border-box;
+	width: 160px;
+	padding: 1em;
+	line-height: 1.4;
+	cursor: pointer;
+	user-select: none;
+	transition: color 0.4s, transform 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+	color: #52c11f;
+	border: 1px solid #52c11f;
+	border-radius: 0;
+	background: transparent;
+}
+.signinButton:hover {
+	color: #ffffff;
+	border: 1px solid #52c11f;
+}
+.signinButton:before, .signinButton:after {
+	position: absolute;
+	z-index: -1;
+	top: 0;
+	left: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+	content: '';
+}
+.signinButton:before {
+	transition: transform cubic-bezier(1, 0, 0, 1) 0.4s;
+	-webkit-transform: scaleY(0);
+	        transform: scaleY(0);
+	transform-origin: top center;
+	background-color: #52c11f;
+}
+.signinButton:after {
+	top: -6px;
+	left: -6px;
+	transition: transform cubic-bezier(0.645, 0.045, 0.355, 1) 0.4s;
+	border: 1px solid #52c11f;
+}
+
+.signinButton:hover:before {
+	-webkit-transform: scaleY(1);
+	        transform: scaleY(1);
+	border: 1px solid #52c11f;
+}
+.signinButton:hover:after {
+	-webkit-transform: translate(6px, 6px);
+	        transform: translate(6px, 6px);
+	border: 1px solid #52c11f;
+}
+.signinButton:active {
+	transition-duration: 0.05s;
+	-webkit-transform: translate(6px, 6px);
+	        transform: translate(6px, 6px);
+}
+.signinButton:active:after {
+	transition-duration: 0.05s;
+	-webkit-transform: translate(0, 0);
+	        transform: translate(0, 0);
+}
+.signinButton:focus {
+	color: #52c11f;
+	border: 1px solid #52c11f;
+}
+.signinButton:focus:hover {
+	color: #ffffff;
+}
+.signinButton:focus:before {
+	background-color: #52c11f;
+}
