@@ -10,8 +10,7 @@ import datetime
 def home(request):
     return render(request, "home.html", {"name": request.session.get("name")})
 
-
-def view(request):
+def view(request,*args):
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
@@ -23,13 +22,13 @@ def view(request):
     sumIncomes = 0
     sumExpences = 0
     for balance in balances:
-        if balance.isIncome:
-            incomes += [balance]
-            sumIncomes += balance.amount
-        else:
-            expences += [balance]
-            sumExpences += balance.amount
-
+        if balance.userName == request.session.get("name"):
+            if balance.isIncome:
+                incomes += [balance]
+                sumIncomes += balance.amount
+            else:
+                expences += [balance]
+                sumExpences += balance.amount
     gain = sumIncomes - sumExpences
 
     #グラフの用意
@@ -54,9 +53,15 @@ def view(request):
                     counterclock=False,  # 逆時計回り
                     )
         plt.savefig('figure.png')
-    return render(request, "view.html",
-                  {"incomes": incomes, "expences": expences, "sumIncomes": sumIncomes, "sumExpences": sumExpences, "gain": gain,
+    if len(args) >= 2: #　入力内容によるエラー表示
+        return render(request, "view.html",
+                  {"incomes": incomes,args[0]:args[1], "expences": expences, "sumIncomes": sumIncomes, "sumExpences": sumExpences, "gain": gain,
                    "incomeCategories": incomeCategories, "expenseCategories": expenseCategories})
+    else:
+        return render(request, "view.html",
+                      {"incomes": incomes, "expences": expences, "sumIncomes": sumIncomes, "sumExpences": sumExpences,
+                       "gain": gain,
+                       "incomeCategories": incomeCategories, "expenseCategories": expenseCategories})
 
 
 def income(request):
@@ -65,17 +70,16 @@ def income(request):
     if inputIncomeStr.isdecimal() and description != "": #入力が数字の時
         inputIncome = int(inputIncomeStr)
         categoryName = request.POST["incomeCategory"]
+        userName = request.session.get("name")
         income = Balance(description=description, amount=inputIncome, isIncome=True, date=datetime.date.today(),
-                     categoryName=categoryName)
+                     categoryName=categoryName,userName=userName)
         income.save()
         return render(request, "income.html")
     else: #入力が数字でない時のエラー
         if not inputIncomeStr.isdecimal():
-            return viewError(request, "incomeError", "notDecimalError")
+            return view(request, "incomeError", "notDecimalError")
         else:
-            return viewError(request, "incomeError", "contentBlankError")
-
-
+            return view(request, "incomeError", "contentBlankError")
 
 def expence(request):
     inputExpenceStr = request.POST["expence"]
@@ -83,15 +87,16 @@ def expence(request):
     if inputExpenceStr.isdecimal() and description != "":
         inputExpence = int(inputExpenceStr)
         categoryName = request.POST["expenseCategory"]
+        userName = request.session.get("name")
         expence = Balance(description=description, amount=inputExpence, isIncome=False, date=datetime.date.today(),
-                      categoryName=categoryName)
+                      categoryName=categoryName,userName=userName)
         expence.save()
         return render(request, "expence.html")
     else: #入力エラーの時
         if not inputExpenceStr.isdecimal():
-            return viewError(request, "expenseError", "notDecimalError")
+            return view(request, "expenseError", "notDecimalError")
         else:
-            return viewError(request, "expenseError", "contentBlankError")
+            return view(request, "expenseError", "contentBlankError")
 
 
 def delete(request):
@@ -147,40 +152,18 @@ def category(request):#カテゴリー登録関数
     inputCategory = request.POST["registrationCategory"]
     categoryType = request.POST["categoryType"]
     if inputCategory == "":
-        return viewError(request, "categorySubscribeError", "blank")
+        return view(request, "categorySubscribeError", "blank")
     if categoryType == "income":
         if len(IncomeCategory.objects.filter(categoryName=inputCategory)) == 0:
             newcategory = IncomeCategory(categoryName=inputCategory)
             newcategory.save()
         else:
-            return viewError(request, "categorySubscribeError", "duplication")
+            return view(request, "categorySubscribeError", "duplication")
     else:
         if len(ExpenseCategory.objects.filter(categoryName=inputCategory)) == 0:
             newcategory = ExpenseCategory(categoryName=inputCategory)
             newcategory.save()
         else:
-            return viewError(request, "categorySubscribeError", "duplication")
+            return view(request, "categorySubscribeError", "duplication")
     return render(request, "category.html")
-
-def viewError(request,errorName,errorType):
-    balances = Balance.objects.all()
-    incomes = []
-    expences = []
-    incomeCategories = IncomeCategory.objects.all()
-    expenseCategories = ExpenseCategory.objects.all()
-    sumIncomes = 0
-    sumExpences = 0
-    for balance in balances:
-        if balance.isIncome:
-            incomes += [balance]
-            sumIncomes += balance.amount
-        else:
-            expences += [balance]
-            sumExpences += balance.amount
-
-    gain = sumIncomes - sumExpences
-    return render(request, "view.html",
-                  {errorName: errorType, "incomes": incomes, "expences": expences,
-                   "sumIncomes": sumIncomes, "sumExpences": sumExpences, "gain": gain,
-                   "incomeCategories": incomeCategories, "expenseCategories": expenseCategories})
 

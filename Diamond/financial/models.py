@@ -7,6 +7,7 @@ class Balance(models.Model):  # 収支のモデル
     date = models.DateField()
     isIncome = models.BooleanField()
     categoryName = models.CharField(max_length=128)
+    userName = models.CharField(max_length=128)
 class User(models.Model): #ユーザーのモデル
     name = models.CharField(max_length=128)
     password = models.CharField(max_length=128)

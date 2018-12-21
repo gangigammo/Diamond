@@ -20,6 +20,7 @@ class Migration(migrations.Migration):
                 ('date', models.DateField()),
                 ('isIncome', models.BooleanField()),
                 ('categoryName', models.CharField(max_length=128)),
+                ('userName', models.CharField(max_length=128)),
             ],
         ),
         migrations.CreateModel(
