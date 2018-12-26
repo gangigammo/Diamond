@@ -18,14 +18,14 @@ def view(request,*args):
     if request.method == 'POST':
         if 'Category' in request.POST:
             categoryName = request.POST["Category"]
-            balances = Balance.objects.filter(categoryName=categoryName,writer=username)
+            balances = Balance.objects.filter(categoryName=categoryName, writer=username)
         else:
             balances = Balance.objects.filter(writer=username)
     else:
         balances = Balance.objects.filter(writer=username)
     incomes = []
     expences = []
-    categories = Category.objects.all()
+    categories = Category.objects.filter(writer=username)
     incomeCategories = Category.objects.filter(balance=True, writer=username)
     expenseCategories = Category.objects.filter(balance=False, writer=username)
     categories = categories.values(
@@ -65,12 +65,12 @@ def view(request,*args):
     if len(args) >= 2: #　入力内容によるエラー表示
         return render(request, "view.html",
                   {"incomes": incomes,args[0]:args[1], "expences": expences, "sumIncomes": sumIncomes, "sumExpences": sumExpences, "gain": gain,
-                   "incomeCategories": incomeCategories, "expenseCategories": expenseCategories})
+                   "incomeCategories": incomeCategories, "expenseCategories": expenseCategories, "Category": categories})
     else:
         return render(request, "view.html",
                       {"incomes": incomes, "expences": expences, "sumIncomes": sumIncomes, "sumExpences": sumExpences,
                        "gain": gain,
-                       "incomeCategories": incomeCategories, "expenseCategories": expenseCategories})
+                       "incomeCategories": incomeCategories, "expenseCategories": expenseCategories, "Category": categories})
 
 
 def income(request):
