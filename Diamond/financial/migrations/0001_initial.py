@@ -22,6 +22,7 @@ class Migration(migrations.Migration):
                 ('date', models.DateField()),
                 ('isIncome', models.BooleanField()),
                 ('categoryName', models.CharField(max_length=128)),
+                ('writer', models.CharField(max_length=128)),
             ],
         ),
         migrations.CreateModel(
@@ -31,7 +32,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('categoryName', models.CharField(max_length=128)),
                 ('balance', models.BooleanField()),
-
+                ('writer', models.CharField(max_length=128)),
             ],
         ),
         migrations.CreateModel(
