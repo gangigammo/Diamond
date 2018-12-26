@@ -6,3 +6,6 @@
 
 # テストに使うChromeのdriver
 chromedriver*
+
+# グラフ画像
+figure.png
