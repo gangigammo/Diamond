@@ -13,7 +13,6 @@ def home(request):
 def view(request,*args):
     import matplotlib
     matplotlib.use('Agg')
-    import matplotlib.pyplot as plt
     username = request.session["name"]
     if request.method == 'POST':
         if 'Category' in request.POST:
@@ -23,7 +22,7 @@ def view(request,*args):
             balances = Balance.objects.filter(writer=username)
     else:
         balances = Balance.objects.filter(writer=username)
-    balances = Balance.objects.filter(writer=username)
+
     incomes = []
     expences = []
     categories = Category.objects.filter(writer=username)
@@ -41,14 +40,19 @@ def view(request,*args):
             expences += [balance]
             sumExpences += balance.amount
     gain = sumIncomes - sumExpences
-    # グラフの用意
-    createIncomeCircle(request)
-    createExpenceCircle(request)
-    return render(request, "view.html",
-                  {"user":username, "incomes":incomes, "expences":expences, "sumIncomes":sumIncomes, "sumExpences":sumExpences, "gain":gain,
-                   "incomeCategories":incomeCategories, "expenseCategories":expenseCategories,
-                   "incomeFileName":getFileName(request, 'circle_income'),
-                   "expenceFileName":getFileName(request, 'circle_expence')})
+
+    if len(args) >= 2:  # 入力内容によるエラー表示
+        return render(request, "view.html",
+                      {"incomes": incomes, args[0]: args[1], "expences": expences, "sumIncomes": sumIncomes,
+                       "sumExpences": sumExpences, "gain": gain,
+                       "incomeCategories": incomeCategories, "expenseCategories": expenseCategories,
+                       "Category": categories})
+    else:
+        return render(request, "view.html",
+                      {"user":username, "incomes":incomes, "expences":expences, "sumIncomes":sumIncomes, "sumExpences":sumExpences, "gain":gain,
+                       "incomeCategories":incomeCategories, "expenseCategories":expenseCategories, "Category":categories,
+                       "incomeFileName":getFileName(request, 'circle_income'),
+                       "expenceFileName":getFileName(request, 'circle_expence')})
 
 
 def getFileName(request, basename):
