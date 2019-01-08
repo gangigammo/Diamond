@@ -23,3 +23,8 @@ a:hover::after {
 	bottom: 0;
 	opacity: 1;
 }
+
+body {
+	display: block;
+	margin: 0px;
+}

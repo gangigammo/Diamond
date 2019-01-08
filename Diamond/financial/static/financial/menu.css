@@ -3,7 +3,7 @@
 .header__icon {
     color:#fff;
     font-size:30px;
-    }
+}
 
 .sidebar {
     padding:16px;
@@ -17,22 +17,22 @@
     box-shadow:0 0 10px rgba(0,0,0,0.5);
     box-sizing:border-box;
     display:none;
-    }
-    .sidebar__inner {
+}
+.sidebar__inner {
     display:flex;
     justify-content:space-between;
     align-items:center;
-    }
-    .sidebar__icon {
+}
+.sidebar__icon {
     font-size:28px;
     color:#654;
-    }
-    .sidebar__txt {
+}
+.sidebar__txt {
     font-size:18px;
     margin-top:16px;
     margin-right:8px;
-    }
-    .sidebar-bg {
+}
+.sidebar-bg {
     background-color:#558;
     width:100vw;
     height:100vh;
@@ -42,4 +42,4 @@
     right:0;
     z-index:3;
     display:none;
-    }
+}
