@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 
 import financial.views as financial_view
+from financial.controllers.balance import delete as balance_delete
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,5 +32,8 @@ urlpatterns = [
     path('signupconfirm/', financial_view.signupconfirm),
     path('signout/', financial_view.signout),
     path('category/', financial_view.category),
-    path('categorysearch/', financial_view.view)
+    path('categorysearch/', financial_view.view),
+
+    # 収支エントリの変更
+    path('balance/delete/', balance_delete.delete)   # TODO idを含むURLにする
 ]
