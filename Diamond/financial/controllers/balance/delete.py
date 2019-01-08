@@ -3,5 +3,5 @@ from financial.models import *
 
 
 def start(request, balance_id):
-    # TODO テスト用にトップページを返している
-    return render(request, "home.html", {"name": request.session.get("name")})
+    # TODO テスト用ページを返している
+    return render(request, "balance/delete.html", {"id": balance_id})
