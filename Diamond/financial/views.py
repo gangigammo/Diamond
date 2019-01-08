@@ -10,25 +10,25 @@ import datetime
 def home(request):
     return render(request, "home.html", {"name": request.session.get("name")})
 
-
-def view(request):
+def view(request,*args):
     import matplotlib
     matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    username = request.session["name"]
     if request.method == 'POST':
         if 'Category' in request.POST:
             categoryName = request.POST["Category"]
-            balances = Balance.objects.filter(categoryName=categoryName)
+            balances = Balance.objects.filter(categoryName=categoryName, writer=username)
         else:
-            balances = Balance.objects.all()
+            balances = Balance.objects.filter(writer=username)
     else:
-        balances = Balance.objects.all()
-    username = request.session["name"]
-    balances = Balance.objects.filter(userName=username)
+        balances = Balance.objects.filter(writer=username)
+    balances = Balance.objects.filter(writer=username)
     incomes = []
     expences = []
-    categories = Category.objects.all()
-    incomeCategories = Category.objects.filter(balance=True)
-    expenseCategories = Category.objects.filter(balance=False)
+    categories = Category.objects.filter(writer=username)
+    incomeCategories = Category.objects.filter(balance=True, writer=username)
+    expenseCategories = Category.objects.filter(balance=False, writer=username)
     categories = categories.values(
         'categoryName').order_by('categoryName').distinct()
     sumIncomes = 0
@@ -40,9 +40,7 @@ def view(request):
         else:
             expences += [balance]
             sumExpences += balance.amount
-
     gain = sumIncomes - sumExpences
-
     # グラフの用意
     createIncomeCircle(request)
     createExpenceCircle(request)
@@ -71,7 +69,7 @@ def getImgRatio(request, balanceType):
     maxRatio = 2.0
     sumIncome = 0
     sumExpence = 0
-    for balance in Balance.objects.filter(userName=username):
+    for balance in Balance.objects.filter(writer=username):
         if balance.isIncome:
             sumIncome += balance.amount
         else:
@@ -98,7 +96,7 @@ def createIncomeCircle(request):
     from matplotlib.font_manager import FontProperties
     fp = FontProperties(fname='./financial/static/financial/ttf/ipag.ttf');
     username = request.session["name"]
-    incomes = Balance.objects.filter(isIncome=True, userName=username)
+    incomes = Balance.objects.filter(isIncome=True, writer=username)
 
     # フォルダ作成、既存のファイル削除
     path = './financial/static/financial/img/' + username
@@ -152,7 +150,7 @@ def createExpenceCircle(request):
     from matplotlib.font_manager import FontProperties
     fp = FontProperties(fname='./financial/static/financial/ttf/ipag.ttf');
     username = request.session["name"]
-    expences = Balance.objects.filter(isIncome=False, userName=username)
+    expences = Balance.objects.filter(isIncome=False, writer=username)
 
     # フォルダ作成、既存のファイル削除
     path = './financial/static/financial/img/' + username
@@ -217,7 +215,7 @@ def createLineGraph(request):
         fileList = glob.glob(path + '/monthly'+str(year)+'_*.png')
         for file in fileList:
             os.remove(file)
-    balances = Balance.objects.filter(userName=username)
+    balances = Balance.objects.filter(writer=username)
     month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     monthStr = map(lambda m:str(m)+'月', month)
     monthlyIncome = [0]*12
@@ -261,12 +259,12 @@ def createLineGraph(request):
 def income(request):
     inputIncomeStr = request.POST["income"]
     description = request.POST["incomeDescription"]
-    user = request.session["name"]
     if inputIncomeStr.isdecimal() and description != "":  # 入力が数字の時
         inputIncome = int(inputIncomeStr)
         categoryName = request.POST["incomeCategory"]
+        username = request.session["name"]
         income = Balance(description=description, amount=inputIncome, isIncome=True, date=datetime.date.today(),
-                         categoryName=categoryName, userName=user)
+                     categoryName=categoryName,writer=username)
         income.save()
         # グラフの用意
         createIncomeCircle(request)
@@ -275,20 +273,19 @@ def income(request):
         return render(request, "income.html")
     else:  # 入力が数字でない時のエラー
         if not inputIncomeStr.isdecimal():
-            return viewError(request, "incomeError", "notDecimalError")
+            return view(request, "incomeError", "notDecimalError")
         else:
-            return viewError(request, "incomeError", "contentBlankError")
-
+            return view(request, "incomeError", "contentBlankError")
 
 def expence(request):
     inputExpenceStr = request.POST["expence"]
     description = request.POST["expenceDescription"]
-    user = request.session["name"]
     if inputExpenceStr.isdecimal() and description != "":
         inputExpence = int(inputExpenceStr)
         categoryName = request.POST["expenseCategory"]
+        username = request.session["name"]
         expence = Balance(description=description, amount=inputExpence, isIncome=False, date=datetime.date.today(),
-                          categoryName=categoryName, userName=user)
+                      categoryName=categoryName,writer=username)
         expence.save()
         # グラフの用意
         createIncomeCircle(request)
@@ -296,18 +293,18 @@ def expence(request):
         return render(request, "expence.html")
     else:  # 入力エラーの時
         if not inputExpenceStr.isdecimal():
-            return viewError(request, "expenseError", "notDecimalError")
+            return view(request, "expenseError", "notDecimalError")
         else:
-            return viewError(request, "expenseError", "contentBlankError")
+            return view(request, "expenseError", "contentBlankError")
 
 
 def delete(request):
     balances = Balance.objects.all()
     user = User.objects.all()
-    Categories = Category.objects.all()
+    category = Category.objects.all()
     balances.delete()
     user.delete()
-    Categories.delete()
+    category.delete()
     request.session.flush()
     return render(request, "delete.html")
 
@@ -326,7 +323,6 @@ def signinconfirm(request):
     if len(User.objects.filter(name=name)) != 0:
         if User.objects.filter(name=name)[0].password == password:
             request.session["name"] = name
-            #return render(request, "home.html", {"name": request.session.get("name")})
             return view(request)
         else:
             return render(request, "signin.html", {"error": "password"})
@@ -355,60 +351,19 @@ def category(request):  # カテゴリー登録関数
     categoryType = request.POST["categoryType"]
     IncomeCategory = Category.objects.filter(balance=True)
     ExpenseCategory = Category.objects.filter(balance=False)
+    username = request.session["name"]
     if inputCategory == "":
-        return viewError(request, "categorySubscribeError", "blank")
+        return view(request, "categorySubscribeError", "blank")
     if categoryType == "income":
-        if len(Category.objects.filter(categoryName=inputCategory, balance=True)) == 0:
-            newcategory = Category(categoryName=inputCategory, balance=True)
+        if len(Category.objects.filter(categoryName=inputCategory, balance=True, writer=username)) == 0:
+            newcategory = Category(categoryName=inputCategory, balance=True, writer=username)
             newcategory.save()
         else:
-            return viewError(request, "categorySubscribeError", "duplication")
+            return view(request, "categorySubscribeError", "duplication")
     else:
-        if len(Category.objects.filter(categoryName=inputCategory, balance=False)) == 0:
-            newcategory = Category(categoryName=inputCategory, balance=False)
+        if len(Category.objects.filter(categoryName=inputCategory, balance=False, writer=username)) == 0:
+            newcategory = Category(categoryName=inputCategory, balance=False, writer=username)
             newcategory.save()
         else:
-            return viewError(request, "categorySubscribeError", "duplication")
-    return render(request, "category.html")
-
-
-def viewError(request, errorName, errorType):
-    balances = Balance.objects.all()
-    incomes = []
-    expences = []
-    categories = Category.objects.all()
-    incomeCategories = Category.objects.filter(balance=True)
-    expenseCategories = Category.objects.filter(balance=False)
-    sumIncomes = 0
-    sumExpences = 0
-    for balance in balances:
-        if balance.isIncome:
-            incomes += [balance]
-            sumIncomes += balance.amount
-        else:
-            expences += [balance]
-            sumExpences += balance.amount
-    gain = sumIncomes - sumExpences
-
-    inputCategory = request.POST["registrationCategory"]
-    categoryType = request.POST["categoryType"]
-    if inputCategory == "":
-        return render(request, "view.html", {"categorySubscribeError": "blank",
-                                             "incomes": incomes, "expences": expences, "sumIncomes": sumIncomes, "sumExpences": sumExpences, "gain": gain,
-                                             "incomeCategories": incomeCategories, "expenseCategories": expenseCategories
-                                             })
-    if categoryType == "income":
-        if len(Category.objects.filter(categoryName=inputCategory, balance=True)) == 0:
-            newcategory = Category(categoryName=inputCategory, balance=True)
-            newcategory.save()
-        else:
-            return render(request, "view.html", {"categorySubscribeError": "duplication", "incomes": incomes, "expences": expences, "sumIncomes": sumIncomes, "sumExpences": sumExpences, "gain": gain,
-                                                 "incomeCategories": incomeCategories, "expenseCategories": expenseCategories})
-    else:
-        if len(Category.objects.filter(categoryName=inputCategory, balance=False)) == 0:
-            newcategory = Category(categoryName=inputCategory, balance=False)
-            newcategory.save()
-        else:
-            return render(request, "view.html", {"categorySubscribeError": "duplication", "incomes": incomes, "expences": expences, "sumIncomes": sumIncomes, "sumExpences": sumExpences, "gain": gain,
-                                                 "incomeCategories": incomeCategories, "expenseCategories": expenseCategories})
+            return view(request, "categorySubscribeError", "duplication")
     return render(request, "category.html")
