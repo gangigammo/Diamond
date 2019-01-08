@@ -173,7 +173,10 @@
                 </div>
                 <div class="cp_tabpanel">
                     <h2>円グラフ</h2>
-                    <p>円グラフをここに表示</p>
+                    <!-- <p>円グラフをここに表示</p> -->
+                    {% load static %}
+                    <img src="{% static 'financial/img/'%}{{user}}/{{incomeFileName}}" title="収入のグラフ" alt="収入のグラフ" align="top">
+                    <img src="{% static 'financial/img/'%}{{user}}/{{expenceFileName}}" title="支出のグラフ" alt="支出のグラフ" align="top">
                 </div>
                 <div class="cp_tabpanel">
                     <h2>折れ線グラフ</h2>

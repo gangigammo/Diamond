@@ -6,3 +6,6 @@
 
 # テストに使うChromeのdriver
 chromedriver*
+
+# 静的ファイル
+static/*.png
