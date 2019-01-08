@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 
 import financial.views as financial_view
-from financial.controllers.balance import delete as balance_delete
+from financial.controllers.balance import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
