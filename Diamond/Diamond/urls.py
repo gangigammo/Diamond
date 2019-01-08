@@ -35,5 +35,5 @@ urlpatterns = [
     path('categorysearch/', financial_view.view),
 
     # 収支エントリの変更
-    path('balance/delete/', balance_delete.start)   # TODO idを含むURLにする
+    path('balance<int:balance_id>/delete/', balance_delete.start)
 ]
