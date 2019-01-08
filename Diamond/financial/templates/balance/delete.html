@@ -7,13 +7,7 @@
 	<h2>削除しました</h2>
 	{{message|default:""}}
 	<br>
-	{% if balance %}
-		{{balance.amount}}
-		{{balance.description}}
-		{{balance.categoryName}}
-	{% else %}
-		なし
-	{% endif %}
+	{{balance|balanceToRow}}
 	<br>
 	<a href="/view">収支閲覧</a>
 {% endblock %}
