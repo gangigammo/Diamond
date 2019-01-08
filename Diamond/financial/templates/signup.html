@@ -4,26 +4,47 @@
 {% endblock %}
 
 {% block body %}
-<h2>アカウント作成</h2>
 <script>
-        window.onload = function() {
-            error = "{{error}}";
-            if(error == "name"){
-                document.getElementById("{{error}}").innerHTML = "そのユーザー名は既に使用されています";
-            }else if(error == "password"){ /*パスワードエラーを作成するならここに*/
-                /*document.getElementById("@danger").innerHTML = "パスワードは8文字以上で数字、小文字、大文字を全て含んだものにしてください";*/
-            }
+    window.onload = function () {
+        error = "{{error}}";
+        if (error == "name") {
+            document.getElementById("{{error}}").innerHTML = "そのユーザー名は既に使用されています";
+        } else if (error == "password") { /*パスワードエラーを作成するならここに*/
+            /*document.getElementById("{{error}}").innerHTML = "パスワードは8文字以上で数字、小文字、大文字を全て含んだものにしてください";*/
         }
+    }
 
 </script>
-<form id="signupForm" method="POST" action="/signupconfirm/">
-        <p>名前</p>
-        <input type="text" name="name">
-        <font color="red"><p id="name"></p></font>
-        <p>パスワード</p>
-        <input type="password" name="password">
-        {% csrf_token %}
-        <input type="submit" value="送信">
-</form>
-<a href="/">戻る</a>
+<div class="wrap">
+    <!--上部メニュー-->
+    <div class="homemenu">
+        <ul>
+            <li>金剛会計</li>
+            <li><a href="/signup">アカウント作成</a></li>
+            <li><a href="/signin">ログイン</a></li>
+            <li><a href="/delete/">データベース削除</a></li>
+        </ul>
+    </div>
+    <div class="signup">
+        <h2 class="signuph2">ようこそ！</h2>
+        <h3 class="signuph3">まずはアカウントを登録しましょう</h3>
+        <form id="signupForm" method="POST" action="/signupconfirm/">
+            <p>名前</p>
+            <input type="text" name="name">
+            <font color="red">
+                <p id="name"></p>
+            </font>
+            <p>パスワード</p>
+            <input type="password" name="password">
+            <br>
+            {% csrf_token %}
+            <button type="submit" name="action" bvalue="send" class="signupButton">登録</button>
+        </form>
+        <h4 class="signuph4">すでにアカウントをお持ちですか？</h4>
+        <a href="/signin/">ログイン</a>
+        <br>
+        <br>
+        <a href="/">トップに戻る</a>
+    </div>
+</div>
 {% endblock %}

@@ -3,6 +3,7 @@
 収支表閲覧
 {% endblock %}
 
+
 {% block body %}
 <script>
     window.onload = function () {
@@ -15,16 +16,16 @@
         error = "{{incomeError}}";
         if (error == "notDecimalError") {
             document.getElementById("income").innerHTML = "値は数字で入力してください";
-        }else if (error == "contentBlankError") {
+        } else if (error == "contentBlankError") {
             document.getElementById("income").innerHTML = "内容が入力されていません";
         }
         error = "{{expenseError}}";
         if (error == "notDecimalError") {
             document.getElementById("expense").innerHTML = "値は数字で入力してください";
-        }else if (error == "contentBlankError") {
+        } else if (error == "contentBlankError") {
             document.getElementById("expense").innerHTML = "内容が入力されていません";
         }
-}
+    }
 </script>
 <div class="cp_cont">
     <div class="cp_offcm01">
@@ -70,7 +71,6 @@
                         <input type="submit" value="送信">
                     </form>
                     <p>収入入力フォーム</p>
-
                     <form id="incomeForm" method="POST" action="/income/">
                         <font color="red">
                             <p id="income"></p>
@@ -91,7 +91,6 @@
                         <input type="submit" value="送信">
                     </form>
                     <p>支出入力フォーム</p>
-
                     <form id="expenceForm" method="POST" action="/expence/">
                         <font color="red">
                             <p id="expense"></p>
@@ -171,10 +170,6 @@
                         <input type="submit" value="検索">
                     </form>
                     <a href="/view">全表示</a>
-
-
-
-
                 </div>
                 <div class="cp_tabpanel">
                     <h2>円グラフ</h2>
