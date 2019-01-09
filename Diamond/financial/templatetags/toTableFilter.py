@@ -80,7 +80,12 @@ def toData(element: Optional[Any]) -> SafeText:
 # 値 -> HTMLテーブルの行要素 への変換 (<tr>...</tr>)
 @register.filter(is_safe=True)
 def toRow(value: Optional[DomainType], format=None) -> SafeText:
-    elements = value and __parse(value, format)     # 文字列のリストを取得
+    elements = value and __parse(value, format)  # 文字列のリストを取得
+    result = __listToRow(elements)
+    return result
+
+
+def __listToRow(elements: List[SafeText]) -> SafeText:
     datas = elements and map(toData, elements)      # 各要素にtoDataを適用
     result = __wrapTag(datas, rowHtmlFormat)        # 行タグを付ける
     return result
