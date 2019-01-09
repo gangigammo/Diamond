@@ -3,10 +3,8 @@ from django.utils.html import conditional_escape
 from django.utils.safestring import SafeText
 from django.utils.html import format_html
 from financial.models import Balance
-from typing import Union
-from typing import Optional
-from typing import List
-from typing import Any
+from typing import *
+from types import GeneratorType
 import inspect
 from operator import add
 from functools import reduce
