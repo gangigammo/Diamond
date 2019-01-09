@@ -47,7 +47,13 @@ def toRow(value: Optional[DomainType], format=None) -> Optional[str]:
     return string
 
 
+@register.filter
+def toTable(values: List[DomainType], format=None):
+    return "<tr>" + ''.join([toRow(v, format) for v in values]) + "</tr>"
+
 # 値 -> フォーマット通りの順で要素を並べたリスト への変換
+
+
 def __parse(value: DomainType, format: Optional[str]) -> List[str]:
     # valueの型
     valueType = type(value)
