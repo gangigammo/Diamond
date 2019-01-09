@@ -5,11 +5,13 @@ from typing import Optional
 from typing import List
 import inspect
 
+
+rowPrefix = "<td>"
+rowSuffix = "</td>"
+
+
 NoneType = type(None)
 DomainType = Union[Balance]
-
-
-def __noneMap(v): return None
 
 
 __mapDicts = {
@@ -54,7 +56,15 @@ def __parse(value: Optional[DomainType], format: Optional[str]) -> Optional[List
     return values
 
 
+def __buildString(values: List[DomainType], prefix: str, suffix: str) -> str:
+    strs = map(str, values)
+    string = prefix + (suffix + prefix).join(strs) + suffix
+    return string
+
+
 @register.filter
 def toRow(value: Optional[DomainType], format=None) -> Optional[str]:
     values = __parse(value, format)
-    return values and str(values)  # TODO 文字列リストからテーブルHTMLに。
+    string = values and __buildString(
+        values=values, prefix=rowPrefix, suffix=rowSuffix)
+    return string
