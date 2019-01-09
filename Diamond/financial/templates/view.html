@@ -67,12 +67,10 @@
                                 </select>
                                 <br>
                                 {% csrf_token %}
-                                <input type="submit" value="送信">
+                                <input type="submit" value="追加">
                             </form>
                         </div>
-                        <div>
-                            <input type="button" id="category_btn" value="カテゴリー追加">
-                        </div>
+                        
                         <div id="income_dialog" style="display:none;">
                             <form id="incomeForm" method="POST" action="/income/">
                                 <font color="red">
@@ -91,12 +89,10 @@
                                 </select>
                                 <br>
                                 {% csrf_token %}
-                                <input type="submit" value="送信">
+                                <input type="submit" value="追加">
                             </form>
                         </div>
-                        <div>
-                            <input type="button" id="income_btn" value="収入追加">
-                        </div>
+                        
                         <div id="expense_dialog" style="display:none;">
                             <form id="expenceForm" method="POST" action="/expence/">
                                 <font color="red">
@@ -115,12 +111,14 @@
                                 </select>
                                 <br>
                                 {% csrf_token %}
-                                <input type="submit" value="送信">
+                                <input type="submit" value="追加">
                             </form>
                         </div>
-                        <div>
-                                <input type="button" id="expense_btn" value="支出追加">
-                            </div>
+
+                        <input type="button" id="category_btn" class="view_button" value="カテゴリー追加">
+                        <input type="button" id="income_btn" class="view_button" value="収入追加">
+                        <input type="button" id="expense_btn" class="view_button" value="支出追加">
+
                         <h3>あなたの現在の収支は{{gain}}です。</h3>
                         <table>
                             <thead>
