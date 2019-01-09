@@ -38,15 +38,12 @@ __parseMethods = {
 }
 
 
-def __parser(value, format):
+def __parse(value, format=None):
     values = []
     return values
 
 
 @register.filter
 def toRow(value: Optional[Union[Balance]]) -> str:
-    method = __parseMethods.get(type(value))
-    if (method is None):
-        raise TypeError("toRowフィルタに渡す値の型が違います" + type(value))
-    values = method(value)
+    values = __parse(value)
     return str(values)  # TODO 文字列リストからテーブルHTMLに。
