@@ -8,13 +8,7 @@
 	{{message|default:""}}
 	<br>
 	{% load toTableFilter %}
-	<table>
-		<tr>
-			{{balance|toRow|default_if_none:"無し"}}
-		</tr>
-	</table>
-	<br>
-	{{balances|toTable|safe}}
+	{{balances|toTable|addThead:"金額,内容,カテゴリ"}}
 	<br>
 	<a href="/view">収支閲覧</a>
 {% endblock %}

@@ -17,6 +17,7 @@ register = template.Library()
 dataHtmlFormat = "<td>{}</td>"
 rowHtmlFormat = "<tr>{}</tr>"
 tbodyHtmlFormat = "<tbody>{}</tbody>"
+theadHtmlFormat = "<thead>{}</thead>"
 tableHtmlFormat = "<table>{}</table>"
 
 
@@ -85,6 +86,7 @@ def toRow(value: Optional[DomainType], format=None) -> SafeText:
     return result
 
 
+# 文字列リスト -> HTMLテーブルの行要素 への変換
 def __listToRow(elements: List[SafeText]) -> SafeText:
     datas = elements and map(toData, elements)      # 各要素にtoDataを適用
     result = __wrapTag(datas, rowHtmlFormat)        # 行タグを付ける
@@ -105,6 +107,23 @@ def toTbody(values: List[DomainType], format=None) -> SafeText:
 def toTable(values: List[DomainType], format=None) -> SafeText:
     tbody = toTbody(values, format)
     result = __wrapTag(tbody, tableHtmlFormat)
+    return result
+
+
+# テーブルにtheadを加える
+@register.filter(is_safe=True)
+def addThead(base: SafeText, titles: str):
+    body = __unwrapTag(base, tableHtmlFormat)
+    head = toThead(titles)
+    result = __wrapTag(head+body, tableHtmlFormat)
+    return result
+
+
+# コンマ区切り文字列 -> テーブルのヘッダ への変換
+def toThead(titles: str):
+    titleList = titles.split(',')
+    row = __listToRow(titleList)
+    result = __wrapTag(row, theadHtmlFormat)
     return result
 
 
