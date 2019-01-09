@@ -9,37 +9,29 @@ NoneType = type(None)
 
 # テーブルの行を生成
 
-
-def __parseNone(value: NoneType, format: str) -> List[str]:
-    return ["none"]  # TODO 要素数を揃える
-
-
-# TODO デフォルト引数を吟味
-def __parseBalance(value: Balance, format="amount description category") -> List[str]:
-    if not type(value) is Balance:
-        raise TypeError
-    valueDic = {
-        "amount": value.amount,
-        "description": value.description,
-        "category": value.categoryName
+__maps = {
+    NoneType: {},
+    Balance: {
+        "amount":
+            lambda v: v.amount,
+        "description":
+            lambda v: v.description,
+        "category":
+            lambda v: v.categoryName
     }
-    # TODO フォーマット文字列の例外処理
-    keys = format.split(" ")    # TODO split処理を別メソッドに分ける
-    values = [valueDic.get(key) for key in keys]
-    return values
+}
 
-
-# ディスパッチャ
-
-
-__parseMethods = {
-    NoneType:   __parseNone,
-    Balance:    __parseBalance
+__formats = {
+    NoneType: "",
+    Balance: "amount description category"
 }
 
 
 def __parse(value, format=None):
-    values = []
+    map = __maps.get(type(value))
+    format = format or __formats.get(type(value))
+    keys = format.split(" ")
+    values = [map.get(key) or "" for key in keys]
     return values
 
 
