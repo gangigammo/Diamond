@@ -51,10 +51,15 @@ def __toSafeText(element: Any) -> SafeText:
     return conditional_escape(str(element))
 
 
+# elementをhtmlFormatに従ってタグで囲む
+# elementはリストでもよい
+# ex. ["<td>foo</td>", "<td>bar</td>"] -> "<tr><td>foo</td><td>bar</td></tr>"
 def __wrapTag(element: Union[None, SafeText, Iterable[SafeText]], htmlFormat: str) -> SafeText:
     if isinstance(element, (list, map, GeneratorType)):
         element = reduce(add, element)
+    element = element or ""
     return format_html(htmlFormat, element)
+
 
 # 値 -> HTMLテーブルの行の1要素 への変換 (ex. "hoge"　-> "<td>hoge</td>")
 
@@ -74,6 +79,7 @@ def toRow(value: Optional[DomainType], format=None) -> SafeText:
     return result
 
 
+# 値リスト -> HTMLテーブルのtbody要素 への変換 (<tbody>...</tbody>)
 @register.filter(is_safe=True)
 def toTbody(values: List[DomainType], format=None) -> SafeText:
     def curriedToRow(v): return toRow(v, format=format)
@@ -82,6 +88,7 @@ def toTbody(values: List[DomainType], format=None) -> SafeText:
     return result
 
 
+# 値リスト -> HTMLテーブル要素 への変換 (<table>...</table>)
 @register.filter(is_safe=True)
 def toTable(values: List[DomainType], format=None) -> SafeText:
     tbody = toTbody(values, format)
