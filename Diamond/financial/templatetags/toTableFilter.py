@@ -33,7 +33,7 @@ __formats = {
 }
 
 
-def __parse(value: Optional[DomainType], format: Optional[str]) -> Optional[List[str]]:
+def __parse(value: DomainType, format: Optional[str]) -> List[str]:
     valueType = type(value)
 
     mapDict = __mapDicts.get(valueType)
@@ -53,7 +53,7 @@ def __parse(value: Optional[DomainType], format: Optional[str]) -> Optional[List
             raise SyntaxError("フォーマット" + format + "の内、" + key + "が正しくありません")
         return m(value)
 
-    values = value and [getValue(k) for k in keys]
+    values = [getValue(k) for k in keys]
     return values
 
 
@@ -65,7 +65,7 @@ def __buildString(values: List[Any], prefix: str, suffix: str) -> str:
 
 @register.filter
 def toRow(value: Optional[DomainType], format=None) -> Optional[str]:
-    values = __parse(value, format)
+    values = value and __parse(value, format)
     string = values and __buildString(
         values=values, prefix=rowPrefix, suffix=rowSuffix)
     return string
