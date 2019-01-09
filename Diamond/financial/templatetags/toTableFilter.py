@@ -74,7 +74,8 @@ def toRow(value: Optional[DomainType], format=None) -> SafeText:
 
 @register.filter(is_safe=True)
 def toTable(values: List[DomainType], format=None) -> SafeText:
-    rows = map(toRow, values)
+    def curriedToRow(v): return toRow(v, format=format)
+    rows = map(curriedToRow, values)
     joinedRows = reduce(add, rows)
     result = format_html(tableHtmlFormat, joinedRows)
     return result
