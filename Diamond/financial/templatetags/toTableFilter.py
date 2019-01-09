@@ -19,6 +19,7 @@ rowPrefix = "<td>"
 rowSuffix = "</td>"
 dataHtmlFormat = "<td>{}</td>"
 rowHtmlFormat = "<tr>{}</tr>"
+tableHtmlFormat = "<table>{}</table>"
 
 
 # 型の定義
@@ -72,8 +73,11 @@ def toRow(value: Optional[DomainType], format=None) -> SafeText:
 
 
 @register.filter(is_safe=True)
-def toTable(values: List[DomainType], format=None):
-    return ""
+def toTable(values: List[DomainType], format=None) -> SafeText:
+    rows = map(toRow, values)
+    joinedRows = reduce(add, rows)
+    result = format_html(tableHtmlFormat, joinedRows)
+    return result
 
 
 # 値 -> フォーマット通りの順で要素を並べたリスト への変換
