@@ -3,6 +3,7 @@ from financial.models import Balance
 from typing import Union
 from typing import Optional
 from typing import List
+from typing import Any
 import inspect
 
 
@@ -56,7 +57,7 @@ def __parse(value: Optional[DomainType], format: Optional[str]) -> Optional[List
     return values
 
 
-def __buildString(values: List[DomainType], prefix: str, suffix: str) -> str:
+def __buildString(values: List[Any], prefix: str, suffix: str) -> str:
     strs = map(str, values)
     string = prefix + (suffix + prefix).join(strs) + suffix
     return string
