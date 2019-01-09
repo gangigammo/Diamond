@@ -38,6 +38,11 @@ __parseMethods = {
 }
 
 
+def __parser(value, format):
+    values = []
+    return values
+
+
 @register.filter
 def toRow(value: Optional[Union[Balance]]) -> str:
     method = __parseMethods.get(type(value))
