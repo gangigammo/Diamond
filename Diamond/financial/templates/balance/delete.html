@@ -7,7 +7,6 @@
 	<h2>削除しました</h2>
 	{{message|default:""}}
 	<br>
-	{% load toTableFilter %}
 	{{balances|toTable|addThead:"金額,内容,カテゴリ"}}
 	<br>
 	<a href="/view">収支閲覧</a>

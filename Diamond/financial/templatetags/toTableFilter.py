@@ -1,4 +1,4 @@
-from django import template
+from django.template.defaultfilters import register
 from django.utils.html import conditional_escape
 from django.utils.safestring import SafeText
 from django.utils.safestring import mark_safe
@@ -11,7 +11,6 @@ from operator import add
 from functools import reduce
 import re
 
-register = template.Library()
 
 # HTMLコード
 dataHtmlFormat = "<td>{}</td>"
