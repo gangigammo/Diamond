@@ -1,15 +1,20 @@
-from django.template.defaultfilters import register
+from django import template
+from django.utils.html import conditional_escape
+from django.utils.safestring import mark_safe
+from django.utils.html import *
 from financial.models import Balance
 from typing import Union
 from typing import Optional
 from typing import List
 from typing import Any
 import inspect
+register = template.Library()
 
 # HTMLコード
 # テーブルの行要素
 rowPrefix = "<td>"
 rowSuffix = "</td>"
+rowHtmlFormat = "<td>%s</td>"
 
 
 # 型の定義
@@ -39,17 +44,20 @@ __defaultFormats = {
 
 
 # 値 -> HTMLテーブルの行要素 への変換 (なければNoneを返す)
-@register.filter
-def toRow(value: Optional[DomainType], format=None) -> Optional[str]:
-    values = value and __parse(value, format)
-    string = values and __buildString(
-        values=values, prefix=rowPrefix, suffix=rowSuffix)
-    return string
+@register.filter(is_safe=True)
+def toRow(value: Optional[DomainType], format=None):
+    strs = value and __parse(value, format)
+    string = ''.join(
+        format_html("<td>{}</td>", args) for args in strs
+    )
+    return mark_safe(string)
 
 
-@register.filter
+@register.filter(is_safe=True)
 def toTable(values: List[DomainType], format=None):
-    return "<tr>" + ''.join([toRow(v, format) for v in values]) + "</tr>"
+    strs = [toRow(v, format) for v in values]
+    string = __buildString(strs, "<tr>", "</tr>")
+    return string
 
 # 値 -> フォーマット通りの順で要素を並べたリスト への変換
 

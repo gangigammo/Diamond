@@ -7,9 +7,14 @@
 	<h2>削除しました</h2>
 	{{message|default:""}}
 	<br>
-	{{balance|toRow|default_if_none:"無し"}}
+	{% load toTableFilter %}
+	<table>
+		<tr>
+			{{balance|toRow|default_if_none:"無し"}}
+		</tr>
+	</table>
 	<br>
-	{{balances|toTable}}
+	{{balances|toTable|safe}}
 	<br>
 	<a href="/view">収支閲覧</a>
 {% endblock %}
