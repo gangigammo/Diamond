@@ -1,14 +1,12 @@
 from django.template.defaultfilters import register
-from django.utils.html import conditional_escape
-from django.utils.safestring import SafeText
-from django.utils.safestring import mark_safe
-from django.utils.html import format_html
-from financial.models import Balance
-from typing import *
+from django.utils.html import format_html, conditional_escape
+from django.utils.safestring import SafeText, mark_safe
+
+from typing import Union, Any, List, Optional, Iterable
 from types import GeneratorType
-import inspect
 from operator import add
 from functools import reduce
+import inspect
 import re
 
 
