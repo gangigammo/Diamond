@@ -1,6 +1,7 @@
 from django import template
 from django.utils.html import conditional_escape
 from django.utils.safestring import SafeText
+from django.utils.safestring import mark_safe
 from django.utils.html import format_html
 from financial.models import Balance
 from typing import *
@@ -8,6 +9,7 @@ from types import GeneratorType
 import inspect
 from operator import add
 from functools import reduce
+import re
 
 register = template.Library()
 
@@ -61,9 +63,17 @@ def __wrapTag(element: Union[None, SafeText, Iterable[SafeText]], htmlFormat: st
     return format_html(htmlFormat, element)
 
 
+# タグを除去する。(__wrapTagの逆の処理)
+def __unwrapTag(html: SafeText, htmlFormat: str) -> SafeText:
+    placeHolder = "{}"
+    placeHolder = re.escape(placeHolder)
+    htmlFormat = re.escape(htmlFormat)
+    regex = htmlFormat.replace(placeHolder, "(.*)")
+    result = re.sub(regex, r'\1', html)
+    return mark_safe(result)
+
+
 # 値 -> HTMLテーブルの行の1要素 への変換 (ex. "hoge"　-> "<td>hoge</td>")
-
-
 @register.filter(is_safe=True)
 def toData(element: Optional[Any]) -> SafeText:
     safeElem = __toSafeText(element)
