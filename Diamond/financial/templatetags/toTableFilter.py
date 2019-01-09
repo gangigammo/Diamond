@@ -5,9 +5,7 @@ from typing import Optional
 from typing import List
 
 NoneType = type(None)
-
-
-# テーブルの行を生成
+DomainType = Union[Balance]
 
 __maps = {
     NoneType: {},
@@ -27,7 +25,7 @@ __formats = {
 }
 
 
-def __parse(value, format=None):
+def __parse(value: Optional[DomainType], format: Optional[str]) -> List[str]:
     map = __maps.get(type(value))
     format = format or __formats.get(type(value))
     keys = format.split(" ")
@@ -37,6 +35,6 @@ def __parse(value, format=None):
 
 
 @register.filter
-def toRow(value: Optional[Union[Balance]]) -> str:
-    values = __parse(value)
+def toRow(value: Optional[DomainType], format=None) -> str:
+    values = __parse(value, format)
     return str(values)  # TODO 文字列リストからテーブルHTMLに。
