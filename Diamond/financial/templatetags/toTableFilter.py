@@ -7,7 +7,11 @@ from typing import List
 NoneType = type(None)
 DomainType = Union[Balance]
 
-__maps = {
+
+def __noneMap(v): return "none"
+
+
+__mapDicts = {
     NoneType: {},
     Balance: {
         "amount":
@@ -26,11 +30,13 @@ __formats = {
 
 
 def __parse(value: Optional[DomainType], format: Optional[str]) -> List[str]:
-    map = __maps.get(type(value))
-    format = format or __formats.get(type(value))
+    valueType = type(value)
+    mapDict = __mapDicts.get(valueType)
+    format = format or __formats.get(valueType)
+    # TODO value型エラー
     keys = format.split(" ")
     # TODO formatの間違いを例外として投げる
-    values = [map.get(key)(value) or "" for key in keys]
+    values = [(mapDict.get(key) or __noneMap)(value) or "" for key in keys]
     return values
 
 
