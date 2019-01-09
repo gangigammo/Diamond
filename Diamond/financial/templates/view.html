@@ -55,9 +55,6 @@
                         <h2>収支一覧</h2>
                         <div id="category_dialog" style="display:none;">
                             <form id="categoryForm" method="POST" action="/category/">
-                                <font color="red">
-                                    <p id="category"></p>
-                                </font>
                                 <p>カテゴリー名</p>
                                 <input type="text" name="registrationCategory">
                                 <p>種類</p>
@@ -70,12 +67,9 @@
                                 <input type="submit" value="追加">
                             </form>
                         </div>
-                        
+
                         <div id="income_dialog" style="display:none;">
                             <form id="incomeForm" method="POST" action="/income/">
-                                <font color="red">
-                                    <p id="income"></p>
-                                </font>
                                 <p>値</p>
                                 <input type="text" name="income">
                                 <p>内容</p>
@@ -92,12 +86,9 @@
                                 <input type="submit" value="追加">
                             </form>
                         </div>
-                        
+
                         <div id="expense_dialog" style="display:none;">
                             <form id="expenceForm" method="POST" action="/expence/">
-                                <font color="red">
-                                    <p id="expense"></p>
-                                </font>
                                 <p>値</p>
                                 <input type="text" name="expence">
                                 <p>内容</p>
@@ -114,13 +105,35 @@
                                 <input type="submit" value="追加">
                             </form>
                         </div>
-
+                        <font color="red">
+                            <p id="category"></p>
+                        </font>
+                        <font color="red">
+                            <p id="income"></p>
+                        </font>
+                        <font color="red">
+                            <p id="expense"></p>
+                        </font>
                         <input type="button" id="category_btn" class="view_button" value="カテゴリー追加">
                         <input type="button" id="income_btn" class="view_button" value="収入追加">
                         <input type="button" id="expense_btn" class="view_button" value="支出追加">
 
+                        <form id="categorysearch" method="POST" action="/categorysearch/">
+                            <p>カテゴリーで絞り込み</p>
+                            <select name="Category">
+                                <option value="選択なし">選択なし</option>
+                                {% for category in Category %}
+                                <option value={{category.categoryName}}>{{category.categoryName}}</option>
+                                {% endfor %}
+                            </select>
+                            {% csrf_token %}
+                            <input type="submit" value="検索">
+                        </form>
+                        <a href="/view">全表示</a>
+                        
                         <h3>あなたの現在の収支は{{gain}}です。</h3>
-                        <table>
+
+                        <table class="view_table">
                             <thead>
                                 <tr>
                                     <th>収入</th>
@@ -142,7 +155,8 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <table>
+                        <br>
+                        <table class="view_table">
                             <thead>
                                 <tr>
                                     <th>支出</th>
@@ -165,19 +179,6 @@
                             </tbody>
                         </table>
 
-
-                        <form id="categorysearch" method="POST" action="/categorysearch/">
-                            <p>カテゴリーで絞り込み</p>
-                            <select name="Category">
-                                <option value="選択なし">選択なし</option>
-                                {% for category in Category %}
-                                <option value={{category.categoryName}}>{{category.categoryName}}</option>
-                                {% endfor %}
-                            </select>
-                            {% csrf_token %}
-                            <input type="submit" value="検索">
-                        </form>
-                        <a href="/view">全表示</a>
                     </div>
                     <div class="cp_tabpanel">
                         <h2>円グラフ</h2>
