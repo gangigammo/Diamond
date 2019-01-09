@@ -9,6 +9,9 @@ from typing import Optional
 from typing import List
 from typing import Any
 import inspect
+from operator import add
+from functools import reduce
+
 register = template.Library()
 
 # HTMLコード
@@ -50,20 +53,23 @@ def __toSafeText(element: Any) -> SafeText:
 
 
 # 値 -> HTMLテーブルの行の1要素 への変換 (ex. "hoge"　-> "<td>hoge</td>")
+
+
 @register.filter(is_safe=True)
-def toData(element: Any) -> SafeText:
+def toData(element: Optional[Any]) -> SafeText:
     safeElem = __toSafeText(element)
     return format_html(dataHtmlFormat, safeElem)
 
 
-# 値 -> HTMLテーブルの行要素 への変換 (なければNoneを返す)
+# 値 -> HTMLテーブルの行要素 への変換 (<tr>...</tr>)
 @register.filter(is_safe=True)
-def toRow(value: Optional[DomainType], format=None):
-    strs = value and __parse(value, format)
-    string = ''.join(
-        format_html(dataHtmlFormat, args) for args in strs
-    )
-    return mark_safe(string)
+def toRow(value: Optional[DomainType], format=None) -> SafeText:
+    elements = value and __parse(value, format)         # 文字列のリストを取得
+    datas = elements and map(toData, elements)          # 各文字列にtoDataを適用
+    joinedDatas = datas and reduce(add, datas)          # それらを連結
+    joinedDatas = joinedDatas or ""  # valueがNoneの場合
+    result = format_html(rowHtmlFormat, joinedDatas)    # 行タグを付ける
+    return result
 
 
 @register.filter(is_safe=True)
