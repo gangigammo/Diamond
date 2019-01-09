@@ -65,8 +65,8 @@ def __unwrapTag(html: SafeText, htmlFormat: str) -> SafeText:
     placeHolder = "{}"
     placeHolder = re.escape(placeHolder)
     htmlFormat = re.escape(htmlFormat)
-    regex = htmlFormat.replace(placeHolder, "(.*)")
-    result = re.sub(regex, r'\1', html)
+    regex = "^(" + htmlFormat.replace(placeHolder, ")(.*)(") + ")$"
+    result = re.sub(regex, r'\2', html)
     return mark_safe(result)
 
 
