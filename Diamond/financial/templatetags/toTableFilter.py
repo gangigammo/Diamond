@@ -71,7 +71,7 @@ def toRow(value: Optional[DomainType], format=None) -> SafeText:
     return result
 
 
-@register.filter
+@register.filter(is_safe=True)
 def toTbody(values: List[DomainType], format=None) -> SafeText:
     def curriedToRow(v): return toRow(v, format=format)
     rows = map(curriedToRow, values)
