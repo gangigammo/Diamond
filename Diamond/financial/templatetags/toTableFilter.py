@@ -14,9 +14,6 @@ import re
 register = template.Library()
 
 # HTMLコード
-# テーブルの行要素
-rowPrefix = "<td>"
-rowSuffix = "</td>"
 dataHtmlFormat = "<td>{}</td>"
 rowHtmlFormat = "<tr>{}</tr>"
 tbodyHtmlFormat = "<tbody>{}</tbody>"
@@ -107,8 +104,6 @@ def toTable(values: List[DomainType], format=None) -> SafeText:
 
 
 # 値 -> フォーマット通りの順で要素を並べたリスト への変換
-
-
 def __parse(value: DomainType, format: Optional[str]) -> List[str]:
     # valueの型
     valueType = type(value)
