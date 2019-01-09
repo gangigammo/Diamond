@@ -31,7 +31,8 @@ def __parse(value, format=None):
     map = __maps.get(type(value))
     format = format or __formats.get(type(value))
     keys = format.split(" ")
-    values = [map.get(key) or "" for key in keys]
+    # TODO formatの間違いを例外として投げる
+    values = [map.get(key)(value) or "" for key in keys]
     return values
 
 
