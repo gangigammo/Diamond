@@ -12,38 +12,15 @@ from functools import reduce
 import re
 
 
+from .parseRules import parseRules, defaultFormats, DomainType
+
+
 # HTMLコード
 dataHtmlFormat = "<td>{}</td>"
 rowHtmlFormat = "<tr>{}</tr>"
 tbodyHtmlFormat = "<tbody>{}</tbody>"
 theadHtmlFormat = "<thead>{}</thead>"
 tableHtmlFormat = "<table>{}</table>"
-
-
-# 型の定義
-NoneType = type(None)               # nullを表す
-DomainType = Union[Balance]         # 引数としてとれる型一覧
-
-
-# 変換規則の定義
-__mapDicts = {
-    NoneType: {},
-    Balance: {
-        "amount":
-            lambda v: v.amount,
-        "description":
-            lambda v: v.description,
-        "category":
-            lambda v: v.categoryName
-    }
-}
-
-# デフォルトのフォーマットの定義
-# コンマ区切りで要素名を並べる
-__defaultFormats = {
-    NoneType: "",
-    Balance: "amount,description,category"
-}
 
 
 def __toSafeText(element: Any) -> SafeText:
@@ -131,19 +108,19 @@ def __parse(value: DomainType, format: Optional[str]) -> List[str]:
     # valueの型
     valueType = type(value)
     # valueTypeに対応する変換規則
-    mapDict = __mapDicts.get(valueType)
-    if mapDict is None:
+    rule = parseRules.get(valueType)
+    if rule is None:
         caller = inspect.stack()[1][3]
         raise TypeError("型" + str(valueType) + "は" + caller + "の引数として不適切です")
     # formatが与えられてなければ代わりにデフォルトのを使う
-    format = format or __defaultFormats.get(valueType)
+    format = format or defaultFormats.get(valueType)
     if format is None:
         raise SyntaxError("型" + str(valueType) + "のためのformatがありません")
     # コンマ区切りのformatをリスト形式へ変換
     keys = format.split(",")
 
     def getValue(key):  # keyをvalueに変換するクロージャ
-        m = mapDict.get(key)
+        m = rule.get(key)
         if m is None:
             raise SyntaxError("フォーマット" + format + "の内、" + key + "が正しくありません")
         return m(value)
