@@ -1,6 +1,7 @@
 from django import template
 from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
+from django.utils.safestring import SafeText
 from django.utils.html import *
 from financial.models import Balance
 from typing import Union
@@ -14,7 +15,8 @@ register = template.Library()
 # テーブルの行要素
 rowPrefix = "<td>"
 rowSuffix = "</td>"
-rowHtmlFormat = "<td>%s</td>"
+dataHtmlFormat = "<td>{}</td>"
+rowHtmlFormat = "<tr>{}</tr>"
 
 
 # 型の定義
@@ -43,12 +45,23 @@ __defaultFormats = {
 }
 
 
+def __toSafeText(element: Any) -> SafeText:
+    return conditional_escape(str(element))
+
+
+# 値 -> HTMLテーブルの行の1要素 への変換 (ex. "hoge"　-> "<td>hoge</td>")
+@register.filter(is_safe=True)
+def toData(element: Any) -> SafeText:
+    safeElem = __toSafeText(element)
+    return format_html(dataHtmlFormat, safeElem)
+
+
 # 値 -> HTMLテーブルの行要素 への変換 (なければNoneを返す)
 @register.filter(is_safe=True)
 def toRow(value: Optional[DomainType], format=None):
     strs = value and __parse(value, format)
     string = ''.join(
-        format_html("<td>{}</td>", args) for args in strs
+        format_html(dataHtmlFormat, args) for args in strs
     )
     return mark_safe(string)
 
