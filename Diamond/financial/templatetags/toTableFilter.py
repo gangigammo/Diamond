@@ -32,25 +32,35 @@ __mapDicts = {
 
 # デフォルトのフォーマットの定義
 # コンマ区切りで要素名を並べる
-__formats = {
+__defaultFormats = {
     NoneType: "",
     Balance: "amount,description,category"
 }
 
 
+# 値 -> HTMLテーブルの行要素 への変換 (なければNoneを返す)
+@register.filter
+def toRow(value: Optional[DomainType], format=None) -> Optional[str]:
+    values = value and __parse(value, format)
+    string = values and __buildString(
+        values=values, prefix=rowPrefix, suffix=rowSuffix)
+    return string
+
+
 # 値 -> フォーマット通りの順で要素を並べたリスト への変換
 def __parse(value: DomainType, format: Optional[str]) -> List[str]:
+    # valueの型
     valueType = type(value)
-
+    # valueTypeに対応する変換規則
     mapDict = __mapDicts.get(valueType)
     if mapDict is None:
         caller = inspect.stack()[1][3]
         raise TypeError("型" + str(valueType) + "は" + caller + "の引数として不適切です")
-
-    format = format or __formats.get(valueType)
+    # formatが与えられてなければ代わりにデフォルトのを使う
+    format = format or __defaultFormats.get(valueType)
     if format is None:
         raise SyntaxError("型" + str(valueType) + "のためのformatがありません")
-
+    # コンマ区切りのformatをリスト形式へ変換
     keys = format.split(",")
 
     def getValue(key):  # keyをvalueに変換するクロージャ
@@ -58,7 +68,7 @@ def __parse(value: DomainType, format: Optional[str]) -> List[str]:
         if m is None:
             raise SyntaxError("フォーマット" + format + "の内、" + key + "が正しくありません")
         return m(value)
-
+    # formatに沿ってvalueから値を取り出し並べる
     values = [getValue(k) for k in keys]
     return values
 
@@ -67,12 +77,4 @@ def __parse(value: DomainType, format: Optional[str]) -> List[str]:
 def __buildString(values: List[Any], prefix: str, suffix: str) -> str:
     strs = map(str, values)
     string = prefix + (suffix + prefix).join(strs) + suffix
-    return string
-
-
-@register.filter
-def toRow(value: Optional[DomainType], format=None) -> Optional[str]:
-    values = value and __parse(value, format)
-    string = values and __buildString(
-        values=values, prefix=rowPrefix, suffix=rowSuffix)
     return string
