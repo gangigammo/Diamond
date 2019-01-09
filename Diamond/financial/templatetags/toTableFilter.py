@@ -51,6 +51,16 @@ def __toSafeText(element: Any) -> SafeText:
     return conditional_escape(str(element))
 
 
+def __wrapTag(elements: Union[None, SafeText, Iterable[SafeText]], htmlFormat: str) -> SafeText:
+    if isinstance(elements, Iterable):
+        element = reduce(add, elements)
+    else:
+        element = elements or __toSafeText("")
+    print(type(element))
+    print(element)
+    print()
+    return format_html(htmlFormat, element)
+
 # 値 -> HTMLテーブルの行の1要素 への変換 (ex. "hoge"　-> "<td>hoge</td>")
 
 
@@ -63,11 +73,9 @@ def toData(element: Optional[Any]) -> SafeText:
 # 値 -> HTMLテーブルの行要素 への変換 (<tr>...</tr>)
 @register.filter(is_safe=True)
 def toRow(value: Optional[DomainType], format=None) -> SafeText:
-    elements = value and __parse(value, format)         # 文字列のリストを取得
-    datas = elements and map(toData, elements)          # 各文字列にtoDataを適用
-    joinedDatas = datas and reduce(add, datas)          # それらを連結
-    joinedDatas = joinedDatas or ""  # valueがNoneの場合
-    result = format_html(rowHtmlFormat, joinedDatas)    # 行タグを付ける
+    elements = value and __parse(value, format)     # 文字列のリストを取得
+    datas = elements and map(toData, elements)      # 各要素にtoDataを適用
+    result = __wrapTag(datas, rowHtmlFormat)        # 行タグを付ける
     return result
 
 
@@ -75,15 +83,16 @@ def toRow(value: Optional[DomainType], format=None) -> SafeText:
 def toTbody(values: List[DomainType], format=None) -> SafeText:
     def curriedToRow(v): return toRow(v, format=format)
     rows = map(curriedToRow, values)
-    joinedRows = reduce(add, rows)
-    result = format_html(tbodyHtmlFormat, joinedRows)
+    print(type(rows))
+    print(rows)
+    result = __wrapTag(rows, tbodyHtmlFormat)
     return result
 
 
 @register.filter(is_safe=True)
 def toTable(values: List[DomainType], format=None) -> SafeText:
     tbody = toTbody(values, format)
-    result = format_html(tableHtmlFormat, tbody)
+    result = __wrapTag(tbody, tableHtmlFormat)
     return result
 
 
