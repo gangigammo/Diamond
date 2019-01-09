@@ -3,12 +3,13 @@ from financial.models import Balance
 from typing import Union
 from typing import Optional
 from typing import List
+import inspect
 
 NoneType = type(None)
 DomainType = Union[Balance]
 
 
-def __noneMap(v): return "none"
+def __noneMap(v): return None
 
 
 __mapDicts = {
@@ -25,25 +26,35 @@ __mapDicts = {
 
 __formats = {
     NoneType: "",
-    Balance: "amount description category"
+    Balance: "amount,description,category"
 }
 
 
-def __parse(value: Optional[DomainType], format: Optional[str]) -> List[str]:
+def __parse(value: Optional[DomainType], format: Optional[str]) -> Optional[List[str]]:
     valueType = type(value)
 
     mapDict = __mapDicts.get(valueType)
-    format = format or __formats.get(valueType)
-    if (mapDict or format) is None:
-        raise TypeError("型" + str(valueType) + "は__parse()の引数として不適切です")
+    if mapDict is None:
+        caller = inspect.stack()[1][3]
+        raise TypeError("型" + str(valueType) + "は" + caller + "の引数として不適切です")
 
-    keys = format.split(" ")
-    # TODO formatの間違いを例外として投げる
-    values = [(mapDict.get(key) or __noneMap)(value) or "" for key in keys]
+    format = format or __formats.get(valueType)
+    if format is None:
+        raise SyntaxError("型" + str(valueType) + "のためのformatがありません")
+
+    keys = format.split(",")
+
+    def getValue(key):  # keyをvalueに変換するクロージャ
+        m = mapDict.get(key)
+        if m is None:
+            raise SyntaxError("フォーマット" + format + "の内、" + key + "が正しくありません")
+        return m(value)
+
+    values = value and [getValue(k) for k in keys]
     return values
 
 
 @register.filter
-def toRow(value: Optional[DomainType], format=None) -> str:
+def toRow(value: Optional[DomainType], format=None) -> Optional[str]:
     values = __parse(value, format)
-    return str(values)  # TODO 文字列リストからテーブルHTMLに。
+    return values and str(values)  # TODO 文字列リストからテーブルHTMLに。
