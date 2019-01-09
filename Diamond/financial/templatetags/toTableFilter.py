@@ -31,9 +31,12 @@ __formats = {
 
 def __parse(value: Optional[DomainType], format: Optional[str]) -> List[str]:
     valueType = type(value)
+
     mapDict = __mapDicts.get(valueType)
     format = format or __formats.get(valueType)
-    # TODO value型エラー
+    if (mapDict or format) is None:
+        raise TypeError("型" + str(valueType) + "は__parse()の引数として不適切です")
+
     keys = format.split(" ")
     # TODO formatの間違いを例外として投げる
     values = [(mapDict.get(key) or __noneMap)(value) or "" for key in keys]
