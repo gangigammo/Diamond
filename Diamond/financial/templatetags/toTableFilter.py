@@ -1,8 +1,7 @@
 from django import template
 from django.utils.html import conditional_escape
-from django.utils.safestring import mark_safe
 from django.utils.safestring import SafeText
-from django.utils.html import *
+from django.utils.html import format_html
 from financial.models import Balance
 from typing import Union
 from typing import Optional
@@ -74,9 +73,8 @@ def toRow(value: Optional[DomainType], format=None) -> SafeText:
 
 @register.filter(is_safe=True)
 def toTable(values: List[DomainType], format=None):
-    strs = [toRow(v, format) for v in values]
-    string = __buildString(strs, "<tr>", "</tr>")
-    return string
+    return ""
+
 
 # 値 -> フォーマット通りの順で要素を並べたリスト への変換
 
@@ -104,10 +102,3 @@ def __parse(value: DomainType, format: Optional[str]) -> List[str]:
     # formatに沿ってvalueから値を取り出し並べる
     values = [getValue(k) for k in keys]
     return values
-
-
-# リスト -> 連結した文字列 への変換
-def __buildString(values: List[Any], prefix: str, suffix: str) -> str:
-    strs = map(str, values)
-    string = prefix + (suffix + prefix).join(strs) + suffix
-    return string
