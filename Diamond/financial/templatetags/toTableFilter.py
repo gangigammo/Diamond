@@ -19,6 +19,7 @@ rowPrefix = "<td>"
 rowSuffix = "</td>"
 dataHtmlFormat = "<td>{}</td>"
 rowHtmlFormat = "<tr>{}</tr>"
+tbodyHtmlFormat = "<tbody>{}</tbody>"
 tableHtmlFormat = "<table>{}</table>"
 
 
@@ -72,12 +73,19 @@ def toRow(value: Optional[DomainType], format=None) -> SafeText:
     return result
 
 
-@register.filter(is_safe=True)
-def toTable(values: List[DomainType], format=None) -> SafeText:
+@register.filter
+def toTbody(values: List[DomainType], format=None) -> SafeText:
     def curriedToRow(v): return toRow(v, format=format)
     rows = map(curriedToRow, values)
     joinedRows = reduce(add, rows)
-    result = format_html(tableHtmlFormat, joinedRows)
+    result = format_html(tbodyHtmlFormat, joinedRows)
+    return result
+
+
+@register.filter(is_safe=True)
+def toTable(values: List[DomainType], format=None) -> SafeText:
+    tbody = toTbody(values, format)
+    result = format_html(tableHtmlFormat, tbody)
     return result
 
 
