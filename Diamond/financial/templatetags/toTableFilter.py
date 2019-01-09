@@ -6,15 +6,18 @@ from typing import List
 from typing import Any
 import inspect
 
-
+# HTMLコード
+# テーブルの行要素
 rowPrefix = "<td>"
 rowSuffix = "</td>"
 
 
-NoneType = type(None)
-DomainType = Union[Balance]
+# 型の定義
+NoneType = type(None)               # nullを表す
+DomainType = Union[Balance]         # 引数としてとれる型一覧
 
 
+# 変換規則の定義
 __mapDicts = {
     NoneType: {},
     Balance: {
@@ -27,12 +30,15 @@ __mapDicts = {
     }
 }
 
+# デフォルトのフォーマットの定義
+# コンマ区切りで要素名を並べる
 __formats = {
     NoneType: "",
     Balance: "amount,description,category"
 }
 
 
+# 値 -> フォーマット通りの順で要素を並べたリスト への変換
 def __parse(value: DomainType, format: Optional[str]) -> List[str]:
     valueType = type(value)
 
@@ -57,6 +63,7 @@ def __parse(value: DomainType, format: Optional[str]) -> List[str]:
     return values
 
 
+# リスト -> 連結した文字列 への変換
 def __buildString(values: List[Any], prefix: str, suffix: str) -> str:
     strs = map(str, values)
     string = prefix + (suffix + prefix).join(strs) + suffix
