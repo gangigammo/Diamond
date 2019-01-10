@@ -5,6 +5,8 @@
 
 
 {% block body %}
+
+<!--フォームのエラー表示-->
 <script>
     window.onload = function () {
         error = "{{categorySubscribeError}}";
@@ -36,6 +38,7 @@
             <li>金剛会計</li>
             <li>
                 <a>
+                    <!--ハンバーガーメニューのアイコン-->
                     <i class="fas fa-bars header__icon"></i>
                 </a>
             </li>
@@ -130,7 +133,7 @@
                             <input type="submit" value="検索">
                         </form>
                         <a href="/view">全表示</a>
-                        
+
                         <h3>あなたの現在の収支は{{gain}}です。</h3>
 
                         <table class="view_table">
@@ -144,14 +147,20 @@
                             <tbody>
                                 {% for income in incomes %}
                                 <tr>
-                                    <td><font color="green">+{{income.amount}}</font></td>
+                                    <td>
+                                        <font color="green">+{{income.amount}}</font>
+                                    </td>
                                     <td>{{income.description}}</td>
                                     <td>{{income.categoryName}}</td>
                                 </tr>
                                 {% endfor %}
                                 <tr>
-                                    <td><font color="green">+{{sumIncomes}}</font></td>
-                                    <td><font color="green">合計</font></td>
+                                    <td>
+                                        <font color="green">+{{sumIncomes}}</font>
+                                    </td>
+                                    <td>
+                                        <font color="green">合計</font>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -167,14 +176,20 @@
                             <tbody>
                                 {% for expence in expences %}
                                 <tr>
-                                    <td><font color="red">-{{expence.amount}}</font></td>
+                                    <td>
+                                        <font color="red">-{{expence.amount}}</font>
+                                    </td>
                                     <td>{{expence.description}}</td>
                                     <td>{{expence.categoryName}}</td>
                                 </tr>
                                 {% endfor %}
                                 <tr>
-                                    <td><font color="red">-{{sumExpences}}</font></td>
-                                    <td><font color="red">合計</font></td>
+                                    <td>
+                                        <font color="red">-{{sumExpences}}</font>
+                                    </td>
+                                    <td>
+                                        <font color="red">合計</font>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
