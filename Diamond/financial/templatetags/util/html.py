@@ -85,6 +85,7 @@ def __generateHtml(
 
 def __join(text: Union[None, str, Iterable[str]]) -> SafeText:
     if isinstance(text, (list, map, GeneratorType)):
+        text = map(conditional_escape, text)
         text = reduce(add, text)
     return text or ""
 

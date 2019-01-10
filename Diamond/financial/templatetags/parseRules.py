@@ -9,7 +9,10 @@ DomainType = Union[Balance]         # 引数としてとれる型一覧
 
 # 変換規則の定義
 parseRules = {
-    NoneType: {},
+    NoneType: {
+        "none":
+            lambda v: "none"
+    },
     Balance: {
         "amount":
             lambda v: v.amount,
@@ -27,6 +30,6 @@ parseRules = {
 # デフォルトのフォーマットの定義
 # コンマ区切りで要素名を並べる
 defaultFormats = {
-    NoneType: "",
+    NoneType: "none",
     Balance: "amount,description,category,delete"
 }

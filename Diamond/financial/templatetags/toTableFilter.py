@@ -1,5 +1,4 @@
 from django.template.defaultfilters import register
-from django.utils.html import format_html, conditional_escape
 from django.utils.safestring import SafeText, mark_safe
 
 from typing import Union, Any, List, Optional, Iterable
@@ -13,25 +12,22 @@ from .parseRules import parseRules, defaultFormats, DomainType
 from .util import *
 
 
-# 値 -> HTMLテーブルの行の1要素 への変換 (ex. "hoge"　-> "<td>hoge</td>")
-@register.filter(is_safe=True)
-def toTd(element: Optional[Any]) -> SafeText:
-    return html_td(element)
-
-
 # 値 -> HTMLテーブルの行要素 への変換 (<tr>...</tr>)
 @register.filter(is_safe=True)
-def toTr(value: Optional[DomainType], format=None) -> SafeText:
-    elements = value and __parse(value, format)     # 文字列のリストを取得
-    datas = elements and map(toTd, elements)        # 各要素にtoDataを適用
-    return html_tr(datas)
-
+def toTr(value: Union[None, DomainType, List[DomainType]], format=None) -> SafeText:
+    value = None or [None]                                     # nullチェック
+    values = list(value)
+    parsedValues = [__parse(v, format) for v in values]     # パース
+    taggedValues = [map(html_td, v) for v in parsedValues]  # 各要素にtdタグをつける
+    result = map(html_tr, taggedValues)                     # 各行にtrタグをつける
+    return result
 
 # 値リスト -> HTMLテーブルのtbody要素 への変換 (<tbody>...</tbody>)
+
+
 @register.filter(is_safe=True)
 def toTbody(values: List[DomainType], format=None) -> SafeText:
-    def curried_toTr(v): return toTr(v, format=format)
-    rows = map(curried_toTr, values)
+    rows = toTr(values, format)
     return html_tbody(rows)
 
 
@@ -65,8 +61,7 @@ def __parse(value: DomainType, format: Optional[str]) -> List[str]:
     # valueTypeに対応する変換規則
     rule = parseRules.get(valueType)
     if rule is None:
-        caller = inspect.stack()[1][3]
-        raise TypeError("型" + str(valueType) + "は" + caller + "の引数として不適切です")
+        raise TypeError("型" + str(valueType) + "はtoTableの引数として不適切です")
     # formatが与えられてなければ代わりにデフォルトのを使う
     format = format or defaultFormats.get(valueType)
     if format is None:
