@@ -137,15 +137,9 @@
                         <h3>あなたの現在の収支は{{gain}}です。</h3>
 
                         <table class="view_table">
-                            <thead>
-                                <tr>
-                                    <th>収入</th>
-                                    <th>内容</th>
-                                    <th>カテゴリー</th>
-                                </tr>
-                            </thead>
+                            {{"収入,内容,カテゴリー,削除"|toThead}}
+                            {{incomes|toTbody}}
                             <tbody>
-                                {{incomes|toTbody}}
                                 <tr>
                                     <td>
                                         <font color="green">+{{sumIncomes}}</font>
@@ -158,14 +152,8 @@
                         </table>
                         <br>
                         <table class="view_table">
-                            <thead>
-                                <tr>
-                                    <th>支出</th>
-                                    <th>内容</th>
-                                    <th>カテゴリー</th>
-                                </tr>
-                            </thead>
-                                {{expences|toTbody}}
+                            {{"支出,内容,カテゴリー,削除"|toThead}}
+                            {{expences|toTbody}}
                             <tbody>
                                 <tr>
                                     <td>
