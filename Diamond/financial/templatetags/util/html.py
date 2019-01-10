@@ -1,9 +1,10 @@
 from django.utils.safestring import SafeText, mark_safe
-from django.utils.html import format_html, format_html_join
-from typing import Dict, Optional, Any, Union, List, Iterable
+from django.utils.html import format_html, format_html_join, conditional_escape
+from typing import Dict, Optional, Any, Union, List, Iterable, Tuple
 from types import GeneratorType
 from operator import add
 from functools import reduce
+import re
 
 
 # HTMLを扱う補助メソッド
@@ -86,3 +87,18 @@ def __join(text: Union[None, str, Iterable[str]]) -> SafeText:
     if isinstance(text, (list, map, GeneratorType)):
         text = reduce(add, text)
     return text or ""
+
+
+# HTMLタグを外す (単純に外側の1個だけ外す)
+def unwrapHtml(
+    tag: str,  # HTMLタグ名
+    html: SafeText
+):
+    safeHtml = conditional_escape(html)
+    regex = r"^<tag\s?([^<]*)>(.*)</tag>$".replace("tag", tag)
+    content = mark_safe(re.sub(regex, r'\2', safeHtml))
+    attr = re.sub(regex, r'\1', safeHtml)
+    attrs = re.findall(r"(\S+)\s*=\s*['\"](\S+)['\"]", attr)
+    # attrs = [ (key,value), (key,value), ... ]
+    attrDict = dict(attrs)
+    return (content, attrDict)

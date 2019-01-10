@@ -64,9 +64,9 @@ def toTable(values: List[DomainType], format=None) -> SafeText:
 # テーブルにtheadを加える
 @register.filter(is_safe=True)
 def addThead(base: SafeText, titles: str):
-    body = __unwrapTag(base, tableHtmlFormat)
+    (body, attr) = unwrapHtml("table", base)
     head = toThead(titles)
-    return html_table(head+body)
+    return html_table(head+body, **attr)
 
 
 # コンマ区切り文字列 -> テーブルのヘッダ への変換
