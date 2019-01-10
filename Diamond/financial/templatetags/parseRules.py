@@ -1,3 +1,4 @@
+from django.utils.safestring import SafeText, mark_safe
 from typing import Union
 from financial.models import Balance
 
@@ -15,7 +16,10 @@ parseRules = {
         "description":
             lambda v: v.description,
         "category":
-            lambda v: v.categoryName
+            lambda v: v.categoryName,
+        "delete":
+            lambda v: mark_safe("<a href=\"/view/balance" +
+                                str(v.id)+"/delete/\">削除</a>")
     }
 }
 
@@ -23,5 +27,5 @@ parseRules = {
 # コンマ区切りで要素名を並べる
 defaultFormats = {
     NoneType: "",
-    Balance: "amount,description,category"
+    Balance: "amount,description,category,delete"
 }
