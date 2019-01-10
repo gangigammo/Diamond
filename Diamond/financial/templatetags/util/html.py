@@ -12,9 +12,8 @@ def html_a(
     href: str,       # リンク
     **kwargs
 ) -> SafeText:
-    attr = {"href": href}
-    attr.update(kwargs)
-    return __generateHtml("a", content, **attr)
+    kwargs.update({"href": href})
+    return __generateHtml("a", content, **kwargs)
 
 
 # tableタグを生成
@@ -22,7 +21,7 @@ def html_table(
     content: str,    # 内容
     **kwargs
 ) -> SafeText:
-    return __generateHtml("a", content, **kwargs)
+    return __generateHtml("table", content, **kwargs)
 
 
 # HTMLタグを生成
