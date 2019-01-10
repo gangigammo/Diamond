@@ -15,15 +15,15 @@ parseRules = {
     },
     Balance: {
         "amount":
-            lambda v: v.amount,
+            lambda v: html_font(("+", v.amount), color="green")
+            if v.isIncome else html_font(-v.amount, color="red"),
         "description":
             lambda v: v.description,
         "category":
             lambda v: v.categoryName,
         "delete":
-            lambda v: html_a(
-                contents="削除する",
-                href="/view/balance" + str(v.id) + "/delete/")
+            lambda v: html_a("削除する",
+                             href="/view/balance" + str(v.id) + "/delete/")
     }
 }
 

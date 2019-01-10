@@ -15,7 +15,7 @@ from .util import *
 # 値 -> HTMLテーブルの行要素 への変換 (<tr>...</tr>)
 @register.filter(is_safe=True)
 def toTr(value: Union[None, DomainType, List[DomainType]], format=None) -> SafeText:
-    value = None or [None]                                     # nullチェック
+    value = value or [None]                                     # nullチェック
     values = list(value)
     parsedValues = [__parse(v, format) for v in values]     # パース
     taggedValues = [map(html_td, v) for v in parsedValues]  # 各要素にtdタグをつける

@@ -145,15 +145,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for income in incomes %}
-                                <tr>
-                                    <td>
-                                        <font color="green">+{{income.amount}}</font>
-                                    </td>
-                                    <td>{{income.description}}</td>
-                                    <td>{{income.categoryName}}</td>
-                                </tr>
-                                {% endfor %}
+                                {{incomes|toTbody}}
                                 <tr>
                                     <td>
                                         <font color="green">+{{sumIncomes}}</font>
@@ -173,16 +165,8 @@
                                     <th>カテゴリー</th>
                                 </tr>
                             </thead>
+                                {{expences|toTbody}}
                             <tbody>
-                                {% for expence in expences %}
-                                <tr>
-                                    <td>
-                                        <font color="red">-{{expence.amount}}</font>
-                                    </td>
-                                    <td>{{expence.description}}</td>
-                                    <td>{{expence.categoryName}}</td>
-                                </tr>
-                                {% endfor %}
                                 <tr>
                                     <td>
                                         <font color="red">-{{sumExpences}}</font>

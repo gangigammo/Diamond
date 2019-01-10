@@ -10,7 +10,13 @@ import re
 # HTMLを扱う補助メソッド
 
 
+# fontタグを生成
+def html_font(contents: str, **kwargs) -> SafeText:
+    return __generateHtml("font", contents, **kwargs)
+
 # aタグを生成
+
+
 def html_a(
     contents: str,
     href: str,       # リンク
@@ -84,7 +90,7 @@ def __generateHtml(
 
 
 def __join(text: Union[None, str, Iterable[str]]) -> SafeText:
-    if isinstance(text, (list, map, GeneratorType)):
+    if isinstance(text, (list, tuple, map, GeneratorType)):
         text = map(conditional_escape, text)
         text = reduce(add, text)
     return text or ""
