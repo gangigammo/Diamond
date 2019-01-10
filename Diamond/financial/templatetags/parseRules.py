@@ -19,7 +19,7 @@ parseRules = {
             lambda v: v.categoryName,
         "delete":
             lambda v: html_a(
-                content="削除する",
+                contents="削除する",
                 href="/view/balance" + str(v.id) + "/delete/")
     }
 }

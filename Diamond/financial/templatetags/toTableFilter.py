@@ -11,6 +11,7 @@ import re
 
 
 from .parseRules import parseRules, defaultFormats, DomainType
+from .util import *
 
 
 # HTMLコード
@@ -19,22 +20,6 @@ rowHtmlFormat = "<tr>{}</tr>"
 tbodyHtmlFormat = "<tbody>{}</tbody>"
 theadHtmlFormat = "<thead>{}</thead>"
 tableHtmlFormat = "<table>{}</table>"
-
-
-def __toSafeText(element: Any) -> SafeText:
-    if isinstance(element, str):
-        element = str(element)
-    return conditional_escape(element)
-
-
-# elementをhtmlFormatに従ってタグで囲む
-# elementはリストでもよい
-# ex. ["<td>foo</td>", "<td>bar</td>"] -> "<tr><td>foo</td><td>bar</td></tr>"
-def __wrapTag(element: Union[None, SafeText, Iterable[SafeText]], htmlFormat: str) -> SafeText:
-    if isinstance(element, (list, map, GeneratorType)):
-        element = reduce(add, element)
-    element = element or ""
-    return format_html(htmlFormat, element)
 
 
 # タグを除去する。(__wrapTagの逆の処理)
@@ -49,41 +34,31 @@ def __unwrapTag(html: SafeText, htmlFormat: str) -> SafeText:
 
 # 値 -> HTMLテーブルの行の1要素 への変換 (ex. "hoge"　-> "<td>hoge</td>")
 @register.filter(is_safe=True)
-def toData(element: Optional[Any]) -> SafeText:
-    safeElem = __toSafeText(element)
-    return format_html(dataHtmlFormat, safeElem)
+def toTd(element: Optional[Any]) -> SafeText:
+    return html_td(element)
 
 
 # 値 -> HTMLテーブルの行要素 への変換 (<tr>...</tr>)
 @register.filter(is_safe=True)
-def toRow(value: Optional[DomainType], format=None) -> SafeText:
-    elements = value and __parse(value, format)  # 文字列のリストを取得
-    result = __listToRow(elements)
-    return result
-
-
-# 文字列リスト -> HTMLテーブルの行要素 への変換
-def __listToRow(elements: List[SafeText]) -> SafeText:
-    datas = elements and map(toData, elements)      # 各要素にtoDataを適用
-    result = __wrapTag(datas, rowHtmlFormat)        # 行タグを付ける
-    return result
+def toTr(value: Optional[DomainType], format=None) -> SafeText:
+    elements = value and __parse(value, format)     # 文字列のリストを取得
+    datas = elements and map(toTd, elements)        # 各要素にtoDataを適用
+    return html_tr(datas)
 
 
 # 値リスト -> HTMLテーブルのtbody要素 への変換 (<tbody>...</tbody>)
 @register.filter(is_safe=True)
 def toTbody(values: List[DomainType], format=None) -> SafeText:
-    def curriedToRow(v): return toRow(v, format=format)
-    rows = map(curriedToRow, values)
-    result = __wrapTag(rows, tbodyHtmlFormat)
-    return result
+    def curried_toTr(v): return toTr(v, format=format)
+    rows = map(curried_toTr, values)
+    return html_tbody(rows)
 
 
 # 値リスト -> HTMLテーブル要素 への変換 (<table>...</table>)
 @register.filter(is_safe=True)
 def toTable(values: List[DomainType], format=None) -> SafeText:
     tbody = toTbody(values, format)
-    result = __wrapTag(tbody, tableHtmlFormat)
-    return result
+    return html_table(tbody)
 
 
 # テーブルにtheadを加える
@@ -91,16 +66,15 @@ def toTable(values: List[DomainType], format=None) -> SafeText:
 def addThead(base: SafeText, titles: str):
     body = __unwrapTag(base, tableHtmlFormat)
     head = toThead(titles)
-    result = __wrapTag(head+body, tableHtmlFormat)
-    return result
+    return html_table(head+body)
 
 
 # コンマ区切り文字列 -> テーブルのヘッダ への変換
 def toThead(titles: str):
     titleList = titles.split(',')
-    row = __listToRow(titleList)
-    result = __wrapTag(row, theadHtmlFormat)
-    return result
+    heads = map(html_th, titleList)
+    row = html_tr(heads)
+    return html_thead(row)
 
 
 # 値 -> フォーマット通りの順で要素を並べたリスト への変換
