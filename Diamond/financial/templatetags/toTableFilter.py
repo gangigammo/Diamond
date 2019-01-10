@@ -22,7 +22,9 @@ tableHtmlFormat = "<table>{}</table>"
 
 
 def __toSafeText(element: Any) -> SafeText:
-    return conditional_escape(str(element))
+    if isinstance(element, str):
+        element = str(element)
+    return conditional_escape(element)
 
 
 # elementをhtmlFormatに従ってタグで囲む
