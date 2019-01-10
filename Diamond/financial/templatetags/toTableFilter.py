@@ -7,29 +7,10 @@ from types import GeneratorType
 from operator import add
 from functools import reduce
 import inspect
-import re
 
 
 from .parseRules import parseRules, defaultFormats, DomainType
 from .util import *
-
-
-# HTMLコード
-dataHtmlFormat = "<td>{}</td>"
-rowHtmlFormat = "<tr>{}</tr>"
-tbodyHtmlFormat = "<tbody>{}</tbody>"
-theadHtmlFormat = "<thead>{}</thead>"
-tableHtmlFormat = "<table>{}</table>"
-
-
-# タグを除去する。(__wrapTagの逆の処理)
-def __unwrapTag(html: SafeText, htmlFormat: str) -> SafeText:
-    placeHolder = "{}"
-    placeHolder = re.escape(placeHolder)
-    htmlFormat = re.escape(htmlFormat)
-    regex = "^(" + htmlFormat.replace(placeHolder, ")(.*)(") + ")$"
-    result = re.sub(regex, r'\2', html)
-    return mark_safe(result)
 
 
 # 値 -> HTMLテーブルの行の1要素 への変換 (ex. "hoge"　-> "<td>hoge</td>")
