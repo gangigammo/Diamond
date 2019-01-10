@@ -47,6 +47,7 @@ def addThead(base: SafeText, titles: str):
 
 
 # コンマ区切り文字列 -> テーブルのヘッダ への変換
+@register.filter(is_safe=True)
 def toThead(titles: str):
     titleList = titles.split(',')
     heads = map(html_th, titleList)
