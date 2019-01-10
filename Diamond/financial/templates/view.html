@@ -6,29 +6,7 @@
 
 {% block body %}
 
-<!--フォームのエラー表示-->
 <script>
-    window.onload = function () {
-        error = "{{categorySubscribeError}}";
-        if (error == "blank") {
-            document.getElementById("category").innerHTML = "カテゴリー入力がされていません";
-        } else if (error == "duplication") {
-            document.getElementById("category").innerHTML = "すでにそのカテゴリーは登録されています";
-        }
-        error = "{{incomeError}}";
-        if (error == "notDecimalError") {
-            document.getElementById("income").innerHTML = "値は数字で入力してください";
-        } else if (error == "contentBlankError") {
-            document.getElementById("income").innerHTML = "内容が入力されていません";
-        }
-        error = "{{expenseError}}";
-        if (error == "notDecimalError") {
-            document.getElementById("expense").innerHTML = "値は数字で入力してください";
-        } else if (error == "contentBlankError") {
-            document.getElementById("expense").innerHTML = "内容が入力されていません";
-        }
-    }
-
 
 </script>
 <div class="wrap">
@@ -134,9 +112,36 @@
                         </form>
                         <a href="/view">全表示</a>
 
-                        <h3>あなたの現在の収支は{{gain}}です。</h3>
+                        <h3>収支の合計は{{gain}}です</h3>
 
+                        <span id="prev">＜</span>　<span id="page"></span>　<span id="next">＞</span>
                         <table class="view_table">
+                            <thead>
+                                <tr>
+                                    <th>収支</th>
+                                    <th>内容</th>
+                                    <th>カテゴリー</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for balance in balances %}
+                                <tr>
+                                    {% if balance.isIncome %}
+                                    <td>
+                                        <font color="green">+{{balance.amount}}</font>
+                                    </td>
+                                    {% else %}
+                                    <td>
+                                        <font color="red">-{{balance.amount}}</font>
+                                    </td>
+                                    {% endif %}
+                                    <td>{{balance.description}}</td>
+                                    <td>{{balance.categoryName}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <!--<table class="view_table">
                             <thead>
                                 <tr>
                                     <th>収入</th>
@@ -192,7 +197,7 @@
                                     </td>
                                 </tr>
                             </tbody>
-                        </table>
+                        </table>-->
 
                     </div>
                     <div class="cp_tabpanel">
@@ -223,6 +228,28 @@
     <div class="sidebar-bg"></div>
 </div>
 <script>
+    /*フォームのエラー表示*/
+    window.onload = function () {
+        error = "{{categorySubscribeError}}";
+        if (error == "blank") {
+            document.getElementById("category").innerHTML = "カテゴリー入力がされていません";
+        } else if (error == "duplication") {
+            document.getElementById("category").innerHTML = "すでにそのカテゴリーは登録されています";
+        }
+        error = "{{incomeError}}";
+        if (error == "notDecimalError") {
+            document.getElementById("income").innerHTML = "値は数字で入力してください";
+        } else if (error == "contentBlankError") {
+            document.getElementById("income").innerHTML = "内容が入力されていません";
+        }
+        error = "{{expenseError}}";
+        if (error == "notDecimalError") {
+            document.getElementById("expense").innerHTML = "値は数字で入力してください";
+        } else if (error == "contentBlankError") {
+            document.getElementById("expense").innerHTML = "内容が入力されていません";
+        }
+    }
+
     $(document).ready(function () {
         /*ハンバーガーメニューopen*/
         $('.header__icon').on('click', function () {
@@ -284,6 +311,27 @@
                 title: "支出追加",
             });
         });
+
+        /*ページネーション*/
+        var page = 0;
+        function draw() {
+            $('#page').html(page + 1);
+            $('tr').hide();
+            $('tr:first,tr:gt(' + page * 10 + '):lt(10)').show();
+        }
+        $('#prev').click(function () {
+            if (page > 0) {
+                page--;
+                draw();
+            }
+        });
+        $('#next').click(function () {
+            if (page < ($('tr').length - 1) / 10 - 1) {
+                page++;
+                draw();
+            }
+        });
+        draw();
     });
 </script>
 {% endblock %}
