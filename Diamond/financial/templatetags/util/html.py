@@ -5,6 +5,7 @@ from types import GeneratorType
 from operator import add
 from functools import reduce
 import re
+import collections
 
 
 # HTMLを扱う補助メソッド
@@ -84,13 +85,13 @@ def __generateHtml(
     attrHtml = format_html_join(
         " ", '{}="{}"', kwargs.items())
     attrHtml = attrHtml or ""
-    contentHtml = __join(contents)
+    contentHtml = joinHtmls(contents)
     result = format_html(htmlFormat, attrHtml, contentHtml)
     return result
 
 
-def __join(text: Union[None, str, Iterable[str]]) -> SafeText:
-    if isinstance(text, (list, tuple, map, GeneratorType)):
+def joinHtmls(text: Union[None, str, Iterable[str]]) -> SafeText:
+    if isinstance(text, collections.Iterable) and not isinstance(text, str):
         text = map(conditional_escape, text)
         text = reduce(add, text)
     return text or ""

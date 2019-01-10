@@ -6,6 +6,7 @@ from types import GeneratorType
 from operator import add
 from functools import reduce
 import inspect
+import collections
 
 
 from .parseRules import parseRules, defaultFormats, DomainType
@@ -15,16 +16,17 @@ from .util import *
 # 値 -> HTMLテーブルの行要素 への変換 (<tr>...</tr>)
 @register.filter(is_safe=True)
 def toTr(value: Union[None, DomainType, List[DomainType]], format=None) -> SafeText:
-    value = value or [None]                                     # nullチェック
-    values = list(value)
+    if isinstance(value, collections.Iterable) and not isinstance(value, str):
+        values = list(value)
+    else:
+        values = [value]
     parsedValues = [__parse(v, format) for v in values]     # パース
     taggedValues = [map(html_td, v) for v in parsedValues]  # 各要素にtdタグをつける
     result = map(html_tr, taggedValues)                     # 各行にtrタグをつける
-    return result
+    return joinHtmls(result)
+
 
 # 値リスト -> HTMLテーブルのtbody要素 への変換 (<tbody>...</tbody>)
-
-
 @register.filter(is_safe=True)
 def toTbody(values: List[DomainType], format=None) -> SafeText:
     rows = toTr(values, format)

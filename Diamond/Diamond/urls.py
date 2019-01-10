@@ -35,5 +35,6 @@ urlpatterns = [
     path('categorysearch/', financial_view.view),
 
     # 収支エントリの変更
-    path('view/balance<int:balance_id>/delete/', balance_delete.start)
+    path('view/balance<int:balance_id>/delete/', balance_delete.start),
+    path('view/balance<int:balance_id>/delete/confirm', balance_delete.confirm)
 ]
