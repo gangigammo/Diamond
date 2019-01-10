@@ -66,11 +66,11 @@ def view(request, *args):
         plt.savefig('figure.png')
     if len(args) >= 2:  # 　入力内容によるエラー表示
         return render(request, "view.html",
-                      {args[0]: args[1], "balances": balances, "gain": gain,
+                      {args[0]: args[1], "name": request.session.get("name"), "balances": balances, "gain": gain,
                        "incomeCategories": incomeCategories, "expenseCategories": expenseCategories, "Category": categories})
     else:
         return render(request, "view.html",
-                      {"balances": balances, "gain": gain, "incomeCategories": incomeCategories, "expenseCategories": expenseCategories, "Category": categories})
+                      {"name": request.session.get("name"), "balances": balances, "gain": gain, "incomeCategories": incomeCategories, "expenseCategories": expenseCategories, "Category": categories})
 
 
 def income(request):

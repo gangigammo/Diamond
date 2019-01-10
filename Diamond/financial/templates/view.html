@@ -14,12 +14,14 @@
     <div class="homemenu">
         <ul>
             <li>金剛会計</li>
+            
             <li>
                 <a>
                     <!--ハンバーガーメニューのアイコン-->
                     <i class="fas fa-bars header__icon"></i>
                 </a>
             </li>
+            <li><font color="white" size="5px">ようこそ{{name}}さん</font></li>
         </ul>
     </div>
     <div class="content">
@@ -141,64 +143,6 @@
                                 {% endfor %}
                             </tbody>
                         </table>
-                        <!--<table class="view_table">
-                            <thead>
-                                <tr>
-                                    <th>収入</th>
-                                    <th>内容</th>
-                                    <th>カテゴリー</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for income in incomes %}
-                                <tr>
-                                    <td>
-                                        <font color="green">+{{income.amount}}</font>
-                                    </td>
-                                    <td>{{income.description}}</td>
-                                    <td>{{income.categoryName}}</td>
-                                </tr>
-                                {% endfor %}
-                                <tr>
-                                    <td>
-                                        <font color="green">+{{sumIncomes}}</font>
-                                    </td>
-                                    <td>
-                                        <font color="green">合計</font>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <br>
-                        <table class="view_table">
-                            <thead>
-                                <tr>
-                                    <th>支出</th>
-                                    <th>内容</th>
-                                    <th>カテゴリー</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for expence in expences %}
-                                <tr>
-                                    <td>
-                                        <font color="red">-{{expence.amount}}</font>
-                                    </td>
-                                    <td>{{expence.description}}</td>
-                                    <td>{{expence.categoryName}}</td>
-                                </tr>
-                                {% endfor %}
-                                <tr>
-                                    <td>
-                                        <font color="red">-{{sumExpences}}</font>
-                                    </td>
-                                    <td>
-                                        <font color="red">合計</font>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>-->
-
                     </div>
                     <div class="cp_tabpanel">
                         <h2>円グラフ</h2>
