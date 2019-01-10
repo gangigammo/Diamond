@@ -17,6 +17,14 @@ def html_a(
     return __generateHtml("a", content, **attr)
 
 
+# tableタグを生成
+def html_table(
+    content: str,    # 内容
+    **kwargs
+) -> SafeText:
+    return __generateHtml("a", content, **kwargs)
+
+
 # HTMLタグを生成
 def __generateHtml(
         tag: str,       # HTMLタグ名
