@@ -5,6 +5,8 @@
 
 
 {% block body %}
+
+<!--フォームのエラー表示-->
 <script>
     window.onload = function () {
         error = "{{categorySubscribeError}}";
@@ -26,163 +28,262 @@
             document.getElementById("expense").innerHTML = "内容が入力されていません";
         }
     }
-</script>
-<div class="cp_cont">
-    <div class="cp_offcm01">
-        <input type="checkbox" id="cp_toggle01">
-        <label for="cp_toggle01"><span></span></label>
-        <div class="cp_menu">
-            <ul>
-                <!--ここにメニュー（アカウントなど）のリンク-->
-                <li><a href="/">ホーム</a></li>
-                <li><a href="#">menu2</a></li>
-                <li><a href="#">menu3</a></li>
-                <li><a href="#">menu4</a></li>
-                <li><a href="#">menu5</a></li>
-            </ul>
-        </div>
-    </div>
-    <div class="cp_contents">
 
-        <div class="cp_tab">
-            <input type="radio" name="cp_tab" id="tab4_1" checked>
-            <label for="tab4_1">一覧</label>
-            <input type="radio" name="cp_tab" id="tab4_2">
-            <label for="tab4_2">円グラフ</label>
-            <input type="radio" name="cp_tab" id="tab4_3">
-            <label for="tab4_3">折れ線グラフ</label>
-            <div class="cp_tabpanels">
-                <div class="cp_tabpanel">
-                    <h2>収支一覧</h2>
-                    <p>カテゴリー入力フォーム</p>
-                    <form id="categoryForm" method="POST" action="/category/">
+
+</script>
+<div class="wrap">
+    <!--上部メニュー-->
+    <div class="homemenu">
+        <ul>
+            <li>金剛会計</li>
+            <li>
+                <a>
+                    <!--ハンバーガーメニューのアイコン-->
+                    <i class="fas fa-bars header__icon"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="content">
+        <div class="main_contents">
+            <div class="cp_tab">
+                <input type="radio" name="cp_tab" id="tab4_1" checked>
+                <label for="tab4_1">一覧</label>
+                <input type="radio" name="cp_tab" id="tab4_2">
+                <label for="tab4_2">円グラフ</label>
+                <input type="radio" name="cp_tab" id="tab4_3">
+                <label for="tab4_3">折れ線グラフ</label>
+                <div class="cp_tabpanels">
+                    <div class="cp_tabpanel">
+                        <h2>収支一覧</h2>
+                        <div id="category_dialog" style="display:none;">
+                            <form id="categoryForm" method="POST" action="/category/">
+                                <p>カテゴリー名</p>
+                                <input type="text" name="registrationCategory">
+                                <p>種類</p>
+                                <select name="categoryType">
+                                    <option value="income">収入</option>
+                                    <option value="expense">支出</option>
+                                </select>
+                                <br>
+                                {% csrf_token %}
+                                <input type="submit" value="追加">
+                            </form>
+                        </div>
+
+                        <div id="income_dialog" style="display:none;">
+                            <form id="incomeForm" method="POST" action="/income/">
+                                <p>値</p>
+                                <input type="text" name="income">
+                                <p>内容</p>
+                                <input type="text" name="incomeDescription">
+                                <p>カテゴリー</p>
+                                <select name="incomeCategory">
+                                    <option value="選択なし">選択なし</option>
+                                    {% for incomeCategory in incomeCategories %}
+                                    <option value={{incomeCategory.categoryName}}>{{incomeCategory.categoryName}}</option>
+                                    {% endfor %}
+                                </select>
+                                <br>
+                                {% csrf_token %}
+                                <input type="submit" value="追加">
+                            </form>
+                        </div>
+
+                        <div id="expense_dialog" style="display:none;">
+                            <form id="expenceForm" method="POST" action="/expence/">
+                                <p>値</p>
+                                <input type="text" name="expence">
+                                <p>内容</p>
+                                <input type="text" name="expenceDescription">
+                                <p>カテゴリー</p>
+                                <select name="expenseCategory">
+                                    <option value="選択なし">選択なし</option>
+                                    {% for expenseCategory in expenseCategories %}
+                                    <option value={{expenseCategory.categoryName}}>{{expenseCategory.categoryName}}</option>
+                                    {% endfor %}
+                                </select>
+                                <br>
+                                {% csrf_token %}
+                                <input type="submit" value="追加">
+                            </form>
+                        </div>
                         <font color="red">
                             <p id="category"></p>
                         </font>
-                        <p>カテゴリー名</p>
-                        <input type="text" name="registrationCategory">
-                        <p>種類</p>
-                        <select name="categoryType">
-                            <option value="income">収入</option>
-                            <option value="expense">支出</option>
-                        </select>
-                        <br>
-                        {% csrf_token %}
-                        <input type="submit" value="送信">
-                    </form>
-                    <p>収入入力フォーム</p>
-                    <form id="incomeForm" method="POST" action="/income/">
                         <font color="red">
                             <p id="income"></p>
                         </font>
-                        <p>値</p>
-                        <input type="text" name="income">
-                        <p>内容</p>
-                        <input type="text" name="incomeDescription">
-                        <p>カテゴリー</p>
-                        <select name="incomeCategory">
-                            <option value="選択なし">選択なし</option>
-                            {% for incomeCategory in incomeCategories %}
-                            <option value={{incomeCategory.categoryName}}>{{incomeCategory.categoryName}}</option>
-                            {% endfor %}
-                        </select>
-                        <br>
-                        {% csrf_token %}
-                        <input type="submit" value="送信">
-                    </form>
-                    <p>支出入力フォーム</p>
-                    <form id="expenceForm" method="POST" action="/expence/">
                         <font color="red">
                             <p id="expense"></p>
                         </font>
-                        <p>値</p>
-                        <input type="text" name="expence">
-                        <p>内容</p>
-                        <input type="text" name="expenceDescription">
-                        <p>カテゴリー</p>
-                        <select name="expenseCategory">
-                            <option value="選択なし">選択なし</option>
-                            {% for expenseCategory in expenseCategories %}
-                            <option value={{expenseCategory.categoryName}}>{{expenseCategory.categoryName}}</option>
-                            {% endfor %}
-                        </select>
+                        <input type="button" id="category_btn" class="view_button" value="カテゴリー追加">
+                        <input type="button" id="income_btn" class="view_button" value="収入追加">
+                        <input type="button" id="expense_btn" class="view_button" value="支出追加">
+
+                        <form id="categorysearch" method="POST" action="/categorysearch/">
+                            <p>カテゴリーで絞り込み</p>
+                            <select name="Category">
+                                <option value="選択なし">選択なし</option>
+                                {% for category in Category %}
+                                <option value={{category.categoryName}}>{{category.categoryName}}</option>
+                                {% endfor %}
+                            </select>
+                            {% csrf_token %}
+                            <input type="submit" value="検索">
+                        </form>
+                        <a href="/view">全表示</a>
+
+                        <h3>あなたの現在の収支は{{gain}}です。</h3>
+
+                        <table class="view_table">
+                            <thead>
+                                <tr>
+                                    <th>収入</th>
+                                    <th>内容</th>
+                                    <th>カテゴリー</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for income in incomes %}
+                                <tr>
+                                    <td>
+                                        <font color="green">+{{income.amount}}</font>
+                                    </td>
+                                    <td>{{income.description}}</td>
+                                    <td>{{income.categoryName}}</td>
+                                </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td>
+                                        <font color="green">+{{sumIncomes}}</font>
+                                    </td>
+                                    <td>
+                                        <font color="green">合計</font>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                         <br>
-                        {% csrf_token %}
-                        <input type="submit" value="送信">
-                    </form>
-                    <h3>あなたの現在の収支は{{gain}}です。</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>収入</th>
-                                <th>内容</th>
-                                <th>カテゴリー</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for income in incomes %}
-                            <tr>
-                                <td>{{income.amount}}</td>
-                                <td>{{income.description}}</td>
-                                <td>{{income.categoryName}}</td>
-                                <td><a href="balance{{income.id}}/delete">削除する</a></td>
-                            </tr>
-                            {% endfor %}
-                            <tr>
-                                <td>{{sumIncomes}}</td>
-                                <td>合計</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    {{expences|toTable|addThead:"支出,内容,カテゴリー"}}
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>支出</th>
-                                <th>内容</th>
-                                <th>カテゴリー</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for expence in expences %}
-                            <tr>
-                                <td>{{expence.amount}}</td>
-                                <td>{{expence.description}}</td>
-                                <td>{{expence.categoryName}}</td>
-                            </tr>
-                            {% endfor %}
-                            <tr>
-                                <td>{{sumExpences}}</td>
-                                <td>合計</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                        <table class="view_table">
+                            <thead>
+                                <tr>
+                                    <th>支出</th>
+                                    <th>内容</th>
+                                    <th>カテゴリー</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for expence in expences %}
+                                <tr>
+                                    <td>
+                                        <font color="red">-{{expence.amount}}</font>
+                                    </td>
+                                    <td>{{expence.description}}</td>
+                                    <td>{{expence.categoryName}}</td>
+                                </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td>
+                                        <font color="red">-{{sumExpences}}</font>
+                                    </td>
+                                    <td>
+                                        <font color="red">合計</font>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-
-                    <p>カテゴリー別収支</p>
-                    <form id="categorysearch" method="POST" action="/categorysearch/">
-                     <p>カテゴリー</p>
-                        <select name="Category">
-                            <option value="選択なし">選択なし</option>
-                            {% for category in Category %}
-                            <option value={{category.categoryName}}>{{category.categoryName}}</option>
-                            {% endfor %}
-                        </select>
-                        {% csrf_token %}
-                        <input type="submit" value="検索">
-                    </form>
-                    <a href="/view">全表示</a>
-                </div>
-                <div class="cp_tabpanel">
-                    <h2>円グラフ</h2>
-                    <p>円グラフをここに表示</p>
-                </div>
-                <div class="cp_tabpanel">
-                    <h2>折れ線グラフ</h2>
-                    <p>折れ線グラフをここに表示</p>
+                    </div>
+                    <div class="cp_tabpanel">
+                        <h2>円グラフ</h2>
+                        <p>円グラフをここに表示</p>
+                    </div>
+                    <div class="cp_tabpanel">
+                        <h2>折れ線グラフ</h2>
+                        <p>折れ線グラフをここに表示</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <aside class="sidebar">
+        <div class="sidebar__inner">
+            <h2 class="sidebar__ttl">Menu</h2>
+            <i class="fas fa-times-circle sidebar__icon"></i>
+        </div>
+        <p class="sidebar__txt">
+            <a href="/">トップページ</a>
+        </p>
+        <p class="sidebar__txt">Menu 2</p>
+        <p class="sidebar__txt">Menu 3</p>
+        <p class="sidebar__txt">Menu 4</p>
+        <p class="sidebar__txt">Menu 5</p>
+    </aside>
+    <div class="sidebar-bg"></div>
 </div>
+<script>
+    $(document).ready(function () {
+        /*ハンバーガーメニューopen*/
+        $('.header__icon').on('click', function () {
+            $('.sidebar').css(
+                'display', 'block'
+            ).animate({
+                right: '0'
+            },
+                300
+            );
+            $('.sidebar-bg').css(
+                'display', 'block'
+            ).animate({
+                opacity: '0.5'
+            },
+                300
+            )
+        });
+        /*ハンバーガーメニューclose*/
+        $('.sidebar__icon').on('click', function () {
+            $('.sidebar').animate({
+                right: '-200px'
+            },
+                300
+            );
+            $('.sidebar-bg').animate({
+                opacity: '0'
+            },
+                300
+            );
+            setTimeout(function () {
+                $('.sidebar').css('display', 'none');
+                $('.sidebar-bg').css('display', 'none');
+            },
+                300
+            );
+        });
+
+        /*カテゴリー追加フォーム*/
+        $("#category_btn").click(function () {
+            $("#category_dialog").dialog({
+                modal: true,
+                title: "カテゴリー追加",
+            });
+        });
+
+        /*収入追加フォーム*/
+        $("#income_btn").click(function () {
+            $("#income_dialog").dialog({
+                modal: true,
+                title: "収入追加",
+            });
+        });
+
+        /*支出追加フォーム*/
+        $("#expense_btn").click(function () {
+            $("#expense_dialog").dialog({
+                modal: true,
+                title: "支出追加",
+            });
+        });
+    });
+</script>
 {% endblock %}
