@@ -34,5 +34,5 @@ parseRules = {
 # コンマ区切りで要素名を並べる
 defaultFormats = {
     NoneType: "none",
-    Balance: "amount,description,category,delete"
+    Balance: "amount,description,category,checkbox"
 }

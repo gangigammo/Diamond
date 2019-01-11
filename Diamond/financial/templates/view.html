@@ -122,6 +122,7 @@
                                     <th>収支</th>
                                     <th>内容</th>
                                     <th>カテゴリー</th>
+                                    <th>選択</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -138,6 +139,7 @@
                                     {% endif %}
                                     <td>{{balance.description}}</td>
                                     <td>{{balance.categoryName}}</td>
+                                    <td><input name="balance_select" value={{balance.id}} type="checkbox"></td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
