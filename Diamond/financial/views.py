@@ -15,14 +15,15 @@ def view(request,*args):
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     username = request.session["name"]
+    balances = Balance.objects.filter(writer=username)
     if request.method == 'POST':
-        if 'Category' in request.POST:
+        if 'Category' in request.POST and 'selectCategory' in request.POST:
             categoryName = request.POST["Category"]
-            balances = Balance.objects.filter(categoryName=categoryName, writer=username)
-        else:
-            balances = Balance.objects.filter(writer=username)
-    else:
-        balances = Balance.objects.filter(writer=username)
+            balances = balances.filter(categoryName=categoryName)
+        if 'description' in request.POST and 'selectDescription' in request.POST:
+            description = request.POST["description"]
+            if description != "":
+                balances = balances.filter(description__icontains=description)
     incomes = []
     expences = []
     categories = Category.objects.filter(writer=username)

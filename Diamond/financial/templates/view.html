@@ -156,18 +156,26 @@
                         </tbody>
                     </table>
 
-
-                    <p>カテゴリー別収支</p>
+                    <br>
+                    <p>検索システム</p>
                     <form id="categorysearch" method="POST" action="/categorysearch/">
                      <p>カテゴリー</p>
+                        <input type="checkbox" name="selectCategory">
                         <select name="Category">
                             <option value="選択なし">選択なし</option>
                             {% for category in Category %}
                             <option value={{category.categoryName}}>{{category.categoryName}}</option>
                             {% endfor %}
                         </select>
+                        <p>内容</p>
+                        <input type="checkbox" name="selectDescription">
+                        <input type="text" name ="description">
+                        <p>期間</p>
+                        <input type="checkbox" name="selectDate">
+                        <input type="date" name ="periodFrom">
+                        <input type="date" name ="periodTo">
                         {% csrf_token %}
-                        <input type="submit" value="検索">
+                        <p><input type="submit" value="検索"></p>
                     </form>
                     <a href="/view">全表示</a>
                 </div>
