@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from financial.models import *
-
+import Diamond.settings as setting
 import datetime
 
 # Create your views here.
@@ -60,7 +60,7 @@ def getFileName(request, basename):
     import os
     import glob
     username = request.session["name"]
-    path = './financial/static/financial/img/' + username
+    path = setting.BASE_DIR+'/financial/static/financial/img/' + username
     pathList = glob.glob(path + '/'+basename+'*.png')
     if len(pathList) == 0:
         return ""
@@ -98,12 +98,12 @@ def createIncomeCircle(request):
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     from matplotlib.font_manager import FontProperties
-    fp = FontProperties(fname='./financial/static/financial/ttf/ipag.ttf');
+    fp = FontProperties(fname=setting.BASE_DIR+'/financial/static/financial/ttf/ipag.ttf');
     username = request.session["name"]
     incomes = Balance.objects.filter(isIncome=True, writer=username)
 
     # フォルダ作成、既存のファイル削除
-    path = './financial/static/financial/img/' + username
+    path = setting.BASE_DIR+'/financial/static/financial/img/' + username
     if not os.path.isdir(path):
         os.makedirs(path, exist_ok=True)
     else:
@@ -152,12 +152,12 @@ def createExpenceCircle(request):
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     from matplotlib.font_manager import FontProperties
-    fp = FontProperties(fname='./financial/static/financial/ttf/ipag.ttf');
+    fp = FontProperties(fname=setting.BASE_DIR+'/financial/static/financial/ttf/ipag.ttf');
     username = request.session["name"]
     expences = Balance.objects.filter(isIncome=False, writer=username)
 
     # フォルダ作成、既存のファイル削除
-    path = './financial/static/financial/img/' + username
+    path = setting.BASE_DIR+'/financial/static/financial/img/' + username
     if not os.path.isdir(path):
         os.makedirs(path, exist_ok=True)
     else:
@@ -207,12 +207,12 @@ def createLineGraph(request):
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     from matplotlib.font_manager import FontProperties
-    fp = FontProperties(fname='./financial/static/financial/ttf/ipag.ttf');
+    fp = FontProperties(fname=setting.BASE_DIR+'/financial/static/financial/ttf/ipag.ttf');
     username = request.session["name"]
     year = datetime.date.today().year
 
     # フォルダ作成、既存のファイル削除
-    path = './financial/static/financial/img/' + username
+    path = setting.BASE_DIR+'/financial/static/financial/img/' + username
     if not os.path.isdir(path):
         os.makedirs(path, exist_ok=True)
     else:
