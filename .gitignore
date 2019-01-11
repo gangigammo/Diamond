@@ -1,0 +1,14 @@
+# python のキャッシュファイル
+*.pyc
+
+# Django のデータベースファイル
+*.sqlite3
+
+# テストに使うChromeのdriver
+chromedriver*
+
+# グラフ画像
+figure.png
+
+# 静的ファイル
+static/*.png
