@@ -11,13 +11,20 @@ import collections
 # HTMLを扱う補助メソッド
 
 
+# inputタグを生成
+def html_input(
+    contents: str,
+    **kwargs
+) -> SafeText:
+    return __generateHtml("input", contents, **kwargs)
+
+
 # fontタグを生成
 def html_font(contents: str, **kwargs) -> SafeText:
     return __generateHtml("font", contents, **kwargs)
 
+
 # aタグを生成
-
-
 def html_a(
     contents: str,
     href: str,       # リンク
