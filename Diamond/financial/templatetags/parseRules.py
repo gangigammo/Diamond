@@ -23,7 +23,10 @@ parseRules = {
             lambda v: v.categoryName,
         "delete":
             lambda v: html_a("削除する",
-                             href="/view/balance" + str(v.id) + "/delete/")
+                             href="/view/balance" + str(v.id) + "/delete/"),
+        "checkbox":
+            lambda v: html_input("", name="balance_select",
+                                 type="checkbox", value=str(v.id))
     }
 }
 
