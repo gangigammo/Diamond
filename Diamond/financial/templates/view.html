@@ -115,35 +115,42 @@
 
                         <h3>収支の合計は{{gain}}です</h3>
 
-                        <span id="prev">＜</span>　<span id="page"></span>ページ　<span id="next">＞</span>
-                        <table class="view_table">
-                            <thead>
-                                <tr>
-                                    <th>収支</th>
-                                    <th>内容</th>
-                                    <th>カテゴリー</th>
-                                    <th>選択</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for balance in balances %}
-                                <tr>
-                                    {% if balance.isIncome %}
-                                    <td>
-                                        <font color="green">+{{balance.amount}}</font>
-                                    </td>
-                                    {% else %}
-                                    <td>
-                                        <font color="red">-{{balance.amount}}</font>
-                                    </td>
-                                    {% endif %}
-                                    <td>{{balance.description}}</td>
-                                    <td>{{balance.categoryName}}</td>
-                                    <td><input name="balance_select" value={{balance.id}} type="checkbox"></td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                        <form id="balanceEdit" method="POST" action="/balanceedit/">
+                            {% csrf_token %}
+                            <span>選択を</span>
+                            <!--編集ボタンなどはここに追加-->
+                            <input type="submit" name="delete" value="削除">
+                            <br>
+                            <span id="prev">＜</span>　<span id="page"></span>ページ　<span id="next">＞</span>
+                            <table class="view_table">
+                                <thead>
+                                    <tr>
+                                        <th>収支</th>
+                                        <th>内容</th>
+                                        <th>カテゴリー</th>
+                                        <th>選択</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for balance in balances %}
+                                    <tr>
+                                        {% if balance.isIncome %}
+                                        <td>
+                                            <font color="green">+{{balance.amount}}</font>
+                                        </td>
+                                        {% else %}
+                                        <td>
+                                            <font color="red">-{{balance.amount}}</font>
+                                        </td>
+                                        {% endif %}
+                                        <td>{{balance.description}}</td>
+                                        <td>{{balance.categoryName}}</td>
+                                        <td><input name="balance_select" value={{balance.id}} type="checkbox"></td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </form>
                     </div>
                     <div class="cp_tabpanel">
                         <h2>円グラフ</h2>

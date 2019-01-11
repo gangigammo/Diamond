@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 
 import financial.views as financial_view
-from financial.view.balance import *
+from financial.view import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,6 +35,5 @@ urlpatterns = [
     path('categorysearch/', financial_view.view),
 
     # 収支エントリの変更
-    path('view/balance<int:balance_id>/delete/', balance_delete.start),
-    path('view/balance<int:balance_id>/delete/confirm', balance_delete.confirm)
+    path('balanceedit/', balanceEdit.main)
 ]
