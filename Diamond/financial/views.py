@@ -4,6 +4,8 @@ from financial.models import *
 
 import datetime
 
+from django.http import HttpResponse
+import csv
 # Create your views here.
 
 
@@ -180,3 +182,15 @@ def category(request):  # カテゴリー登録関数
         else:
             return view(request, "categorySubscribeError", "duplication")
     return render(request, "category.html")
+
+def export(request): #csvファイルをエクスポート
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="data.csv"'
+    writer = csv.writer(response)
+    balances = Balance.objects.filter(writer=request.session.get("name")) #あとで日付順にソートすべき
+    for balance in balances: #今は収支、内容、カテゴリーのみ。後で追加
+        if(balance.isIncome):
+            writer.writerow([balance.amount, balance.description, balance.categoryName])
+        else:
+            writer.writerow([-balance.amount, balance.description, balance.categoryName])
+    return response
