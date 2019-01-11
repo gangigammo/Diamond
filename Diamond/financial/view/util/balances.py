@@ -5,10 +5,20 @@ from typing import Optional, List
 class Balances():
     # 収支idから収支を取得
     @staticmethod
-    def getById(id: int) -> Optional[Balance]:      # 存在しなければNoneを返す
-        return Balance.objects.filter(id=id).first()
+    def get(
+        id=None,        # int
+        writer=None     # str
+    ) -> Optional[Balance]:
+        ids = id and [id]
+        return Balances.getlist(ids, writer).first()
 
     # 収支idのリストから収支リストを取得
     @staticmethod
-    def getByIdList(ids: List[int]) -> Optional[List[Balance]]:
-        return Balance.objects.filter(id__in=ids)
+    def getlist(
+        ids=None,       # List[int]
+        writer=None     # str
+    ) -> List[Balance]:
+        all = Balance.objects
+        byId = ids and all.filter(id__in=ids)
+        result = writer and byId and byId.filter(writer=writer)
+        return result

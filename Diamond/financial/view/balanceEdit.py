@@ -20,10 +20,11 @@ def main(request):
 
 # チェックボックスで選択した収支リストを取得
 def __getSelects(request):
+    username = request.session["name"]              # 自分のユーザー名
     query = request.POST
-    ids = query.getlist("balanceSelect")
-    selects = Balances.getByIdList(ids)
-    # TODO 他人の収支は除外
+    ids = query.getlist("balanceSelect")            # 収支idリスト
+    selects = Balances.getlist(ids,                 # idリストから収支を取得
+                               writer=username)     # 他人の収支は除く
     return selects
 
 
