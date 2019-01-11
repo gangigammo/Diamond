@@ -9,6 +9,3 @@ chromedriver*
 
 # 静的ファイル
 static/*.png
-
-# ワークスペース
-*workspace.xml
