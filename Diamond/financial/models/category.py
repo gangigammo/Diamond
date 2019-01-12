@@ -54,7 +54,7 @@ class Category(Model):
 
     # public methods
 
-    def __init__(self, name: str, writer: User):
+    def __init__(self, name: str, writer: User, *args, **kwargs):
         """
         Categoryを初期化します
         ただしCategoryは抽象クラスなので、
@@ -67,7 +67,7 @@ class Category(Model):
         writer : User
             作成者となるユーザー
         """
-        super().__init__()
+        super().__init__(*args, **kwargs)
 
     def __str__(self):
         return self.name

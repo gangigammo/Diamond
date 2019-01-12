@@ -35,7 +35,7 @@ class User(Model):
 
     # public methods
 
-    def __init__(self, name: str, password: str):
+    def __init__(self, name: str, password: str, *args, **kwargs):
         """
         Userインスタンスを生成します
 
@@ -46,7 +46,7 @@ class User(Model):
         password : str
             パスワード
         """
-        super().__init__()
+        super().__init__(*args, **kwargs)
         self._name = name
         self._password = self.__digest(password)
 
