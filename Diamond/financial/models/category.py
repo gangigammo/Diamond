@@ -16,12 +16,12 @@ class Category(Model):
     ----------
     name : CharField
         カテゴリ名
-    isIncome : # TODO bool
-        # TODO [読み取り専用]
-        収入は true
-        支出は false
+    isIncome : bool
+        [読み取り専用]
+        収入なら True
+        支出なら False
     writer : User
-        # [読み取り専用]
+        [読み取り専用]
         カテゴリの作成者
     """
 
@@ -34,6 +34,19 @@ class Category(Model):
     _writer = CharField(max_length=128)
 
     # accesers
+
+    @property
+    def isIncome(self) -> bool:  # 抽象クラス
+        """
+        このインスタンスが収入であるか支出であるかを返します
+
+        Return
+        ------
+        isincome : bool
+            収入なら True
+            支出なら False
+        """
+        raise NotImplementedError
 
     @property
     def writer(self) -> str:
