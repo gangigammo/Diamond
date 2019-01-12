@@ -12,6 +12,8 @@ from .category import Category
 class Balance(Model):
     """
     収支の抽象クラスです
+    valueとamountは連動します
+
     具象クラス:
         - Income
         - Expense
@@ -20,8 +22,14 @@ class Balance(Model):
     ----------
     description : CharField
         内容
+    value : IntegerField
+        金額 (収入が正, 支出が負の値)
     amount : int
         金額 (絶対値)
+    isIncome : bool
+        [読み取り専用]
+        収入なら True
+        支出なら False
     date : DateField
         収支の日付
     writer : User
@@ -48,10 +56,30 @@ class Balance(Model):
     # もとのユーザ削除時 -> この収支も一緒に削除される (CASCADE)
     _writer = ForeignKey(User, on_delete=CASCADE)
 
-    # TODO accesors
+    # accesors
 
-    amount = PositiveIntegerField()
-    isIncome = BooleanField()   # TODO Income, Expenseにクラスで分ける
+    @property
+    def value(self) -> IntegerField:
+        return self._value
+
+    @value.setter
+    def value(self, value: int):
+        _value = value
+
+    @property
+    def amount(self) -> int:
+        return abs(self.value)
+
+    @amount.setter
+    def amount(self, amount: int):
+        """
+        収支の金額を、絶対値で入力します
+        """
+        raise NotImplementedError
+
+    @property
+    def isIncome(self):
+        raise NotImplementedError
 
     # TODO public methods
 
