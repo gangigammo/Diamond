@@ -83,7 +83,51 @@ class Balance(Model):
 
     # TODO public methods
 
-    # TODO __init__
+    def __init__(
+        self,
+        description: str,
+        writer: User,
+        date: DateField,
+        category=None,
+        amount=None, value=None,
+        *args, **kwargs
+    ):
+        """
+        Balanceを初期化します
+        ただしBalanceは抽象クラスなので、
+        インスタンスを生成するには具象クラスを実装してください
+
+        なお、金額はamount, valueのどちらか一方に指定し、一方は省略してください
+
+        Parameters
+        ----------
+        description : str
+            内容
+        writer : User
+            作成者となるユーザー
+        date: DateField
+            収支の日付
+        category: Category or None
+            属するカテゴリ
+        amount : int or None
+            金額 (絶対値)
+            入力する場合、valueは省略
+        value : int or None
+            金額 (収入が正, 支出が負の値)
+            入力する場合、amountは省略
+        """
+        super().__init__(*args, **kwargs)
+        self.description = description
+        self._writer = writer
+        self.date = date
+        self.category = category
+        if amount is not None:
+            self.amount = amount
+        elif value is not None:
+            self.value = value
+        else:
+            TypeError("amount, valueのどちらも指定されていません")
+
     # TODO __str__
     # TODO update
 
