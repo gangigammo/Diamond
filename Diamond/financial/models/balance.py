@@ -84,11 +84,11 @@ class Balance(Model):
         raise NotImplementedError("抽象メソッドを呼びました")
 
     @property
-    def value_signed(self):  # Abstract Method
+    def value_signed(self) -> str:  # Abstract Method
         raise NotImplementedError("抽象メソッドを呼びました")
 
     @property
-    def isIncome(self):  # Abstract Method
+    def isIncome(self) -> bool:  # Abstract Method
         raise NotImplementedError("抽象メソッドを呼びました")
 
     @property
@@ -238,7 +238,7 @@ class Income(Balance):
 
     # Override Method
     @property
-    def isIncome(self):
+    def isIncome(self) -> bool:
         return True
 
 
@@ -297,5 +297,5 @@ class Expense(Balance):
 
     # Override Method
     @property
-    def isIncome(self):
+    def isIncome(self) -> bool:
         return False
