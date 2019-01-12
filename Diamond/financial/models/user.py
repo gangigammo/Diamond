@@ -11,10 +11,10 @@ class User(Model):
     Attributes
     ----------
     name : CharField
-        # TODO [読み取り専用]
+        [読み取り専用]
         ユーザー名
     password : CharField
-        # TODO [書き込み専用]
+        [書き込み専用]
         パスワード
     """
 
@@ -28,6 +28,10 @@ class User(Model):
     @property
     def name(self):
         return self._name
+
+    @password.setter
+    def password(self, password: str):
+        self._password = self.__digest(password)
 
     # public methods
 
@@ -47,7 +51,7 @@ class User(Model):
         self._password = self.__digest(password)
 
     def __str__(self):
-        return str(self._name)
+        return str(self.name)
 
     def isCorrect(self, password: str) -> bool:
         """
@@ -70,6 +74,7 @@ class User(Model):
     def update(self, password=None):
         """
         ユーザーの内容を変更します
+        引数が省略されるかNoneである項目は無視されます
 
         Parameters
         ----------
@@ -77,10 +82,10 @@ class User(Model):
             新しいパスワード
         """
         if password:
-            self._password = self.__digest(password)
+            self.password = password  # setterを呼んでいる
 
     # private methods
 
-    def __digest(self, newPassword: str) -> str:
-        digested = newPassword  # TODO パスワードのダイジェスト化
+    def __digest(self, password: str) -> str:
+        digested = password  # TODO パスワードのダイジェスト化
         return digested
