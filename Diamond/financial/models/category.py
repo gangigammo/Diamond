@@ -12,12 +12,12 @@ class Category(Model):
     ----------
     categoryName : CharField
         カテゴリ名
-    balance : BooleanField
+    isIncome : BooleanField
         収入は true
         支出は false
     writer : CharField
         カテゴリの作成者
     """
     categoryName = CharField(max_length=128)
-    balance = BooleanField()  # if income true, else false
+    isIncome = BooleanField()  # if income true, else false
     writer = CharField(max_length=128)
