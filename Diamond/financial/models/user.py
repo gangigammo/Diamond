@@ -29,9 +29,9 @@ class User(Model):
     def name(self) -> str:
         return self._name
 
-    @password.setter
-    def password(self, password: str):
+    def password_setter(self, password: str):
         self._password = self.__digest(password)
+    password = property().setter(password_setter)
 
     # public methods
 
