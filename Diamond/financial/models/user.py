@@ -67,7 +67,17 @@ class User(Model):
         result = (self._password == digested)
         return result
 
-    # TODO update password
+    def update(self, password=None):
+        """
+        ユーザーの内容を変更します
+
+        Parameters
+        ----------
+        password : str or None
+            新しいパスワード
+        """
+        if password:
+            self._password = self.__digest(password)
 
     # private methods
 
