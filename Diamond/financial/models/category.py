@@ -101,8 +101,10 @@ class IncomeCategory(Category):
         [読み取り専用]
         カテゴリの作成者
     """
+    # accessors
 
     # Override Method
+    @property
     def isIncome(self) -> bool:
         """
         常にTrueを返します
@@ -125,8 +127,10 @@ class ExpenseCategory(Category):
         [読み取り専用]
         カテゴリの作成者
     """
+    # accessors
 
     # Override Method
+    @property
     def isIncome(self) -> bool:
         """
         常にFalseを返します
