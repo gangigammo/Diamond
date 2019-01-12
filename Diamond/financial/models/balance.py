@@ -67,11 +67,11 @@ class Balance(Model):
         """
         収支の金額を、絶対値で入力します
         """
-        raise NotImplementedError
+        raise NotImplementedError("抽象メソッドを呼びました")
 
     @property
     def isIncome(self):  # Abstract Method
-        raise NotImplementedError
+        raise NotImplementedError("抽象メソッドを呼びました")
 
     # TODO public methods
 

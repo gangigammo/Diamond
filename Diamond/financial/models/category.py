@@ -46,7 +46,7 @@ class Category(Model):
             収入なら True
             支出なら False
         """
-        raise NotImplementedError
+        raise NotImplementedError("抽象メソッドを呼びました")
 
     @property
     def writer(self) -> str:
