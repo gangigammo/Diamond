@@ -84,3 +84,39 @@ class Category(Model):
         """
         if name:
             self.name = name
+
+
+class Income(Category):
+    """
+    収入のモデルです
+
+    Attributes
+    ----------
+    name : CharField
+        カテゴリ名
+    isIncome : bool
+        [読み取り専用]
+        常にTrueを返します
+    writer : User
+        [読み取り専用]
+        カテゴリの作成者
+    """
+    pass
+
+
+class Expense(Category):
+    """
+    支出のモデルです
+
+    Attributes
+    ----------
+    name : CharField
+        カテゴリ名
+    isIncome : bool
+        [読み取り専用]
+        常にFalseを返します
+    writer : User
+        [読み取り専用]
+        カテゴリの作成者
+    """
+    pass
