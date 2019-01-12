@@ -1,7 +1,8 @@
 """
 収支のモデル
 """
-from django.db.models import Model, CharField, PositiveIntegerField, DateField, BooleanField
+from django.db.models import Model
+from django.db.models import CharField, PositiveIntegerField, DateField, BooleanField
 
 
 class Balance(Model):
