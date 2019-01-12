@@ -11,16 +11,19 @@ from .category import Category
 
 class Balance(Model):
     """
-    収支のモデルです
+    収支の抽象クラスです
+    具象クラス:
+        - Income
+        - Expense
 
     Attributes
     ----------
     description : CharField
         内容
-    amount : PositiveIntegerField
-        金額
+    amount : int
+        金額 (絶対値)
     date : DateField
-        作成時刻
+        収支の日付
     writer : User
         # TODO [読み取り専用]
         この収支の作成者
@@ -34,10 +37,25 @@ class Balance(Model):
     # public fields
 
     description = CharField(max_length=128)
-    amount = PositiveIntegerField()
-    isIncome = BooleanField()   # TODO Income, Expenseにクラスで分ける
     date = DateField()  # TODO
     # もとのカテゴリ削除時 -> __category=nullとなる (SET_NULL)
     category = ForeignKey(Category, null=True, on_delete=SET_NULL)
+
+    # TODO private fields
+
+    # TODO accesors
+
+    amount = PositiveIntegerField()
+    isIncome = BooleanField()   # TODO Income, Expenseにクラスで分ける
     # もとのユーザ削除時 -> この収支も一緒に削除される (CASCADE)
     writer = ForeignKey(User, on_delete=CASCADE)  # TODO アクセス制御
+
+    # TODO public methods
+
+    # TODO __init__
+    # TODO __str__
+    # TODO update
+
+
+# TODO class Income
+# TODO class Expense
