@@ -32,8 +32,11 @@ class Category(Model):
 
     # TODO acceser
 
+    # public methods
+
     # TODO initializer
 
-    # TODO __str__
+    def __str__(self):
+        return self.name
 
     # TODO update name
