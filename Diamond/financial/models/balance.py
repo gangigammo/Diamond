@@ -120,7 +120,9 @@ class Balance(Model):
         else:
             TypeError("amount, valueのどちらも指定されていません")
 
-    # TODO __str__
+    def __str__(self):
+        return self.description
+
     # TODO update
 
 
