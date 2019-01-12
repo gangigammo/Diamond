@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 
 import financial.views as financial_view
+from financial.view import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,4 +34,6 @@ urlpatterns = [
     path('category/', financial_view.category),
     path('categorysearch/', financial_view.view),
     path('export/', financial_view.export)
+    # 収支エントリの変更
+    path('balanceedit/', balanceEdit.main)
 ]
