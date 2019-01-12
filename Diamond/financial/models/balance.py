@@ -23,7 +23,7 @@ class Balance(Model):
     description : CharField
         内容
     writer : User
-        # TODO [読み取り専用]
+        [読み取り専用]
         この収支の作成者
     date : DateField
         収支の日付
@@ -56,6 +56,10 @@ class Balance(Model):
     _writer = ForeignKey(User, on_delete=CASCADE)
 
     # accesors
+
+    @property
+    def writer(self) -> CharField:
+        return self._writer
 
     @property
     def amount(self) -> int:
