@@ -2,11 +2,15 @@
 カテゴリのモデル
 """
 from django.db.models import Model, CharField, BooleanField
+from .user import User
 
 
 class Category(Model):
     """
-    カテゴリのモデルです
+    カテゴリの抽象クラスです
+    具象クラス:
+        - Income
+        - Expense
 
     Attributes
     ----------
@@ -37,7 +41,20 @@ class Category(Model):
 
     # public methods
 
-    # TODO initializer
+    def __init__(self, name: str, writer: User):
+        """
+        Categoryを初期化します
+        ただしCategoryは抽象クラスなので、
+        インスタンスを生成するには具象クラスを実装してください
+
+        Parameters
+        ----------
+        name : str
+            カテゴリ名
+        writer : User
+            作成者となるユーザー
+        """
+        super().__init__()
 
     def __str__(self):
         return self.name
