@@ -59,4 +59,15 @@ class Category(Model):
     def __str__(self):
         return self.name
 
-    # TODO update name
+    def update(self, name=None):
+        """
+        カテゴリの内容を変更します
+        引数が省略されるかNoneである項目は無視されます
+
+        Parameters
+        ----------
+        name : str or None
+            新しいカテゴリ名
+        """
+        if name:
+            self.name = name
