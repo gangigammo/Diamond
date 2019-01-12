@@ -48,7 +48,7 @@ class Balance(Model):
     date = DateField()  # TODO
     # もとのカテゴリ削除時 -> __category=nullとなる (SET_NULL)
     category = ForeignKey(Category, null=True, on_delete=SET_NULL)
-    value = IntegerField()
+    _value = IntegerField()
 
     # private fields
 
@@ -70,6 +70,14 @@ class Balance(Model):
         """
         収支の金額を、絶対値で入力します
         """
+        raise NotImplementedError("抽象メソッドを呼びました")
+
+    @property
+    def value(self) -> IntegerField:
+        return self._value
+
+    @value.setter
+    def value(self, value):  # Abstract Method
         raise NotImplementedError("抽象メソッドを呼びました")
 
     @property
@@ -207,6 +215,13 @@ class Income(Balance):
         self.value = amount
 
     # Override Method
+    @value.setter
+    def value(self, value):
+        if value < 0:
+            raise ValueError("収入に負の値が入力されました")
+        self._value = value
+
+    # Override Method
     @property
     def isIncome(self):
         return True
@@ -249,6 +264,13 @@ class Expense(Balance):
         if amount < 0:
             raise ValueError("amountに負の値が入力されました")
         self.value = -amount
+
+    # Override Method
+    @value.setter
+    def value(self, value):
+        if value > 0:
+            raise ValueError("支出に正の値が入力されました")
+        self._value = value
 
     # Override Method
     @property
