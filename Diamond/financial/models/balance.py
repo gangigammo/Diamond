@@ -33,6 +33,9 @@ class Balance(Model):
         金額 (絶対値)
     value : IntegerField
         金額 (収入が正, 支出が負の値)
+    value_signed : str
+        [読み取り専用]
+        金額に符号を付けた文字列
     isIncome : bool
         [読み取り専用]
         収入なら True
@@ -78,6 +81,10 @@ class Balance(Model):
 
     @value.setter
     def value(self, value):  # Abstract Method
+        raise NotImplementedError("抽象メソッドを呼びました")
+
+    @property
+    def value_signed(self):  # Abstract Method
         raise NotImplementedError("抽象メソッドを呼びました")
 
     @property
@@ -198,6 +205,9 @@ class Income(Balance):
     isIncome : bool
         [読み取り専用]
         常にTrueを返します
+    value_signed : str
+        [読み取り専用]
+        金額に符号を付けた文字列
     categoryName : CharField
         [読み取り専用]
         category.nameと同じ
@@ -220,6 +230,11 @@ class Income(Balance):
         if value < 0:
             raise ValueError("収入に負の値が入力されました")
         self._value = value
+
+    # Override Method
+    @property
+    def value_signed(self) -> str:
+        return "+" + str(self.value)
 
     # Override Method
     @property
@@ -250,6 +265,9 @@ class Expense(Balance):
     isIncome : bool
         [読み取り専用]
         常にFalseを返します
+    value_signed : str
+        [読み取り専用]
+        金額に符号を付けた文字列
     categoryName : CharField
         [読み取り専用]
         category.nameと同じ
@@ -271,6 +289,11 @@ class Expense(Balance):
         if value > 0:
             raise ValueError("支出に正の値が入力されました")
         self._value = value
+
+    # Override Method
+    @property
+    def value_signed(self) -> str:
+        return str(self.value)
 
     # Override Method
     @property
