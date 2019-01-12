@@ -41,7 +41,8 @@ class User(Model):
         _name = name
         _password = self.__digest(password)
 
-    # TODO __str__
+    def __str__(self):
+        return str(self._name)
 
     # TODO password auth
 
