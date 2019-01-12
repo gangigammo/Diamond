@@ -92,7 +92,7 @@ class Category(Model):
 
 class IncomeCategory(Category):
     """
-    収入のモデルです
+    収入カテゴリのモデルです
 
     Attributes
     ----------
@@ -118,7 +118,7 @@ class IncomeCategory(Category):
 
 class ExpenseCategory(Category):
     """
-    支出のモデルです
+    支出カテゴリのモデルです
 
     Attributes
     ----------

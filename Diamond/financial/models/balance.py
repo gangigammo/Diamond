@@ -52,7 +52,6 @@ class Balance(Model):
 
     # private fields
 
-    # 金額の内部表現 : 符号付きint
     # もとのユーザ削除時 -> この収支も一緒に削除される (CASCADE)
     _writer = ForeignKey(User, on_delete=CASCADE)
 
