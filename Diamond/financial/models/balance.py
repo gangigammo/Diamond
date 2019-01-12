@@ -38,7 +38,7 @@ class Balance(Model):
         収入なら True
         支出なら False
     categoryName : CharField
-        # TODO [読み取り専用]
+        [読み取り専用]
         category.nameと同じ
     """
 
@@ -75,6 +75,10 @@ class Balance(Model):
     @property
     def isIncome(self):  # Abstract Method
         raise NotImplementedError("抽象メソッドを呼びました")
+
+    @property
+    def categoryName(self) -> CharField:
+        return self.category.name
 
     # public methods
 
