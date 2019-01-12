@@ -1,4 +1,4 @@
-from financial.models import Balance
+from .balance import Balance
 from typing import Optional, List
 
 
