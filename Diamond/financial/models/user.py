@@ -18,10 +18,10 @@ class User(Model):
         パスワード
     """
 
-    # TODO private field
+    # private field
 
-    name = CharField(max_length=128)
-    password = CharField(max_length=128)  # TODO 平文にしない　
+    _name = CharField(max_length=128)
+    _password = CharField(max_length=128)  # TODO 平文にしない　
 
     # TODO acceser
 
