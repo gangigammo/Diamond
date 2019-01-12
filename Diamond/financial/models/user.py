@@ -48,7 +48,7 @@ class User(Model):
         """
         super().__init__(*args, **kwargs)
         self._name = name
-        self._password = self.__digest(password)
+        self.password = password  # setterを呼んでいる
 
     def __str__(self):
         return str(self.name)
