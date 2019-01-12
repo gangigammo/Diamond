@@ -73,7 +73,7 @@ class Balance(Model):
     def isIncome(self):  # Abstract Method
         raise NotImplementedError("抽象メソッドを呼びました")
 
-    # TODO public methods
+    # public methods
 
     def __init__(
         self,
@@ -123,8 +123,43 @@ class Balance(Model):
     def __str__(self):
         return self.description
 
-    # TODO update
+    def update(
+        self,
+        description: str,
+        date: DateField,
+        category=None,
+        amount=None, value=None,
+        *args, **kwargs
+    ):
+        """
+        収支の内容を変更します
+        引数が省略されるかNoneである項目は無視されます
 
+        Parameters
+        ----------
+        description : str or None
+            内容
+        date: DateField or None
+            収支の日付
+        category: Category or None
+            属するカテゴリ
+        amount : int or None
+            金額 (絶対値)
+            入力する場合、valueは省略
+        value : int or None
+            金額 (収入が正, 支出が負の値)
+            入力する場合、amountは省略
+        """
+        if not description is None:
+            self.description = description
+        if not date is None:
+            self.date = date
+        if not category is None:
+            self.category = category
+        if amount is not None:
+            self.amount = amount
+        elif value is not None:
+            self.value = value
 
 # TODO class Income
 # TODO class Expense
