@@ -31,5 +31,11 @@ class Balance(Model):
     writer = CharField(max_length=128)
 
     # private fields
-    # もとのカテゴリ削除時 -> __category=nullとなる
+
+    # 所属するカテゴリ
+    # もとのカテゴリ削除時 -> __category=nullとなる (SET_NULL)
     __category = ForeignKey("Category", on_delete=SET_NULL)
+
+    # 作成者ユーザ
+    # もとのユーザ削除時 -> この収支も一緒に削除される (CASCADE)
+    __writer = ForeignKey("User", on_delete=CASCADE)
