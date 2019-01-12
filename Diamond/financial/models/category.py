@@ -68,6 +68,8 @@ class Category(Model):
             作成者となるユーザー
         """
         super().__init__(*args, **kwargs)
+        self.name = name
+        self._writer = writer
 
     def __str__(self):
         return self.name
