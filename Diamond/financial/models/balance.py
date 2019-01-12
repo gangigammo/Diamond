@@ -71,14 +71,14 @@ class Balance(Model):
         return abs(self.value)
 
     @amount.setter
-    def amount(self, amount: int):
+    def amount(self, amount: int):  # Abstract Method
         """
         収支の金額を、絶対値で入力します
         """
         raise NotImplementedError
 
     @property
-    def isIncome(self):
+    def isIncome(self):  # Abstract Method
         raise NotImplementedError
 
     # TODO public methods

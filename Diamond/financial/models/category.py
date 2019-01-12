@@ -36,7 +36,7 @@ class Category(Model):
     # accessors
 
     @property
-    def isIncome(self) -> bool:  # 抽象クラス
+    def isIncome(self) -> bool:  # Abstract Method
         """
         このインスタンスが収入であるか支出であるかを返します
 
