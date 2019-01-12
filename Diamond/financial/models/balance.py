@@ -1,13 +1,23 @@
 """
 収支のモデル
 """
-from django.db import models
+from django.db.models import Model, CharField, PositiveIntegerField, DateField, BooleanField
 
 
-class Balance(models.Model):
-    description = models.CharField(max_length=128)
-    amount = models.PositiveIntegerField()
-    date = models.DateField()
-    isIncome = models.BooleanField()
-    categoryName = models.CharField(max_length=128)
-    writer = models.CharField(max_length=128)
+class Balance(Model):
+    """
+    収支のモデルです
+
+    Attributes
+    ----------
+    description : CharField
+    amount : PositiveIntegerField
+    date : DateField
+    isIncome : BooleanField
+    """
+    description = CharField(max_length=128)
+    amount = PositiveIntegerField()
+    date = DateField()
+    isIncome = BooleanField()
+    categoryName = CharField(max_length=128)
+    writer = CharField(max_length=128)

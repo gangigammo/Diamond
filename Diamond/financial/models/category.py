@@ -1,10 +1,10 @@
 """
 カテゴリのモデル
 """
-from django.db import models
+from django.db.models import Model, CharField, BooleanField
 
 
-class Category(models.Model):
-    categoryName = models.CharField(max_length=128)
-    balance = models.BooleanField()  # if income true, else false
-    writer = models.CharField(max_length=128)
+class Category(Model):
+    categoryName = CharField(max_length=128)
+    balance = BooleanField()  # if income true, else false
+    writer = CharField(max_length=128)

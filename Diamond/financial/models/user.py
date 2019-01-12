@@ -1,9 +1,9 @@
 """
 ユーザーのモデル
 """
-from django.db import models
+from django.db.models import Model, CharField
 
 
-class User(models.Model):
-    name = models.CharField(max_length=128)
-    password = models.CharField(max_length=128)
+class User(Model):
+    name = CharField(max_length=128)
+    password = CharField(max_length=128)
