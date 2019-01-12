@@ -22,21 +22,21 @@ class Balance(Model):
     ----------
     description : CharField
         内容
-    value : IntegerField
-        金額 (収入が正, 支出が負の値)
+    writer : User
+        # TODO [読み取り専用]
+        この収支の作成者
+    date : DateField
+        収支の日付
+    category : Category
+        この収支が所属するカテゴリ
     amount : int
         金額 (絶対値)
+    value : IntegerField
+        金額 (収入が正, 支出が負の値)
     isIncome : bool
         [読み取り専用]
         収入なら True
         支出なら False
-    date : DateField
-        収支の日付
-    writer : User
-        # TODO [読み取り専用]
-        この収支の作成者
-    category : Category
-        この収支が所属するカテゴリ
     categoryName : CharField
         # TODO [読み取り専用]
         category.nameと同じ
