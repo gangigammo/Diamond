@@ -17,7 +17,7 @@ class Category(Model):
         収入は true
         支出は false
     writer : User
-        # TODO [読み取り専用]
+        # [読み取り専用]
         カテゴリの作成者
     """
 
@@ -29,7 +29,11 @@ class Category(Model):
 
     _writer = CharField(max_length=128)
 
-    # TODO acceser
+    # accesers
+
+    @property
+    def writer(self) -> str:
+        return self._writer
 
     # public methods
 
