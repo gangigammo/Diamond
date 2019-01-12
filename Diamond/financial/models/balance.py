@@ -2,7 +2,7 @@
 収支のモデル
 """
 from django.db.models import Model
-from django.db.models import CharField, PositiveIntegerField, DateField, BooleanField
+from django.db.models import CharField, IntegerField, DateField, BooleanField
 from django.db.models import ForeignKey
 from django.db.models import CASCADE, SET_NULL
 from .user import User
@@ -41,14 +41,17 @@ class Balance(Model):
     # もとのカテゴリ削除時 -> __category=nullとなる (SET_NULL)
     category = ForeignKey(Category, null=True, on_delete=SET_NULL)
 
-    # TODO private fields
+    # private fields
+
+    # 金額の内部表現 : 符号付きint
+    _value = IntegerField()
+    # もとのユーザ削除時 -> この収支も一緒に削除される (CASCADE)
+    _writer = ForeignKey(User, on_delete=CASCADE)
 
     # TODO accesors
 
     amount = PositiveIntegerField()
     isIncome = BooleanField()   # TODO Income, Expenseにクラスで分ける
-    # もとのユーザ削除時 -> この収支も一緒に削除される (CASCADE)
-    writer = ForeignKey(User, on_delete=CASCADE)  # TODO アクセス制御
 
     # TODO public methods
 
