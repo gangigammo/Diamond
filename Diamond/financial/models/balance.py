@@ -166,5 +166,62 @@ class Balance(Model):
         elif "value" in keys:
             self.value = kwargs.get("value")
 
+
 # TODO class Income
+class Income(Balance):
+    """
+    収入のモデルです
+    valueとamountは連動します
+
+    Attributes
+    ----------
+    description : CharField
+        内容
+    writer : User
+        [読み取り専用]
+        この収支の作成者
+    date : DateField
+        収支の日付
+    category : Category
+        この収支が所属するカテゴリ
+    amount : int
+        金額 (絶対値)
+    value : IntegerField
+        金額 (収入が正, 支出が負の値)
+    isIncome : bool
+        [読み取り専用]
+        常にTrueを返します
+    categoryName : CharField
+        [読み取り専用]
+        category.nameと同じ
+    """
+
+
 # TODO class Expense
+class Expense(Balance):
+    """
+    支出のモデルです
+    valueとamountは連動します
+
+    Attributes
+    ----------
+    description : CharField
+        内容
+    writer : User
+        [読み取り専用]
+        この収支の作成者
+    date : DateField
+        収支の日付
+    category : Category
+        この収支が所属するカテゴリ
+    amount : int
+        金額 (絶対値)
+    value : IntegerField
+        金額 (収入が正, 支出が負の値)
+    isIncome : bool
+        [読み取り専用]
+        常にFalseを返します
+    categoryName : CharField
+        [読み取り専用]
+        category.nameと同じ
+    """
