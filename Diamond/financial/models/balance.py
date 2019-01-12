@@ -167,7 +167,6 @@ class Balance(Model):
             self.value = kwargs.get("value")
 
 
-# TODO class Income
 class Income(Balance):
     """
     収入のモデルです
@@ -195,9 +194,24 @@ class Income(Balance):
         [読み取り専用]
         category.nameと同じ
     """
+    # accessors
+
+    # Override Method
+    @amount.setter
+    def amount(self, amount: int):
+        """
+        収支の金額を、絶対値で入力します
+        """
+        if amount < 0:
+            raise ValueError("amountに負の値が入力されました")
+        self.value = amount
+
+    # Override Method
+    @property
+    def isIncome(self):
+        return True
 
 
-# TODO class Expense
 class Expense(Balance):
     """
     支出のモデルです
@@ -225,3 +239,18 @@ class Expense(Balance):
         [読み取り専用]
         category.nameと同じ
     """
+
+    # Override Method
+    @amount.setter
+    def amount(self, amount: int):
+        """
+        収支の金額を、絶対値で入力します
+        """
+        if amount < 0:
+            raise ValueError("amountに負の値が入力されました")
+        self.value = -amount
+
+    # Override Method
+    @property
+    def isIncome(self):
+        return False
