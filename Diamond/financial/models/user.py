@@ -49,7 +49,23 @@ class User(Model):
     def __str__(self):
         return str(self._name)
 
-    # TODO password auth
+    def isCorrect(self, password: str) -> bool:
+        """
+        入力されたパスワードが正しいかどうかを返します
+
+        Parameters
+        ----------
+        password : str
+            パスワード
+
+        Return
+        ------
+        iscorrect : bool
+            正しいかどうかの論理値
+        """
+        digested = self.__digest(password)
+        result = (self._password == digested)
+        return result
 
     # TODO update password
 
