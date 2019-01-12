@@ -9,8 +9,8 @@ class Category(Model):
     """
     カテゴリの抽象クラスです
     具象クラス:
-        - Income
-        - Expense
+        - IncomeCategory
+        - ExpenseCategory
 
     Attributes
     ----------
@@ -33,7 +33,7 @@ class Category(Model):
 
     _writer = CharField(max_length=128)
 
-    # accesers
+    # accessors
 
     @property
     def isIncome(self) -> bool:  # 抽象クラス
@@ -86,7 +86,7 @@ class Category(Model):
             self.name = name
 
 
-class Income(Category):
+class IncomeCategory(Category):
     """
     収入のモデルです
 
@@ -110,7 +110,7 @@ class Income(Category):
         return True
 
 
-class Expense(Category):
+class ExpenseCategory(Category):
     """
     支出のモデルです
 

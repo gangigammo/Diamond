@@ -23,7 +23,7 @@ class User(Model):
     _name = CharField(max_length=128)
     _password = CharField(max_length=128)  # TODO 平文にしない　
 
-    # accesers
+    # accessors
 
     @property
     def name(self) -> str:
