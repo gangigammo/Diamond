@@ -26,7 +26,7 @@ class User(Model):
     # accesers
 
     @property
-    def name(self):
+    def name(self) -> str:
         return self._name
 
     @password.setter
@@ -46,7 +46,7 @@ class User(Model):
         password : str
             パスワード
         """
-        super().__init__(self)
+        super().__init__()
         self._name = name
         self._password = self.__digest(password)
 
