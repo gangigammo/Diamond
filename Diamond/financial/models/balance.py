@@ -214,6 +214,11 @@ class Income(Balance):
     """
     # accessors
 
+    # dummy override for setter
+    @property
+    def amount(self):
+        return super().amount
+
     # Override Method
     @amount.setter
     def amount(self, amount: int):
@@ -223,6 +228,11 @@ class Income(Balance):
         if amount < 0:
             raise ValueError("amountに負の値が入力されました")
         self.value = amount
+
+    # dummy override for setter
+    @property
+    def value(self):
+        return super().value
 
     # Override Method
     @value.setter
@@ -272,6 +282,12 @@ class Expense(Balance):
         [読み取り専用]
         category.nameと同じ
     """
+    # accessors
+
+    # dummy override for setter
+    @property
+    def amount(self):
+        return super().amount
 
     # Override Method
     @amount.setter
@@ -282,6 +298,11 @@ class Expense(Balance):
         if amount < 0:
             raise ValueError("amountに負の値が入力されました")
         self.value = -amount
+
+    # dummy override for setter
+    @property
+    def value(self):
+        return super().value
 
     # Override Method
     @value.setter
