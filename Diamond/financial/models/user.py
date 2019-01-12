@@ -42,8 +42,9 @@ class User(Model):
         password : str
             パスワード
         """
-        _name = name
-        _password = self.__digest(password)
+        super().__init__(self)
+        self._name = name
+        self._password = self.__digest(password)
 
     def __str__(self):
         return str(self._name)
