@@ -5,6 +5,8 @@ from django.db.models import Model
 from django.db.models import CharField, PositiveIntegerField, DateField, BooleanField
 from django.db.models import ForeignKey
 from django.db.models import CASCADE, SET_NULL
+from .user import User
+from .category import Category
 
 
 class Balance(Model):
@@ -19,23 +21,23 @@ class Balance(Model):
         金額
     date : DateField
         作成時刻
-    isIncome : BooleanField
-        収入は true
-        支出は false
+    writer : User
+        # TODO [読み取り専用]
+        この収支の作成者
+    category : Category
+        この収支が所属するカテゴリ
+    categoryName : CharField
+        # TODO [読み取り専用]
+        category.nameと同じ
     """
+
+    # public fields
+
     description = CharField(max_length=128)
     amount = PositiveIntegerField()
-    date = DateField()
-    isIncome = BooleanField()
-    categoryName = CharField(max_length=128)
-    writer = CharField(max_length=128)
-
-    # private fields
-
-    # 所属するカテゴリ
+    isIncome = BooleanField()   # TODO Income, Expenseにクラスで分ける
+    date = DateField()  # TODO
     # もとのカテゴリ削除時 -> __category=nullとなる (SET_NULL)
-    __category = ForeignKey("Category", on_delete=SET_NULL)
-
-    # 作成者ユーザ
+    category = ForeignKey(Category, null=True, on_delete=SET_NULL)
     # もとのユーザ削除時 -> この収支も一緒に削除される (CASCADE)
-    __writer = ForeignKey("User", on_delete=CASCADE)
+    writer = ForeignKey(User, on_delete=CASCADE)  # TODO アクセス制御
