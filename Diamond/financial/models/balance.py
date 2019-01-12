@@ -11,9 +11,14 @@ class Balance(Model):
     Attributes
     ----------
     description : CharField
+        内容
     amount : PositiveIntegerField
+        金額
     date : DateField
+        作成時刻
     isIncome : BooleanField
+        収入は true
+        支出は false
     """
     description = CharField(max_length=128)
     amount = PositiveIntegerField()
