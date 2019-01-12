@@ -1,5 +1,5 @@
 """
-	収支のモデル
+収支のモデル
 """
 from django.db import models
 

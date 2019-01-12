@@ -1,5 +1,5 @@
 """
-	カテゴリのモデル
+カテゴリのモデル
 """
 from django.db import models
 

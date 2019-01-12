@@ -1,5 +1,5 @@
 """
-	ユーザーのモデル
+ユーザーのモデル
 """
 from django.db import models
 
