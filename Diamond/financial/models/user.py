@@ -48,7 +48,7 @@ class User(Model):
         """
         super().__init__(*args, **kwargs)
         self._name = name
-        self.password = password  # setterを呼んでいる
+        self.update(password=password)
 
     def __str__(self):
         return str(self.name)
@@ -71,18 +71,20 @@ class User(Model):
         result = (self._password == digested)
         return result
 
-    def update(self, password=None):
+    def update(self, **kwargs):
         """
         ユーザーの内容を変更します
-        引数が省略されるかNoneである項目は無視されます
+        必ず名前付き引数で指定してください
+        引数が省略された項目は無視されます
 
         Parameters
         ----------
-        password : str or None
+        password : str
             新しいパスワード
         """
-        if password:
-            self.password = password  # setterを呼んでいる
+        keys = kwargs.keys()
+        if "password" in keys:
+            self.password = kwargs.get("password")  # setterで書き込んでいる
 
     # private methods
 

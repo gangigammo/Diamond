@@ -109,57 +109,55 @@ class Balance(Model):
             入力する場合、amountは省略
         """
         super().__init__(*args, **kwargs)
-        self.description = description
         self._writer = writer
-        self.date = date
-        self.category = category
         if amount is not None:
             self.amount = amount
         elif value is not None:
             self.value = value
         else:
             TypeError("amount, valueのどちらも指定されていません")
+        self.update(
+            description=description,
+            date=date,
+            category=category
+        )
 
     def __str__(self):
         return self.description
 
-    def update(
-        self,
-        description: str,
-        date: DateField,
-        category=None,
-        amount=None, value=None,
-        *args, **kwargs
-    ):
+    def update(self, **kwargs):
         """
         収支の内容を変更します
-        引数が省略されるかNoneである項目は無視されます
+        必ず名前付き引数で指定してください
+        引数が省略された項目は無視されます
 
         Parameters
         ----------
-        description : str or None
+        description : str
             内容
-        date: DateField or None
+        date: DateField
             収支の日付
         category: Category or None
             属するカテゴリ
-        amount : int or None
+            Noneはカテゴリなしを表します
+        amount : int
             金額 (絶対値)
             入力する場合、valueは省略
-        value : int or None
+        value : int
             金額 (収入が正, 支出が負の値)
             入力する場合、amountは省略
         """
-        if not description is None:
-            self.description = description
-        if not date is None:
-            self.date = date
-        if not category is None:
-            self.category = category
-        if amount is not None:
-            self.amount = amount
-        elif value is not None:
-            self.value = value
+        keys = kwargs.keys()
+        if "description" in keys:
+            self.description = kwargs.get("description")
+        if "date" in keys:
+            self.date = kwargs.get("date")
+        if "category" in keys:
+            self.category = kwargs.get("category")
+        if "amount" in keys:
+            self.amount = kwargs.get("amount")
+        elif "value" in keys:
+            self.value = kwargs.get("value")
 
 # TODO class Income
 # TODO class Expense

@@ -68,24 +68,26 @@ class Category(Model):
             作成者となるユーザー
         """
         super().__init__(*args, **kwargs)
-        self.name = name
         self._writer = writer
+        self.update(name=name)
 
     def __str__(self):
         return self.name
 
-    def update(self, name=None):
+    def update(self, **kwargs):
         """
         カテゴリの内容を変更します
-        引数が省略されるかNoneである項目は無視されます
+        必ず名前付き引数で指定してください
+        引数が省略された項目は無視されます
 
         Parameters
         ----------
-        name : str or None
+        name : str
             新しいカテゴリ名
         """
-        if name:
-            self.name = name
+        keys = kwargs.keys()
+        if "name" in keys:
+            self.name = kwargs.get("name")
 
 
 class IncomeCategory(Category):
