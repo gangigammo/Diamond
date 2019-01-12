@@ -101,7 +101,13 @@ class Income(Category):
         [読み取り専用]
         カテゴリの作成者
     """
-    pass
+
+    # Override Method
+    def isIncome(self) -> bool:
+        """
+        常にTrueを返します
+        """
+        return True
 
 
 class Expense(Category):
@@ -119,4 +125,10 @@ class Expense(Category):
         [読み取り専用]
         カテゴリの作成者
     """
-    pass
+
+    # Override Method
+    def isIncome(self) -> bool:
+        """
+        常にFalseを返します
+        """
+        return False
