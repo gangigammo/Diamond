@@ -25,10 +25,9 @@ class Category(Model):
 
     name = CharField(max_length=128)
 
-    # TODO private field
+    # private fields
 
-    isIncome = BooleanField()  # if income true, else false
-    writer = CharField(max_length=128)
+    _writer = CharField(max_length=128)
 
     # TODO acceser
 
