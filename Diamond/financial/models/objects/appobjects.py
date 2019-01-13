@@ -42,7 +42,7 @@ class AppObjects():
     """
 
     @classmethod
-    def getAll(cls) -> QuerySet[T]:
+    def getAll(cls) -> QuerySet:
         """
         データベースから全ての項目を取得します
 
@@ -54,7 +54,7 @@ class AppObjects():
         return cls._T.objects
 
     @classmethod
-    def get(cls, *args, **kwargs) -> QuerySet[T]:
+    def get(cls, *args, **kwargs) -> QuerySet:
         """
         データベースから、条件に合致する項目を取得します
         Return a new QuerySet instance with the args ANDed to the database.
