@@ -6,9 +6,6 @@ from typing import Sequence
 from financial.models import Balance
 
 
-T = Sequence[Balance]
-
-
 class Balances(AppObjects):
     _T = Balance  # Override
     """

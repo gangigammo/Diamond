@@ -7,11 +7,11 @@ from django.db.models import Model
 from typing import Optional, TypeVar, Generic, Sequence
 
 
-T = Sequence[Model]
+T = Model
 
 
 class AppObjects():
-    _T = T
+    _T = Model
     """
     金剛会計におけるModelの、データベースとのやり取りを担当するクラス
 
@@ -38,7 +38,7 @@ class AppObjects():
         return cls._T.objects
 
     @classmethod
-    def getAll(cls):
+    def getAll(cls) -> QuerySet:
         """
         データベースから全ての項目を取得します
 

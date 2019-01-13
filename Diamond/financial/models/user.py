@@ -41,7 +41,7 @@ class User(Model):
             正しいかどうかの論理値
         """
         digested = self.__digest(password)
-        result = (self._password == digested)
+        result = (self.password == digested)
         return result
 
     def update(self, **kwargs):
