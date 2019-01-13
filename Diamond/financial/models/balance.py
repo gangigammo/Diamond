@@ -10,6 +10,8 @@ from .category import Category
 
 
 class Balance(Model):
+    class Meta:
+        abstract = True
     """
     収支の抽象クラスです
     valueとamountは連動します
@@ -134,7 +136,6 @@ class Income(Balance):
     description : CharField
         内容
     writer : User
-        [読み取り専用]
         この収支の作成者
     date : DateField
         収支の日付
@@ -192,7 +193,6 @@ class Expense(Balance):
     description : CharField
         内容
     writer : User
-        [読み取り専用]
         この収支の作成者
     date : DateField
         収支の日付
