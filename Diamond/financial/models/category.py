@@ -2,6 +2,8 @@
 カテゴリのモデル
 """
 from django.db.models import Model, CharField, BooleanField
+from django.db.models import ForeignKey
+from django.db.models import CASCADE
 from .user import User
 
 
@@ -24,7 +26,8 @@ class Category(Model):
 
     name = CharField(max_length=128)
     isIncome = BooleanField()
-    writer = CharField(max_length=128)
+    # もとのユーザ削除時 -> このカテゴリも一緒に削除される (CASCADE)
+    writer = ForeignKey(User, on_delete=CASCADE)
 
     # public methods
 
