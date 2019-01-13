@@ -10,8 +10,6 @@ from financial.models.objects import Users
 
 class UserModelTest(TestCase):
     def test_main(self):
-        User.objects.all().delete()
-
         testname = "username"
         testpass = "password"
         user = User(name=testname, password=testpass)
@@ -32,8 +30,6 @@ class UserModelTest(TestCase):
 
 class UsersTest(TestCase):
     def test_main(self):
-        User.objects.all().delete()
-
         if not Users.getFirst() is None:
             raise AssertionError("空のデータベースからUserを取得できてしまいました")
 

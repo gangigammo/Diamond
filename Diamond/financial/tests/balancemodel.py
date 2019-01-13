@@ -14,6 +14,7 @@ class BalanceTest(TestCase):
     name = "watashi"
     password = "unkoman"
     user = User(name=name, password=password)
+    user.save()
 
     desc = "hogedesc"
     amount = 114514
@@ -42,14 +43,14 @@ class BalanceTest(TestCase):
         print("expenseをデータベースに保存できませんでした")
         raise AssertionError(ex)
 
-    print("Expenseモデルのテスト終了")
+    print("Income, Expenseモデルのテスト終了")
 
 
 class BalancesTest(TestCase):
-    raise NotImplementedError
     name = "watashi"
     password = "unkoman"
     user = User(name=name, password=password)
+    user.save()
 
     desc = "hogedesc"
     amount = 114514
