@@ -24,16 +24,8 @@ class AppObjects():
         ユーザー
     Balances
         収支
-    Incomes
-        収入
-    Expenses
-        支出
     Categories
         収支カテゴリ
-    IncomeCategories
-        収入カテゴリ
-    ExpenseCategories
-        支出カテゴリ
 
     Attributes
     ----------
@@ -44,6 +36,18 @@ class AppObjects():
     @classmethod
     def getObjects(cls):
         return cls._T.objects
+
+    @classmethod
+    def getAll(cls):
+        """
+        データベースから全ての項目を取得します
+
+        Returns
+        -------
+        objects : QuerySet of Model
+            Model.objects.all()
+        """
+        return cls.getObjects().all()
 
     @classmethod
     def get(cls, *args, **kwargs) -> QuerySet:
