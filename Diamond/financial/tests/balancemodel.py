@@ -33,10 +33,15 @@ class BalanceTest(TestCase):
 
     try:
         income.save()
+    except Exception as ex:
+        print("incomeをデータベースに保存できませんでした")
+        raise AssertionError(ex)
+    try:
         expense.save()
     except Exception as ex:
-        print("収支をデータベースに保存できませんでした")
+        print("expenseをデータベースに保存できませんでした")
         raise AssertionError(ex)
+
     print("Expenseモデルのテスト終了")
 
 

@@ -23,13 +23,13 @@ class Balance(Model):
     description : CharField
         内容
     writer : User
-        [読み取り専用]
         この収支の作成者
     date : DateField
         収支の日付
     category : Category
         この収支が所属するカテゴリ
     amount : int
+        [読み取り専用]
         金額 (絶対値)
     value : IntegerField
         金額 (収入が正, 支出が負の値)
@@ -45,24 +45,21 @@ class Balance(Model):
         category.nameと同じ
     """
 
-    # public fields
+    # Fields
 
     description = CharField(max_length=128)
-    date = DateField()  # TODO
-    # もとのカテゴリ削除時 -> __category=nullとなる (SET_NULL)
-    category = ForeignKey(Category, null=True, on_delete=SET_NULL)
-    _value = IntegerField()
-
-    # private fields
 
     # もとのユーザ削除時 -> この収支も一緒に削除される (CASCADE)
-    _writer = ForeignKey(User, on_delete=CASCADE)
+    writer = ForeignKey(User, on_delete=CASCADE)
 
-    # accesors
+    date = DateField()  # TODO
 
-    @property
-    def writer(self) -> CharField:
-        return self._writer
+    # もとのカテゴリ削除時 -> __category=nullとなる (SET_NULL)
+    category = ForeignKey(Category, null=True, on_delete=SET_NULL)
+
+    value = IntegerField()
+
+    # properties
 
     @property
     def amount(self) -> int:
@@ -73,14 +70,6 @@ class Balance(Model):
         """
         収支の金額を、絶対値で入力します
         """
-        raise NotImplementedError("抽象メソッドを呼びました")
-
-    @property
-    def value(self) -> IntegerField:
-        return self._value
-
-    @value.setter
-    def value(self, value):  # Abstract Method
         raise NotImplementedError("抽象メソッドを呼びました")
 
     @property
@@ -96,53 +85,6 @@ class Balance(Model):
         return self.category.name
 
     # public methods
-
-    def __init__(
-        self,
-        description: str,
-        writer: User,
-        date: DateField,
-        category=None,
-        amount=None, value=None,
-        *args, **kwargs
-    ):
-        """
-        Balanceを初期化します
-        ただしBalanceは抽象クラスなので、
-        インスタンスを生成するには具象クラスを実装してください
-
-        なお、金額はamount, valueのどちらか一方に指定し、一方は省略してください
-
-        Parameters
-        ----------
-        description : str
-            内容
-        writer : User
-            作成者となるユーザー
-        date: DateField
-            収支の日付
-        category: Category or None
-            属するカテゴリ
-        amount : int or None
-            金額 (絶対値)
-            入力する場合、valueは省略
-        value : int or None
-            金額 (収入が正, 支出が負の値)
-            入力する場合、amountは省略
-        """
-        super().__init__(*args, **kwargs)
-        self._writer = writer
-        if amount is not None:
-            self.amount = amount
-        elif value is not None:
-            self.value = value
-        else:
-            TypeError("amount, valueのどちらも指定されていません")
-        self.update(
-            description=description,
-            date=date,
-            category=category
-        )
 
     def __str__(self):
         return self.description
@@ -229,18 +171,6 @@ class Income(Balance):
             raise ValueError("amountに負の値が入力されました")
         self.value = amount
 
-    # dummy override for setter
-    @property
-    def value(self):
-        return super().value
-
-    # Override Method
-    @value.setter
-    def value(self, value):
-        if value < 0:
-            raise ValueError("収入に負の値が入力されました")
-        self._value = value
-
     # Override Method
     @property
     def value_signed(self) -> str:
@@ -298,18 +228,6 @@ class Expense(Balance):
         if amount < 0:
             raise ValueError("amountに負の値が入力されました")
         self.value = -amount
-
-    # dummy override for setter
-    @property
-    def value(self):
-        return super().value
-
-    # Override Method
-    @value.setter
-    def value(self, value):
-        if value > 0:
-            raise ValueError("支出に正の値が入力されました")
-        self._value = value
 
     # Override Method
     @property
