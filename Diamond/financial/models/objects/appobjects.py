@@ -42,15 +42,7 @@ class AppObjects():
     """
 
     @classmethod
-    def getAll(cls) -> QuerySet:
-        """
-        データベースから全ての項目を取得します
-
-        Returns
-        -------
-        objects : QuerySet of Model
-            全て項目
-        """
+    def getObjects(cls):
         return cls._T.objects
 
     @classmethod
@@ -71,7 +63,7 @@ class AppObjects():
         objects : QuerySet of Model
             検索結果のQuerySet
         """
-        return cls.getAll().filter(**kwargs)
+        return cls.getObjects().filter(**kwargs)
 
     @classmethod
     def getFirst(cls, *args, **kwargs) -> Optional[T]:

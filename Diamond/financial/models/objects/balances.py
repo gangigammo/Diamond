@@ -10,7 +10,7 @@ T = Sequence[Balance]
 
 
 class Balances(AppObjects):
-    _T = T  # Override
+    _T = Balance  # Override
     """
     金剛会計における収支を、データベースとやり取りするクラス
 
@@ -24,9 +24,14 @@ class Balances(AppObjects):
         financial.models.Balance
     """
 
+    # Override Method
+    @classmethod
+    def getObjects(cls):
+        return Incomes.getObjects() + Expenses.getObjects()
+
 
 class Incomes(Balances):
-    _T = Sequence[Income]  # Override
+    _T = Income  # Override
     """
     金剛会計における収入を、データベースとやり取りするクラス
 
@@ -39,10 +44,14 @@ class Incomes(Balances):
     _T : type
         financial.models.Income
     """
+    # Override Method
+    @classmethod
+    def getObjects(cls):
+        return cls._T.objects
 
 
 class Expenses(Balances):
-    _T = Sequence[Expense]  # Override
+    _T = Expense  # Override
     """
     金剛会計における支出を、データベースとやり取りするクラス
 
@@ -55,3 +64,7 @@ class Expenses(Balances):
     _T : type
         financial.models.Expense
     """
+    # Override Method
+    @classmethod
+    def getObjects(cls):
+        return cls._T.objects
