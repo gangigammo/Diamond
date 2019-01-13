@@ -3,3 +3,4 @@ from .balances import Balances
 
 class Incomes(Balances):
     pass
+    raise NotImplementedError  # TODO
