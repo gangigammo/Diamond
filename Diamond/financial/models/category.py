@@ -8,49 +8,23 @@ from .user import User
 class Category(Model):
     """
     カテゴリの抽象クラスです
-    具象クラス:
-        - IncomeCategory
-        - ExpenseCategory
 
     Attributes
     ----------
     name : CharField
         カテゴリ名
-    isIncome : bool
-        [読み取り専用]
+    isIncome : BooleanField
         収入なら True
         支出なら False
     writer : User
-        [読み取り専用]
         カテゴリの作成者
     """
 
-    # public field
+    # Fields
 
     name = CharField(max_length=128)
-
-    # private fields
-
-    _writer = CharField(max_length=128)
-
-    # accessors
-
-    @property
-    def isIncome(self) -> bool:  # Abstract Method
-        """
-        このインスタンスが収入であるか支出であるかを返します
-
-        Return
-        ------
-        isincome : bool
-            収入なら True
-            支出なら False
-        """
-        raise NotImplementedError("抽象メソッドを呼びました")
-
-    @property
-    def writer(self) -> str:
-        return self._writer
+    isIncome = BooleanField()
+    writer = CharField(max_length=128)
 
     # public methods
 
