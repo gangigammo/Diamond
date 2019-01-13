@@ -24,7 +24,7 @@ incateDic1 = {
     "name": "work"
 }
 excateDic1 = {
-    "isIncome": True,
+    "isIncome": False,
     "name": "food"
 }
 
@@ -74,7 +74,7 @@ class DeleteTest(TestCase):
         if expense:
             raise AssertionError("支出 %s を収入として取得しました" % expense)
 
-        Balance(writer=user, **expenseDic1)
+        Balance(writer=user, **expenseDic1).save()
         expense = Expenses.getFirst()
         if expense is None:
             raise AssertionError("支出を取得できません　")
