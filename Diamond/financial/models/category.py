@@ -28,23 +28,6 @@ class Category(Model):
 
     # public methods
 
-    def __init__(self, name: str, writer: User, *args, **kwargs):
-        """
-        Categoryを初期化します
-        ただしCategoryは抽象クラスなので、
-        インスタンスを生成するには具象クラスを実装してください
-
-        Parameters
-        ----------
-        name : str
-            カテゴリ名
-        writer : User
-            作成者となるユーザー
-        """
-        super().__init__(*args, **kwargs)
-        self._writer = writer
-        self.update(name=name)
-
     def __str__(self):
         return self.name
 
