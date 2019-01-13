@@ -10,15 +10,9 @@ from .category import Category
 
 
 class Balance(Model):
-    class Meta:
-        abstract = True
     """
     収支の抽象クラスです
     valueとamountは連動します
-
-    具象クラス:
-        - Income
-        - Expense
 
     Attributes
     ----------
@@ -38,8 +32,7 @@ class Balance(Model):
     value_signed : str
         [読み取り専用]
         金額に符号を付けた文字列
-    isIncome : bool
-        [読み取り専用]
+    isIncome : BooleanField
         収入なら True
         支出なら False
     categoryName : CharField
@@ -50,16 +43,13 @@ class Balance(Model):
     # Fields
 
     description = CharField(max_length=128)
-
     # もとのユーザ削除時 -> この収支も一緒に削除される (CASCADE)
     writer = ForeignKey(User, on_delete=CASCADE)
-
     date = DateField()  # TODO
-
     # もとのカテゴリ削除時 -> __category=nullとなる (SET_NULL)
     category = ForeignKey(Category, null=True, on_delete=SET_NULL)
-
     value = IntegerField()
+    isIncome = BooleanField()
 
     # properties
 
@@ -68,19 +58,21 @@ class Balance(Model):
         return abs(self.value)
 
     @amount.setter
-    def amount(self, amount: int):  # Abstract Method
+    def amount(self, amount: int):
         """
         収支の金額を、絶対値で入力します
         """
-        raise NotImplementedError("抽象メソッドを呼びました")
+        if amount < 0:
+            raise ValueError("amountに負の値が入力されました")
+        if self.isIncome:
+            self.value = amount
+        else:
+            self.value = -amount
 
     @property
-    def value_signed(self) -> str:  # Abstract Method
-        raise NotImplementedError("抽象メソッドを呼びました")
-
-    @property
-    def isIncome(self) -> bool:  # Abstract Method
-        raise NotImplementedError("抽象メソッドを呼びました")
+    def value_signed(self) -> str:
+        sign = "+" if self.isIncome else "-"
+        return sign + str(self.amount)
 
     @property
     def categoryName(self) -> CharField:
@@ -112,6 +104,8 @@ class Balance(Model):
         value : int
             金額 (収入が正, 支出が負の値)
             入力する場合、amountは省略
+        isIncome : bool
+
         """
         keys = kwargs.keys()
         if "description" in keys:
@@ -124,117 +118,3 @@ class Balance(Model):
             self.amount = kwargs.get("amount")
         elif "value" in keys:
             self.value = kwargs.get("value")
-
-
-class Income(Balance):
-    """
-    収入のモデルです
-    valueとamountは連動します
-
-    Attributes
-    ----------
-    description : CharField
-        内容
-    writer : User
-        この収支の作成者
-    date : DateField
-        収支の日付
-    category : Category
-        この収支が所属するカテゴリ
-    amount : int
-        金額 (絶対値)
-    value : IntegerField
-        金額 (収入が正, 支出が負の値)
-    isIncome : bool
-        [読み取り専用]
-        常にTrueを返します
-    value_signed : str
-        [読み取り専用]
-        金額に符号を付けた文字列
-    categoryName : CharField
-        [読み取り専用]
-        category.nameと同じ
-    """
-    # accessors
-
-    # dummy override for setter
-    @property
-    def amount(self):
-        return super().amount
-
-    # Override Method
-    @amount.setter
-    def amount(self, amount: int):
-        """
-        収支の金額を、絶対値で入力します
-        """
-        if amount < 0:
-            raise ValueError("amountに負の値が入力されました")
-        self.value = amount
-
-    # Override Method
-    @property
-    def value_signed(self) -> str:
-        return "+" + str(self.value)
-
-    # Override Method
-    @property
-    def isIncome(self) -> bool:
-        return True
-
-
-class Expense(Balance):
-    """
-    支出のモデルです
-    valueとamountは連動します
-
-    Attributes
-    ----------
-    description : CharField
-        内容
-    writer : User
-        この収支の作成者
-    date : DateField
-        収支の日付
-    category : Category
-        この収支が所属するカテゴリ
-    amount : int
-        金額 (絶対値)
-    value : IntegerField
-        金額 (収入が正, 支出が負の値)
-    isIncome : bool
-        [読み取り専用]
-        常にFalseを返します
-    value_signed : str
-        [読み取り専用]
-        金額に符号を付けた文字列
-    categoryName : CharField
-        [読み取り専用]
-        category.nameと同じ
-    """
-    # accessors
-
-    # dummy override for setter
-    @property
-    def amount(self):
-        return super().amount
-
-    # Override Method
-    @amount.setter
-    def amount(self, amount: int):
-        """
-        収支の金額を、絶対値で入力します
-        """
-        if amount < 0:
-            raise ValueError("amountに負の値が入力されました")
-        self.value = -amount
-
-    # Override Method
-    @property
-    def value_signed(self) -> str:
-        return str(self.value)
-
-    # Override Method
-    @property
-    def isIncome(self) -> bool:
-        return False

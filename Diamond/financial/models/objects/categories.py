@@ -3,7 +3,7 @@
 """
 from .appobjects import AppObjects
 from typing import Sequence
-from financial.models import Category, IncomeCategory, ExpenseCategory
+from financial.models import Category
 
 
 T = Sequence[Category]
