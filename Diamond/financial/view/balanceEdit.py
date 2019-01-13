@@ -1,5 +1,5 @@
 import financial.views
-from financial.models import Balances
+from financial.models.objects import Balances
 
 __topView = financial.views.view
 
