@@ -45,7 +45,7 @@ class BalanceTest(TestCase):
         print("expenseをデータベースに保存できませんでした")
         raise AssertionError(ex)
 
-    print("Balanceモデルのテスト終了")
+    print("OK: Balanceモデルの基本テスト")
 
 
 class BalancesTest(TestCase):
@@ -98,4 +98,4 @@ class BalancesTest(TestCase):
     if not compareBalance(expense, expenses.first()):
         raise AssertionError("DBから取り出したexpenseが異なります")
 
-    print("Balancesのテスト終了")
+    print("OK: Balancesの基本テスト")
