@@ -1,14 +1,17 @@
-
 """
 金剛会計におけるModelの、データベースとのやり取りを担当するモジュール
 """
 
 from django.db.models.query import QuerySet
 from django.db.models import Model
-from typing import Optional
+from typing import Optional, TypeVar, Generic, Sequence
+
+
+T = Sequence[Model]
 
 
 class AppObjects():
+    _T = T
     """
     金剛会計におけるModelの、データベースとのやり取りを担当するクラス
 
@@ -34,14 +37,12 @@ class AppObjects():
 
     Attributes
     ----------
-    modelType : type of Model
-        このクラスが扱うモデルの種類
+    _T : type (subtype of django.db.models.Model)
+        このクラスが扱うデータのモデルの型
     """
 
-    modelType = Model
-
     @classmethod
-    def getAll(cls) -> QuerySet:
+    def getAll(cls) -> QuerySet[T]:
         """
         データベースから全ての項目を取得します
 
@@ -50,10 +51,10 @@ class AppObjects():
         objects : QuerySet of Model
             全て項目
         """
-        return cls.modelType.objects
+        return cls._T.objects
 
     @classmethod
-    def get(cls, *args, **kwargs) -> QuerySet:
+    def get(cls, *args, **kwargs) -> QuerySet[T]:
         """
         データベースから、条件に合致する項目を取得します
         Return a new QuerySet instance with the args ANDed to the database.
@@ -73,7 +74,7 @@ class AppObjects():
         return cls.getAll().filter(**kwargs)
 
     @classmethod
-    def getFirst(cls, *args, **kwargs) -> Optional[Model]:
+    def getFirst(cls, *args, **kwargs) -> Optional[T]:
         """
         データベースから、条件に合致する項目を1つ取得します
         なければNoneを返します
