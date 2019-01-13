@@ -47,6 +47,9 @@ class BalanceTest(TestCase):
 
 
 class BalancesTest(TestCase):
+    Income.objects.all().delete()
+    Expense.objects.all().delete()
+
     name = "watashi"
     password = "unkoman"
     user = User(name=name, password=password)
@@ -66,14 +69,26 @@ class BalancesTest(TestCase):
     income.save()
     expense.save()
 
-    balances = Balances.get()
-    if not len(balances) == 2:
-        raise AssertionError("データベースに保存されている個数が異常です")
+    firstincome = Incomes.getFirst()
+    firstexpense = Expenses.getFirst()
+    if firstincome is None or firstexpense is None:
+        raise AssertionError("データベースから収支を取得できません")
 
     incomes = Incomes.get()
     expenses = Expenses.get()
-    if not (len(incomes) == 1 and len(expenses) == 1):
+    if incomes.count() != 1 or expenses.count() != 1:
+        print("incomes .count=%d" % incomes.count())
+        print("expenses.count=%d" % expenses.count())
         raise AssertionError("データベースに保存されている収支別の個数が異常です")
+
+    try:
+        balances = Balances.get()
+    except Exception as ex:
+        print("Balancesから収支を取得できません")
+        raise AssertionError(ex)
+
+    if not len(balances) == 2:
+        raise AssertionError("データベースに保存されている個数が異常です")
 
     if not compareBalance(income, incomes.first()):
         raise AssertionError("DBから取り出したincomeが異なります")
