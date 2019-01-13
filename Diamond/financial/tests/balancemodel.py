@@ -5,7 +5,7 @@ from django.test import TestCase
 from .checker import *
 
 from financial.models import User
-from financial.models import Balance, Income, Expense
+from financial.models import Balance
 from financial.models.objects import Balances, Incomes, Expenses
 import datetime
 
@@ -19,8 +19,10 @@ class BalanceTest(TestCase):
     desc = "hogedesc"
     amount = 114514
     date = datetime.date.today()
-    income = Income(description=desc, writer=user, value=amount, date=date)
-    expense = Expense(description=desc, writer=user, value=-amount, date=date)
+    income = Balance(isIncome=True, description=desc,
+                     writer=user, value=amount, date=date)
+    expense = Balance(isIncome=False, description=desc,
+                      writer=user, value=-amount, date=date)
 
     checkBalance(one=income, description=desc,
                  writer=user, value=amount, amount=amount, date=date)
@@ -43,12 +45,11 @@ class BalanceTest(TestCase):
         print("expenseをデータベースに保存できませんでした")
         raise AssertionError(ex)
 
-    print("Income, Expenseモデルのテスト終了")
+    print("Balanceモデルのテスト終了")
 
 
 class BalancesTest(TestCase):
-    Income.objects.all().delete()
-    Expense.objects.all().delete()
+    Balance.objects.all().delete()
 
     name = "watashi"
     password = "unkoman"
@@ -58,8 +59,10 @@ class BalancesTest(TestCase):
     desc = "hogedesc"
     amount = 114514
     date = datetime.date.today()
-    income = Income(description=desc, writer=user, value=amount, date=date)
-    expense = Expense(description=desc, writer=user, value=-amount, date=date)
+    income = Balance(isIncome=True, description=desc,
+                     writer=user, value=amount, date=date)
+    expense = Balance(isIncome=False, description=desc,
+                      writer=user, value=-amount, date=date)
 
     checkBalance(one=income, description=desc,
                  writer=user, value=amount, amount=amount, date=date)
@@ -94,3 +97,5 @@ class BalancesTest(TestCase):
         raise AssertionError("DBから取り出したincomeが異なります")
     if not compareBalance(expense, expenses.first()):
         raise AssertionError("DBから取り出したexpenseが異なります")
+
+    print("Balancesのテスト終了")
