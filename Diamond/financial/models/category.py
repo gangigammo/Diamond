@@ -7,7 +7,7 @@ from .user import User
 
 class Category(Model):
     """
-    カテゴリの抽象クラスです
+    カテゴリのクラスです
 
     Attributes
     ----------
@@ -45,55 +45,3 @@ class Category(Model):
         keys = kwargs.keys()
         if "name" in keys:
             self.name = kwargs.get("name")
-
-
-class IncomeCategory(Category):
-    """
-    収入カテゴリのモデルです
-
-    Attributes
-    ----------
-    name : CharField
-        カテゴリ名
-    isIncome : bool
-        [読み取り専用]
-        常にTrueを返します
-    writer : User
-        [読み取り専用]
-        カテゴリの作成者
-    """
-    # accessors
-
-    # Override Method
-    @property
-    def isIncome(self) -> bool:
-        """
-        常にTrueを返します
-        """
-        return True
-
-
-class ExpenseCategory(Category):
-    """
-    支出カテゴリのモデルです
-
-    Attributes
-    ----------
-    name : CharField
-        カテゴリ名
-    isIncome : bool
-        [読み取り専用]
-        常にFalseを返します
-    writer : User
-        [読み取り専用]
-        カテゴリの作成者
-    """
-    # accessors
-
-    # Override Method
-    @property
-    def isIncome(self) -> bool:
-        """
-        常にFalseを返します
-        """
-        return False
