@@ -11,6 +11,11 @@ from typing import Optional
 class AppObjects():
     """
     金剛会計におけるModelの、データベースとのやり取りを担当するクラス
+
+    このクラスの処理は、classmethodとして実装されています。(Javaでいうところのstatic method)
+    インスタンスからではなく、クラスからメソッドを呼び出してください
+    ex.> all = AppObjects.getAll()
+
     このクラスを直接使うのではなく、以下のサブクラスを利用することを想定しています
     Users
         ユーザー
