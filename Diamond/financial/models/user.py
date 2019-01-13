@@ -11,44 +11,17 @@ class User(Model):
     Attributes
     ----------
     name : CharField
-        [読み取り専用]
         ユーザー名
     password : CharField
-        [書き込み専用]
         パスワード
     """
 
-    # private fields
+    # Fields
 
-    _name = CharField(max_length=128)
-    _password = CharField(max_length=128)  # TODO 平文にしない　
-
-    # accessors
-
-    @property
-    def name(self) -> str:
-        return self._name
-
-    def password_setter(self, password: str):
-        self._password = self.__digest(password)
-    password = property().setter(password_setter)
+    name = CharField(max_length=128)
+    password = CharField(max_length=128)  # TODO 平文にしない
 
     # public methods
-
-    def __init__(self, name: str, password: str, *args, **kwargs):
-        """
-        Userインスタンスを生成します
-
-        Parameters
-        ----------
-        name : str
-            ユーザー名
-        password : str
-            パスワード
-        """
-        super().__init__(*args, **kwargs)
-        self._name = name
-        self.update(password=password)
 
     def __str__(self):
         return str(self.name)
@@ -84,7 +57,7 @@ class User(Model):
         """
         keys = kwargs.keys()
         if "password" in keys:
-            self.password = kwargs.get("password")  # setterで書き込んでいる
+            self.password = self.__digest(kwargs.get("password"))
 
     # private methods
 

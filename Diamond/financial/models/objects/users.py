@@ -8,7 +8,7 @@ from financial.models import User
 
 
 class Users(AppObjects):
-    _T = Sequence[User]  # Override
+    _T = User  # Override
     """
     金剛会計におけるユーザーを、データベースとやり取りするクラス
 
