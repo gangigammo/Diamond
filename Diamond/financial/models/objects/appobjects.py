@@ -50,7 +50,7 @@ class AppObjects():
         return cls.getObjects().all()
 
     @classmethod
-    def get(cls, *args, **kwargs) -> QuerySet:
+    def get(cls, **kwargs) -> QuerySet:
         """
         データベースから、条件に合致する項目を取得します
         Return a new QuerySet instance with the args ANDed to the database.
@@ -70,7 +70,7 @@ class AppObjects():
         return cls.getObjects().filter(**kwargs)
 
     @classmethod
-    def getFirst(cls, *args, **kwargs) -> Optional[T]:
+    def getFirst(cls, **kwargs) -> Optional[T]:
         """
         データベースから、条件に合致する項目を1つ取得します
         なければNoneを返します
@@ -88,4 +88,4 @@ class AppObjects():
         objects : Model or None
             検索結果のModel
         """
-        return cls.get().first()
+        return cls.get(**kwargs).first()
