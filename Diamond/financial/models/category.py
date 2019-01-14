@@ -11,18 +11,20 @@ class Category(Model):
     """
     カテゴリのクラスです
 
-    Attributes
-    ----------
+    Fields
+    ------
     name : CharField
         カテゴリ名
-    categoryName : CharField
-        [読み取り専用]
-        nameと同じ
     isIncome : BooleanField
         収入なら True
         支出なら False
     writer : User
         カテゴリの作成者
+
+    Properties (Read Only)
+    ----------------------
+    categoryName : CharField
+        nameと同じ
     """
 
     # Fields
@@ -41,18 +43,3 @@ class Category(Model):
 
     def __str__(self):
         return self.name
-
-    def update(self, **kwargs):
-        """
-        カテゴリの内容を変更します
-        必ず名前付き引数で指定してください
-        引数が省略された項目は無視されます
-
-        Parameters
-        ----------
-        name : str
-            新しいカテゴリ名
-        """
-        keys = kwargs.keys()
-        if "name" in keys:
-            self.name = kwargs.get("name")
