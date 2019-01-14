@@ -1,9 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from financial.models import User, Balance, Category
-from financial.models.objects import Users
-from financial.models.objects import Balances, Incomes, Expenses
-from financial.models.objects import Categories, IncomeCategories, ExpenseCategories
 
 import datetime
 
