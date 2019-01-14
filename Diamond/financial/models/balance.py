@@ -25,7 +25,7 @@ class Balance(Model):
         金額 (絶対値)
     category : Category or None
         この収支が所属するカテゴリ
-        カテゴリに属さない場合はNone
+        属するカテゴリが無ければNone
     isIncome : BooleanField
         収入なら True
         支出なら False
