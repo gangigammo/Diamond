@@ -19,24 +19,22 @@ def view(request, *args):
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     username = request.session["name"]
+    user = User.objects.filter(name=username).first()
     if request.method == 'POST':
         if 'Category' in request.POST:
             categoryName = request.POST["Category"]
             balances = Balance.objects.filter(
-                categoryName=categoryName, writer=username)  # TODO
+                categoryName=categoryName, writer=user)
         else:
-            balances = Balance.objects.filter(writer=username)  # TODO
+            balances = Balance.objects.filter(writer=user)
     else:
-        balances = Balance.objects.filter(writer=username)  # TODO
+        balances = Balance.objects.filter(writer=user)
     incomes = []
     expences = []
-    categories = Category.objects.filter(writer=username)  # TODO
-    incomeCategories = Category.objects.filter(
-        balance=True, writer=username)  # TODO
-    expenseCategories = Category.objects.filter(
-        balance=False, writer=username)  # TODO
-    categories = categories.values(
-        'categoryName').order_by('categoryName').distinct()  # TODO
+    categories = Category.objects.filter(writer=user)
+    incomeCategories = categories.filter(isIncome=True)
+    expenseCategories = categories.filter(isIncome=False)
+    categories = categories.values('name').order_by('name').distinct()
     sumIncomes = 0
     sumExpences = 0
     for balance in balances:
@@ -136,8 +134,9 @@ def signup(request):
 def signinconfirm(request):
     name = request.POST["name"]
     password = request.POST["password"]
-    if len(User.objects.filter(name=name)) != 0:
-        if User.objects.filter(name=name)[0].password == password:
+    user = User.objects.filter(name=name).first()
+    if user:
+        if user.isCorrect(password=password):
             request.session["name"] = name
             return view(request)
         else:
