@@ -23,18 +23,20 @@ def view(request, *args):
         if 'Category' in request.POST:
             categoryName = request.POST["Category"]
             balances = Balance.objects.filter(
-                categoryName=categoryName, writer=username)
+                categoryName=categoryName, writer=username)  # TODO
         else:
-            balances = Balance.objects.filter(writer=username)
+            balances = Balance.objects.filter(writer=username)  # TODO
     else:
-        balances = Balance.objects.filter(writer=username)
+        balances = Balance.objects.filter(writer=username)  # TODO
     incomes = []
     expences = []
-    categories = Category.objects.filter(writer=username)
-    incomeCategories = Category.objects.filter(balance=True, writer=username)
-    expenseCategories = Category.objects.filter(balance=False, writer=username)
+    categories = Category.objects.filter(writer=username)  # TODO
+    incomeCategories = Category.objects.filter(
+        balance=True, writer=username)  # TODO
+    expenseCategories = Category.objects.filter(
+        balance=False, writer=username)  # TODO
     categories = categories.values(
-        'categoryName').order_by('categoryName').distinct()
+        'categoryName').order_by('categoryName').distinct()  # TODO
     sumIncomes = 0
     sumExpences = 0
     for balance in balances:
@@ -84,7 +86,7 @@ def income(request):
         categoryName = request.POST["incomeCategory"]
         username = request.session["name"]
         income = Balance(description=description, amount=inputIncome, isIncome=True, date=datetime.date.today(),
-                         categoryName=categoryName, writer=username)
+                         categoryName=categoryName, writer=username)  # TODO
         income.save()
         return render(request, "income.html")
     else:  # 入力が数字でない時のエラー
@@ -102,7 +104,7 @@ def expence(request):
         categoryName = request.POST["expenseCategory"]
         username = request.session["name"]
         expence = Balance(description=description, amount=inputExpence, isIncome=False, date=datetime.date.today(),
-                          categoryName=categoryName, writer=username)
+                          categoryName=categoryName, writer=username)  # TODO
         expence.save()
         return render(request, "expence.html")
     else:  # 入力エラーの時
@@ -169,16 +171,16 @@ def category(request):  # カテゴリー登録関数
     if inputCategory == "":
         return view(request, "categorySubscribeError", "blank")
     if categoryType == "income":
-        if len(Category.objects.filter(categoryName=inputCategory, balance=True, writer=username)) == 0:
+        if len(Category.objects.filter(categoryName=inputCategory, balance=True, writer=username)) == 0:  # TODO
             newcategory = Category(
-                categoryName=inputCategory, balance=True, writer=username)
+                categoryName=inputCategory, balance=True, writer=username)  # TODO
             newcategory.save()
         else:
             return view(request, "categorySubscribeError", "duplication")
     else:
-        if len(Category.objects.filter(categoryName=inputCategory, balance=False, writer=username)) == 0:
+        if len(Category.objects.filter(categoryName=inputCategory, balance=False, writer=username)) == 0:  # TODO
             newcategory = Category(
-                categoryName=inputCategory, balance=False, writer=username)
+                categoryName=inputCategory, balance=False, writer=username)  # TODO
             newcategory.save()
         else:
             return view(request, "categorySubscribeError", "duplication")
