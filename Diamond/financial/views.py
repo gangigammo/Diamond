@@ -85,8 +85,11 @@ def income(request):
         inputIncome = int(inputIncomeStr)
         categoryName = request.POST["incomeCategory"]
         username = request.session["name"]
-        income = Balance(description=description, amount=inputIncome, isIncome=True, date=datetime.date.today(),
-                         categoryName=categoryName, writer=username)  # TODO
+        user = User.objects.filter(name=username).first()
+        category = Category.objects.filter(
+            writer=user, name=categoryName).first()
+        income = Balance(description=description, value=inputIncome, isIncome=True, date=datetime.date.today(),
+                         category=category, writer=user)
         income.save()
         return render(request, "income.html")
     else:  # 入力が数字でない時のエラー
@@ -103,8 +106,11 @@ def expence(request):
         inputExpence = int(inputExpenceStr)
         categoryName = request.POST["expenseCategory"]
         username = request.session["name"]
+        user = User.objects.filter(name=username).first()
+        category = Category.objects.filter(
+            writer=user, name=categoryName).first()
         expence = Balance(description=description, amount=inputExpence, isIncome=False, date=datetime.date.today(),
-                          categoryName=categoryName, writer=username)  # TODO
+                          category=category, writer=user)
         expence.save()
         return render(request, "expence.html")
     else:  # 入力エラーの時
