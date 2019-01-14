@@ -12,32 +12,33 @@ from .category import Category
 class Balance(Model):
     """
     収支の抽象クラスです
-    valueとamountは連動します
 
-    Attributes
-    ----------
+    Fields
+    ------
     description : CharField
         内容
     writer : User
         この収支の作成者
     date : DateField
         収支の日付
-    category : Category
+    category : Category or None
         この収支が所属するカテゴリ
-    amount : int
-        [読み取り専用]
-        金額 (絶対値)
+        カテゴリに属さない場合はNone
     value : IntegerField
         金額 (収入が正, 支出が負の値)
-    value_signed : str
-        [読み取り専用]
-        金額に符号を付けた文字列
     isIncome : BooleanField
         収入なら True
         支出なら False
-    categoryName : CharField
-        [読み取り専用]
+
+    Properties (Read Only)
+    ----------------------
+    amount : int
+        金額 (絶対値)
+    value_signed : str
+        金額に符号を付けた文字列
+    categoryName : CharField or None
         category.nameと同じ
+        属するカテゴリが無ければNone
     """
 
     # Fields
@@ -57,18 +58,6 @@ class Balance(Model):
     def amount(self) -> int:
         return abs(self.value)
 
-    @amount.setter
-    def amount(self, amount: int):
-        """
-        収支の金額を、絶対値で入力します
-        """
-        if amount < 0:
-            raise ValueError("amountに負の値が入力されました")
-        if self.isIncome:
-            self.value = amount
-        else:
-            self.value = -amount
-
     @property
     def value_signed(self) -> str:
         sign = "+" if self.isIncome else "-"
@@ -83,39 +72,3 @@ class Balance(Model):
 
     def __str__(self):
         return self.description
-
-    def update(self, **kwargs):
-        """
-        収支の内容を変更します
-        必ず名前付き引数で指定してください
-        引数が省略された項目は無視されます
-
-        Parameters
-        ----------
-        description : str
-            内容
-        date: DateField
-            収支の日付
-        category: Category or None
-            属するカテゴリ
-            Noneはカテゴリなしを表します
-        amount : int
-            金額 (絶対値)
-            入力する場合、valueは省略
-        value : int
-            金額 (収入が正, 支出が負の値)
-            入力する場合、amountは省略
-        isIncome : bool
-
-        """
-        keys = kwargs.keys()
-        if "description" in keys:
-            self.description = kwargs.get("description")
-        if "date" in keys:
-            self.date = kwargs.get("date")
-        if "category" in keys:
-            self.category = kwargs.get("category")
-        if "amount" in keys:
-            self.amount = kwargs.get("amount")
-        elif "value" in keys:
-            self.value = kwargs.get("value")
