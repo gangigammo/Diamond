@@ -15,6 +15,9 @@ class Category(Model):
     ----------
     name : CharField
         カテゴリ名
+    categoryName : CharField
+        [読み取り専用]
+        nameと同じ
     isIncome : BooleanField
         収入なら True
         支出なら False
@@ -28,6 +31,11 @@ class Category(Model):
     isIncome = BooleanField()
     # もとのユーザ削除時 -> このカテゴリも一緒に削除される (CASCADE)
     writer = ForeignKey(User, on_delete=CASCADE)
+
+    # properties
+    @property
+    def categoryName(self):
+        return self.name
 
     # public methods
 

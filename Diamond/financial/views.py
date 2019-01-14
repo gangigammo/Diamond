@@ -23,8 +23,10 @@ def view(request, *args):
     if request.method == 'POST':
         if 'Category' in request.POST:
             categoryName = request.POST["Category"]
+            requestCategory = Category.objects.filter(
+                writer=user, name=categoryName).first()
             balances = Balance.objects.filter(
-                categoryName=categoryName, writer=user)
+                category=requestCategory, writer=user)
         else:
             balances = Balance.objects.filter(writer=user)
     else:
@@ -164,22 +166,23 @@ def signout(request):
 def category(request):  # カテゴリー登録関数
     inputCategory = request.POST["registrationCategory"]
     categoryType = request.POST["categoryType"]
-    IncomeCategory = Category.objects.filter(balance=True)
-    ExpenseCategory = Category.objects.filter(balance=False)
+    IncomeCategory = Category.objects.filter(isIncome=True)
+    ExpenseCategory = Category.objects.filter(isIncome=False)
     username = request.session["name"]
+    user = User.objects.filter(name=username).first()
     if inputCategory == "":
         return view(request, "categorySubscribeError", "blank")
     if categoryType == "income":
-        if len(Category.objects.filter(categoryName=inputCategory, balance=True, writer=username)) == 0:  # TODO
+        if len(Category.objects.filter(name=inputCategory, isIncome=True, writer=user)) == 0:
             newcategory = Category(
-                categoryName=inputCategory, balance=True, writer=username)  # TODO
+                name=inputCategory, isIncome=True, writer=user)
             newcategory.save()
         else:
             return view(request, "categorySubscribeError", "duplication")
     else:
-        if len(Category.objects.filter(categoryName=inputCategory, balance=False, writer=username)) == 0:  # TODO
+        if len(Category.objects.filter(name=inputCategory, isIncome=False, writer=user)) == 0:
             newcategory = Category(
-                categoryName=inputCategory, balance=False, writer=username)  # TODO
+                name=inputCategory, isIncome=False, writer=user)
             newcategory.save()
         else:
             return view(request, "categorySubscribeError", "duplication")

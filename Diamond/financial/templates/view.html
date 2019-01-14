@@ -60,7 +60,7 @@
                                 <select name="incomeCategory">
                                     <option value="選択なし">選択なし</option>
                                     {% for incomeCategory in incomeCategories %}
-                                    <option value={{incomeCategory.categoryName}}>{{incomeCategory.categoryName}}</option>
+                                    <option value={{incomeCategory.name}}>{{incomeCategory.name}}</option>
                                     {% endfor %}
                                 </select>
                                 <br>
@@ -79,7 +79,7 @@
                                 <select name="expenseCategory">
                                     <option value="選択なし">選択なし</option>
                                     {% for expenseCategory in expenseCategories %}
-                                    <option value={{expenseCategory.categoryName}}>{{expenseCategory.categoryName}}</option>
+                                    <option value={{expenseCategory.name}}>{{expenseCategory.name}}</option>
                                     {% endfor %}
                                 </select>
                                 <br>
@@ -105,7 +105,7 @@
                             <select name="Category">
                                 <option value="選択なし">選択なし</option>
                                 {% for category in Category %}
-                                <option value={{category.categoryName}}>{{category.categoryName}}</option>
+                                <option value={{category.name}}>{{category.name}}</option>
                                 {% endfor %}
                             </select>
                             {% csrf_token %}
@@ -144,7 +144,7 @@
                                         </td>
                                         {% endif %}
                                         <td>{{balance.description}}</td>
-                                        <td>{{balance.categoryName}}</td>
+                                        <td>{{balance.name}}</td>
                                         <td><input name="balanceSelect" value={{balance.id}} type="checkbox"></td>
                                     </tr>
                                     {% endfor %}
