@@ -11,7 +11,7 @@ from .category import Category
 
 class Balance(Model):
     """
-    収支の抽象クラスです
+    収支のモデルです
 
     Fields
     ------

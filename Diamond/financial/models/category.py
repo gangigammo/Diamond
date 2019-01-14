@@ -9,7 +9,7 @@ from .user import User
 
 class Category(Model):
     """
-    カテゴリのクラスです
+    カテゴリのモデルです
 
     Fields
     ------
