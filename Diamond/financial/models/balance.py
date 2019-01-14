@@ -76,7 +76,8 @@ class Balance(Model):
 
     @property
     def categoryName(self) -> CharField:
-        return self.category.name
+        c = self.category
+        return c and c.name
 
     # public methods
 
