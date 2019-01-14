@@ -1,5 +1,5 @@
 import financial.views
-from financial.models import User, Balance
+from financial.models import User, Balances
 
 __topView = financial.views.view
 
@@ -20,12 +20,12 @@ def main(request):
 
 # チェックボックスで選択した収支リストを取得
 def __getSelects(request):
-    username = request.session["name"]  # 自分のユーザー名
+    username = request.session["name"]              # 自分のユーザー名
     user = User.objects.filter(name=username).first()
     query = request.POST
     ids = query.getlist("balanceSelect")            # 収支idリスト
-    selects = Balances.get(id__in=ids,              # idリストから収支を取得
-                                     writer=user)   # 他人の収支は除く
+    selects = Balances.getlist(ids,                 # idリストから収支を取得
+                               writer=user)         # 他人の収支は除く
     return selects
 
 

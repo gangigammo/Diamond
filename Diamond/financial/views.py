@@ -85,7 +85,7 @@ def income(request):
         user = User.objects.filter(name=username).first()
         category = Category.objects.filter(
             writer=user, name=categoryName).first()
-        income = Balance(description=description, value=inputIncome, isIncome=True, date=datetime.date.today(),
+        income = Balance(description=description, amount=inputIncome, isIncome=True, date=datetime.date.today(),
                          category=category, writer=user)
         income.save()
         return render(request, "income.html")
