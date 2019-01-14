@@ -8,8 +8,8 @@ class User(Model):
     """
     ユーザーのモデルです
 
-    Attributes
-    ----------
+    Fields
+    ------
     name : CharField
         ユーザー名
     password : CharField
@@ -33,7 +33,7 @@ class User(Model):
         Parameters
         ----------
         password : str
-            パスワード
+            パスワード(平文)
 
         Return
         ------
@@ -44,20 +44,16 @@ class User(Model):
         result = (self.password == digested)
         return result
 
-    def update(self, **kwargs):
+    def setPassword(self, password: str):
         """
-        ユーザーの内容を変更します
-        必ず名前付き引数で指定してください
-        引数が省略された項目は無視されます
+        パスワードを変更します
 
         Parameters
         ----------
         password : str
-            新しいパスワード
+            新しいパスワード(平文)
         """
-        keys = kwargs.keys()
-        if "password" in keys:
-            self.password = self.__digest(kwargs.get("password"))
+        self.password = self.__digest(password)
 
     # private methods
 
