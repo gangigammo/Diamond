@@ -1,5 +1,5 @@
 import financial.views
-from financial.models import User, Balances
+from financial.models import User, Balance
 
 __topView = financial.views.view
 
@@ -24,8 +24,8 @@ def __getSelects(request):
     user = User.objects.filter(name=username).first()
     query = request.POST
     ids = query.getlist("balanceSelect")            # 収支idリスト
-    selects = Balances.getlist(ids,                 # idリストから収支を取得
-                               writer=user)         # 他人の収支は除く
+    selects = Balance.objects.filter(id__in=ids,    # idリストから収支を取得
+                                     writer=user)   # 他人の収支は除く
     return selects
 
 
