@@ -2,6 +2,8 @@
 ユーザーのモデル
 """
 from django.db.models import Model, CharField
+from django.db.models import Sum
+from django.db.models.query import QuerySet
 
 
 class User(Model):
@@ -54,6 +56,19 @@ class User(Model):
             新しいパスワード(平文)
         """
         self.password = self.__digest(password)
+
+    def sum(self) -> int:
+        """
+        このユーザーが所持する合計を計算します
+
+        Returns
+        -------
+        sum : int
+            合計
+        """
+        balances = self.balances.all
+        sum = balances.value.aggregate(Sum("amount"))
+        return sum
 
     # private methods
 

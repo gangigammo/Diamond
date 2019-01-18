@@ -45,7 +45,7 @@ class Balance(Model):
 
     description = CharField(max_length=128)
     # もとのユーザ削除時 -> この収支も一緒に削除される (CASCADE)
-    writer = ForeignKey(User, on_delete=CASCADE)
+    writer = ForeignKey(User, on_delete=CASCADE, related_name="balances")
     date = DateField()  # TODO
     # もとのカテゴリ削除時 -> __category=nullとなる (SET_NULL)
     category = ForeignKey(Category, null=True, on_delete=SET_NULL)
