@@ -124,6 +124,7 @@ def signinconfirm(request):
     password = request.POST["password"]
     if len(User.objects.filter(name=name)) != 0:
         user = User.objects.filter(name=name)[0]
+        #ハッシュ化
         for val in range(0,1000):
             password = hashlib.sha256((str(user.id)+password).encode('utf-8')).hexdigest()
         if User.objects.filter(name=name)[0].password == password:
@@ -141,6 +142,7 @@ def signupconfirm(request):
     if len(User.objects.filter(name=name)) == 0:
         user = User(name=name, password="")
         user.save()
+        #ハッシュ化
         for val in range(0,1000):
             password = hashlib.sha256((str(user.id)+password).encode('utf-8')).hexdigest()
         user.password = password
