@@ -23,7 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', financial_view.home),
     path('view/', financial_view.view),
-    path('delete/', financial_view.delete),
     path('income/', financial_view.income),
     path('expence/', financial_view.expence),
     path('signin/', financial_view.signin),

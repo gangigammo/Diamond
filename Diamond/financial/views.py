@@ -6,6 +6,7 @@ import datetime
 
 from django.http import HttpResponse
 import csv
+import hashlib
 # Create your views here.
 
 
@@ -85,7 +86,7 @@ def income(request):
         income = Balance(description=description, amount=inputIncome, isIncome=True, date=datetime.date.today(),
                          categoryName=categoryName, writer=username)
         income.save()
-        return render(request, "income.html")
+        return view(request)
     else:  # 入力が数字でない時のエラー
         if not inputIncomeStr.isdecimal():
             return view(request, "incomeError", "notDecimalError")
@@ -103,24 +104,12 @@ def expence(request):
         expence = Balance(description=description, amount=inputExpence, isIncome=False, date=datetime.date.today(),
                           categoryName=categoryName, writer=username)
         expence.save()
-        return render(request, "expence.html")
+        return view(request)
     else:  # 入力エラーの時
         if not inputExpenceStr.isdecimal():
             return view(request, "expenseError", "notDecimalError")
         else:
             return view(request, "expenseError", "contentBlankError")
-
-
-def delete(request):
-    balances = Balance.objects.all()
-    user = User.objects.all()
-    category = Category.objects.all()
-    balances.delete()
-    user.delete()
-    category.delete()
-    request.session.flush()
-    return render(request, "delete.html")
-
 
 def signin(request):
     return render(request, "signin.html", {"error": "none"})
@@ -134,6 +123,9 @@ def signinconfirm(request):
     name = request.POST["name"]
     password = request.POST["password"]
     if len(User.objects.filter(name=name)) != 0:
+        user = User.objects.filter(name=name)[0]
+        for val in range(0,1000):
+            password = hashlib.sha256((str(user.id)+password).encode('utf-8')).hexdigest()
         if User.objects.filter(name=name)[0].password == password:
             request.session["name"] = name
             return view(request)
@@ -147,7 +139,11 @@ def signupconfirm(request):
     name = request.POST["name"]
     password = request.POST["password"]
     if len(User.objects.filter(name=name)) == 0:
-        user = User(name=name, password=password)
+        user = User(name=name, password="")
+        user.save()
+        for val in range(0,1000):
+            password = hashlib.sha256((str(user.id)+password).encode('utf-8')).hexdigest()
+        user.password = password
         user.save()
         return render(request, "signupconfirm.html")
     else:
