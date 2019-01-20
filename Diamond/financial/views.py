@@ -179,7 +179,7 @@ def category(request):  # カテゴリー登録関数
             newcategory.save()
         else:
             return view(request, "categorySubscribeError", "duplication")
-    return render(request, "category.html")
+    return view(request)
 
 def export(request): #csvファイルをエクスポート
     response = HttpResponse(content_type='text/csv')
