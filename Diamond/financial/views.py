@@ -23,16 +23,16 @@ def view(request, *args):
         if 'Category' in request.POST:
             categoryName = request.POST["Category"]
             balances = Balance.objects.filter(
-                categoryName=categoryName, writer=username)
+                categoryName=categoryName, writer=username).order_by("id").reverse()
         else:
-            balances = Balance.objects.filter(writer=username)
+            balances = Balance.objects.filter(writer=username).order_by("id").reverse()
     else:
-        balances = Balance.objects.filter(writer=username)
+        balances = Balance.objects.filter(writer=username).order_by("id").reverse()
     incomes = []
     expences = []
-    categories = Category.objects.filter(writer=username)
-    incomeCategories = Category.objects.filter(balance=True, writer=username)
-    expenseCategories = Category.objects.filter(balance=False, writer=username)
+    categories = Category.objects.filter(writer=username).order_by("id").reverse()
+    incomeCategories = Category.objects.filter(balance=True, writer=username).order_by("id").reverse()
+    expenseCategories = Category.objects.filter(balance=False, writer=username).order_by("id").reverse()
     categories = categories.values(
         'categoryName').order_by('categoryName').distinct()
     sumIncomes = 0
