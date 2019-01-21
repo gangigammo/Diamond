@@ -185,7 +185,7 @@ def export(request): #csvファイルをエクスポート
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="data.csv"'
     writer = csv.writer(response)
-    balances = Balance.objects.filter(writer=request.session.get("name")) #あとで日付順にソートすべき
+    balances = Balance.objects.filter(writer=request.session.get("name")).order_by("id").reverse() #あとで日付順にソートすべき
     for balance in balances: #今は収支、内容、カテゴリーのみ。後で追加
         if(balance.isIncome):
             writer.writerow([balance.amount, balance.description, balance.categoryName])
