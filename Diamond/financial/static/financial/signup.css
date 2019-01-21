@@ -1,143 +1,148 @@
 .signup {
-    position: relative;
-    height: 2000px;
-    background: #e4fcff;/*背景色*/
-    text-align: center;
-    padding: 5%;
+  position: relative;
+  height: 2000px;
+  background: #e4fcff; /*背景色*/
+  text-align: center;
+  padding: 5%;
 }
 
-
 .signuph2 {
-    position: relative;
-	text-align: center;
-	color: rgb(255, 156, 27);
+  position: relative;
+  text-align: center;
+  color: rgb(255, 156, 27);
 }
 
 .signuph3 {
-	position: relative;
-	display: inline-block;
-	width: 70%;
-	padding: 0 17%;
-	text-align: center;
-	color:#00acc1;
+  position: relative;
+  display: inline-block;
+  width: 70%;
+  padding: 0 17%;
+  text-align: center;
+  color: #00acc1;
 }
 .signuph3::before,
 .signuph3::after {
-	content: '';
-	position: absolute;
-	top: 50%;
-	display: inline-block;
-	width: 15%;
-	height: 3px;
-	border-top: 3px solid #00acc1;
+  content: "";
+  position: absolute;
+  top: 50%;
+  display: inline-block;
+  width: 15%;
+  height: 3px;
+  border-top: 3px solid #00acc1;
 }
 .signuph3::before {
-	left:0;
+  left: 0;
 }
 .signuph3::after {
-	right: 0;
+  right: 0;
 }
 
 .signuph4 {
-    position: relative;
-	text-align: center;
-	color: rgb(255, 156, 27);
+  position: relative;
+  text-align: center;
+  color: rgb(255, 156, 27);
 }
 
 .signup p {
-    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
-    padding: 0.5%;
+  font-family: "YuGothic", "Yu Gothic", "Meiryo", "ヒラギノ角ゴ", "sans-serif";
+  padding: 0.5%;
 }
 
 .signup form {
-    padding: 3%;
+  padding: 3%;
 }
 
-.signup input[type='text'] {
-	font: 15px/24px sans-serif;
-	box-sizing: border-box;
-	letter-spacing: 1px;
-	border: 1px solid #1b2538;
-    border-radius: 4px;
-    width: 40%;
+.signup input[type="text"] {
+  font: 15px/24px sans-serif;
+  box-sizing: border-box;
+  letter-spacing: 1px;
+  border: 1px solid #1b2538;
+  border-radius: 4px;
+  width: 40%;
 }
-.signup input[type='text']:focus {
-	border: 1px solid #da3c41;
-	outline: none;
-	box-shadow: 0 0 5px 1px rgba(218,60,65, .5);
+.signup input[type="text"]:focus {
+  border: 1px solid #da3c41;
+  outline: none;
+  box-shadow: 0 0 5px 1px rgba(218, 60, 65, 0.5);
 }
 
-.signup input[type='password'] {
-	font: 15px/24px sans-serif;
-	box-sizing: border-box;
-	letter-spacing: 1px;
-	border: 1px solid #1b2538;
-    border-radius: 4px;
-    width: 40%;
+.signup input[type="password"] {
+  font: 15px/24px sans-serif;
+  box-sizing: border-box;
+  letter-spacing: 1px;
+  border: 1px solid #1b2538;
+  border-radius: 4px;
+  width: 40%;
 }
-.signup input[type='password']:focus {
-	border: 1px solid #da3c41;
-	outline: none;
-	box-shadow: 0 0 5px 1px rgba(218,60,65, .5);
+.signup input[type="password"]:focus {
+  border: 1px solid #da3c41;
+  outline: none;
+  box-shadow: 0 0 5px 1px rgba(218, 60, 65, 0.5);
 }
 
 .signupButton {
-	position: relative;
-	z-index: 1;
-	overflow: hidden;
-	width: 160px;
-	padding: 1em;
-	cursor: pointer;
-	line-height: 1.4;
-	transition: color 0.3s cubic-bezier(0.02,0.01,0.47,1),transform 0.3s cubic-bezier(0.02,0.01,0.47,1);
-	color: #ffffff;
-	border: none;
-	border-width: 0;
-	border-color: transparent;
-	border-radius: 100px;
-    background: #009688;
-    margin: 2%;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  width: 160px;
+  padding: 1em;
+  cursor: pointer;
+  line-height: 1.4;
+  transition: color 0.3s cubic-bezier(0.02, 0.01, 0.47, 1),
+    transform 0.3s cubic-bezier(0.02, 0.01, 0.47, 1);
+  color: #ffffff;
+  border: none;
+  border-width: 0;
+  border-color: transparent;
+  border-radius: 100px;
+  background: #009688;
+  margin: 2%;
 }
-.signupButton:after, .signupButton:before {
-	position: absolute;
-	z-index: -1;
-	right: 0;
-	bottom: 0;
-	width: 100px;
-	height: 100px;
-	content: '';
-	transition: transform 0.15s cubic-bezier(0.02,0.01,0.47,1),opacity 0.15s cubic-bezier(0.02,0.01,0.47,1);
-	-webkit-transform: translate(100%,-25%) translateZ(0);
-	        transform: translate(100%,-25%) translateZ(0);
-	opacity: 0;
-	border-radius: 50%;
-	background: #009688;
+.signupButton:after,
+.signupButton:before {
+  position: absolute;
+  z-index: -1;
+  right: 0;
+  bottom: 0;
+  width: 100px;
+  height: 100px;
+  content: "";
+  transition: transform 0.15s cubic-bezier(0.02, 0.01, 0.47, 1),
+    opacity 0.15s cubic-bezier(0.02, 0.01, 0.47, 1);
+  -webkit-transform: translate(100%, -25%) translateZ(0);
+  transform: translate(100%, -25%) translateZ(0);
+  opacity: 0;
+  border-radius: 50%;
+  background: #009688;
 }
-.signupButton:after, .signupButton:before {
-	background: #ffffff;
+.signupButton:after,
+.signupButton:before {
+  background: #ffffff;
 }
 .signupButton:hover {
-	transition: all 0.5s cubic-bezier(0.02,0.01,0.47,1);
-	-webkit-transform: scale(1.1) translateZ(0);
-	        transform: scale(1.1) translateZ(0);
-	color: #ffffff;
-	box-shadow: 0 1px 8px rgba(0,0,0,0.3);
+  transition: all 0.5s cubic-bezier(0.02, 0.01, 0.47, 1);
+  -webkit-transform: scale(1.1) translateZ(0);
+  transform: scale(1.1) translateZ(0);
+  color: #ffffff;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
 }
 .signupButton:hover:before {
-	transition: transform 0.2s cubic-bezier(0.02,0.01,0.47,1),opacity 0.2s cubic-bezier(0.02,0.01,0.47,1);
-	-webkit-transform: translate3d(50%,0,0) scale(0.9);
-	        transform: translate3d(50%,0,0) scale(0.9);
-	opacity: 0.15;
+  transition: transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1),
+    opacity 0.2s cubic-bezier(0.02, 0.01, 0.47, 1);
+  -webkit-transform: translate3d(50%, 0, 0) scale(0.9);
+  transform: translate3d(50%, 0, 0) scale(0.9);
+  opacity: 0.15;
 }
 .signupButton:hover:after {
-	transition: transform 0.2s cubic-bezier(0.02,0.01,0.47,1) 0.05s,opacity 0.2s cubic-bezier(0.02,0.01,0.47,1) 0.05s;
-	-webkit-transform: translate(50%) scale(1.1);
-	        transform: translate(50%) scale(1.1);
-	opacity: 0.25;
+  transition: transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1) 0.05s,
+    opacity 0.2s cubic-bezier(0.02, 0.01, 0.47, 1) 0.05s;
+  -webkit-transform: translate(50%) scale(1.1);
+  transform: translate(50%) scale(1.1);
+  opacity: 0.25;
 }
 .signupButton:active {
-	opacity: 0.5;
+  opacity: 0.5;
 }
 .signupButton:focus {
-	color: #ffffff;
+  color: #ffffff;
 }
