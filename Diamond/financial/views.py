@@ -25,14 +25,19 @@ def view(request, *args):
             balances = Balance.objects.filter(
                 categoryName=categoryName, writer=username).order_by("id").reverse()
         else:
-            balances = Balance.objects.filter(writer=username).order_by("id").reverse()
+            balances = Balance.objects.filter(
+                writer=username).order_by("id").reverse()
     else:
-        balances = Balance.objects.filter(writer=username).order_by("id").reverse()
+        balances = Balance.objects.filter(
+            writer=username).order_by("id").reverse()
     incomes = []
     expences = []
-    categories = Category.objects.filter(writer=username).order_by("id").reverse()
-    incomeCategories = Category.objects.filter(balance=True, writer=username).order_by("id").reverse()
-    expenseCategories = Category.objects.filter(balance=False, writer=username).order_by("id").reverse()
+    categories = Category.objects.filter(
+        writer=username).order_by("id").reverse()
+    incomeCategories = Category.objects.filter(
+        balance=True, writer=username).order_by("id").reverse()
+    expenseCategories = Category.objects.filter(
+        balance=False, writer=username).order_by("id").reverse()
     categories = categories.values(
         'categoryName').order_by('categoryName').distinct()
     sumIncomes = 0
@@ -111,6 +116,7 @@ def expence(request):
         else:
             return view(request, "expenseError", "contentBlankError")
 
+
 def signin(request):
     return render(request, "signin.html", {"error": "none"})
 
@@ -124,9 +130,10 @@ def signinconfirm(request):
     password = request.POST["password"]
     if len(User.objects.filter(name=name)) != 0:
         user = User.objects.filter(name=name)[0]
-        #ハッシュ化
-        for val in range(0,1000):
-            password = hashlib.sha256((str(user.id)+password).encode('utf-8')).hexdigest()
+        # ハッシュ化
+        for val in range(0, 1000):
+            password = hashlib.sha256(
+                (str(user.id)+password).encode('utf-8')).hexdigest()
         if User.objects.filter(name=name)[0].password == password:
             request.session["name"] = name
             return view(request)
@@ -142,9 +149,10 @@ def signupconfirm(request):
     if len(User.objects.filter(name=name)) == 0:
         user = User(name=name, password="")
         user.save()
-        #ハッシュ化
-        for val in range(0,1000):
-            password = hashlib.sha256((str(user.id)+password).encode('utf-8')).hexdigest()
+        # ハッシュ化
+        for val in range(0, 1000):
+            password = hashlib.sha256(
+                (str(user.id)+password).encode('utf-8')).hexdigest()
         user.password = password
         user.save()
         return render(request, "signupconfirm.html")
@@ -181,14 +189,18 @@ def category(request):  # カテゴリー登録関数
             return view(request, "categorySubscribeError", "duplication")
     return view(request)
 
-def export(request): #csvファイルをエクスポート
+
+def export(request):  # csvファイルをエクスポート
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="data.csv"'
     writer = csv.writer(response)
-    balances = Balance.objects.filter(writer=request.session.get("name")).order_by("id").reverse() #あとで日付順にソートすべき
-    for balance in balances: #今は収支、内容、カテゴリーのみ。後で追加
+    balances = Balance.objects.filter(writer=request.session.get(
+        "name")).order_by("id").reverse()  # あとで日付順にソートすべき
+    for balance in balances:  # 今は収支、内容、カテゴリーのみ。後で追加
         if(balance.isIncome):
-            writer.writerow([balance.amount, balance.description, balance.categoryName])
+            writer.writerow(
+                [balance.amount, balance.description, balance.categoryName])
         else:
-            writer.writerow([-balance.amount, balance.description, balance.categoryName])
+            writer.writerow(
+                [-balance.amount, balance.description, balance.categoryName])
     return response
