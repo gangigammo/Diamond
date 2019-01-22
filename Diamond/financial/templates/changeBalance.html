@@ -9,12 +9,15 @@
         {% csrf_token %}
         <p>収支編集</p>
         <input type="submit" value="適用">
+        <br>
+        <a href="/view">収支表に戻る</a>
         <table>
             <thead>
                 <tr>
                     <th>金額</th>
                     <th>内容</th>
                     <th>カテゴリー</th>
+                    <th>日付</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,6 +47,9 @@
                                 {% endfor %}
                             {% endif %}
                         </select>
+                    </td>
+                    <td>
+                        <input type="date" name="{{b.id}}-date" value="{{b.date|date:'Y-m-d'}}">
                     </td>
                 </tr>
                 {% endfor %}

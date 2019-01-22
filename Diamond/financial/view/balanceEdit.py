@@ -53,13 +53,14 @@ def __change(request, user, selects):
 def apply(request):
     post = request.POST
     for id_fields in __parseChange(post):
-        (id, (amount, description, categoryName)) = id_fields
+        (id, (amount, description, categoryName, date)) = id_fields
         b = Balance.objects.filter(id=id).first()
         category = Category.objects.filter(
             writer=b.writer, name=categoryName).first()
         b.amount = amount
         b.description = description
         b.category = category
+        b.date = date
         b.save()
     return __topView(request)
 
@@ -70,7 +71,7 @@ def __parseChange(dic):
         "id-amount": value, ...
     }
     の辞書を、
-    ((id, (amount,description,categoryName)), ...)
+    ((id, (amount,description,categoryName,date)), ...)
     のタプルへ変換する。
     空欄や、金額が数字以外である項目は無視する
     """
@@ -83,11 +84,12 @@ def __parseChange(dic):
         (
             dic.get(i + "-amount"),
             dic.get(i + "-description"),
-            dic.get(i + "-category")
+            dic.get(i + "-category"),
+            dic.get(i + "-date")
         )
     ) for i in ids]
     # check
     result = (i for i in input
-              if i[0].isdecimal() and i[1][0].isdecimal() and bool(i[1][1])
+              if i[0].isdecimal() and i[1][0].isdecimal() and bool(i[1][1]) and bool(i[1][3])
               )
     return result

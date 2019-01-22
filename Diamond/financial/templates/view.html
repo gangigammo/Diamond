@@ -130,6 +130,7 @@
                                         <th>収支</th>
                                         <th>内容</th>
                                         <th>カテゴリー</th>
+                                        <th>日付</th>
                                         <th>選択</th>
                                     </tr>
                                 </thead>
@@ -147,6 +148,7 @@
                                         {% endif %}
                                         <td>{{balance.description}}</td>
                                         <td>{{balance.categoryName}}</td>
+                                        <td>{{balance.date|date:'Y年m月d日'}}</td>
                                         <td><input name="balanceSelect" value={{balance.id}} type="checkbox"></td>
                                     </tr>
                                     {% endfor %}
