@@ -23,6 +23,13 @@ class User(Model):
     name = CharField(max_length=128)
     password = CharField(max_length=128)  # TODO 平文にしない
 
+    # factory method
+    @staticmethod
+    def new(name, password):
+        user = User(name=name, password="none")
+        user.setPassword(password=password)
+        return user
+
     # public methods
 
     def __str__(self):
