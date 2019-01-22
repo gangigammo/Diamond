@@ -45,16 +45,19 @@ def view(request, *args):
 
     if len(args) >= 2:  # 入力内容によるエラー表示
         return render(request, "view.html",
-                      {"incomes": incomes, args[0]: args[1], "expences": expences, "sumIncomes": sumIncomes,
-                       "sumExpences": sumExpences, "gain": gain,
+                      {args[0]: args[1], "name": request.session.get("name"), "balances": balances, "gain": gain,
                        "incomeCategories": incomeCategories, "expenseCategories": expenseCategories,
                        "Category": categories})
     else:
         return render(request, "view.html",
-                      {"user":username, "incomes":incomes, "expences":expences, "sumIncomes":sumIncomes, "sumExpences":sumExpences, "gain":gain,
-                       "incomeCategories":incomeCategories, "expenseCategories":expenseCategories, "Category":categories,
-                       "incomeFileName":getFileName(request, 'circle_income'),
-                       "expenceFileName":getFileName(request, 'circle_expence')})
+                      {"name": request.session.get("name"), "balances": balances, "gain": gain,
+                       "incomeCategories": incomeCategories, "expenseCategories": expenseCategories,
+                       "Category": categories,
+                       "incomeFileName": getFileName(request, 'circle_income'),
+                       "expenceFileName": getFileName(request, 'circle_expence'),
+                       "lineFileName_M": getFileName(request, 'monthly')
+                       })
+
 
 
 def getFileName(request, basename):
