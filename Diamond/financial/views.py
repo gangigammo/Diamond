@@ -68,7 +68,6 @@ def view(request, *args):
                        })
 
 
-
 def getFileName(request, basename):
     # 更新日を付与した画像のファイル名を返す
     import os
@@ -113,7 +112,8 @@ def createIncomeCircle(request):
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     from matplotlib.font_manager import FontProperties
-    fp = FontProperties(fname=setting.BASE_DIR+'/financial/static/financial/ttf/ipag.ttf');
+    fp = FontProperties(fname=setting.BASE_DIR +
+                        '/financial/static/financial/ttf/ipag.ttf')
     username = request.session["name"]
     user = User.objects.filter(name=username).first()
     incomes = Balance.objects.filter(isIncome=True, writer=user)
@@ -143,17 +143,19 @@ def createIncomeCircle(request):
         ax = fig.add_subplot(111)
         ax.axis("equal")
         patches, texts, autotexts = ax.pie(amount,  # データ
-                    startangle=90,  # 円グラフ開始軸を指定
-                    #labels=label,  # ラベル
-                    autopct = lambda p: '{:.1f}%'.format(p) if p >= 5 else '',  # パーセント表示
-                   # colors=colors,  # 色指定
-                    counterclock=False,  # 逆時計回り
-                    radius=getImgRatio(request, "income"),  # 半径
-                    )
+                                           startangle=90,  # 円グラフ開始軸を指定
+                                           # labels=label,  # ラベル
+                                           autopct=lambda p: '{:.1f}%'.format(
+                                               p) if p >= 5 else '',  # パーセント表示
+                                           # colors=colors,  # 色指定
+                                           counterclock=False,  # 逆時計回り
+                                           radius=getImgRatio(
+                                               request, "income"),  # 半径
+                                           )
         plt.legend(label, bbox_to_anchor=(0.5, -0.1), prop=fp, loc='upper center', borderaxespad=0,
                    ncol=4)
         plt.setp(texts, fontproperties=fp)
-        plt.suptitle('収入', size=256, fontproperties = fp)
+        plt.suptitle('収入', size=256, fontproperties=fp)
         plt.subplots_adjust(bottom=0.25)
         plt.tight_layout()
         # 保存
@@ -168,7 +170,8 @@ def createExpenceCircle(request):
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     from matplotlib.font_manager import FontProperties
-    fp = FontProperties(fname=setting.BASE_DIR+'/financial/static/financial/ttf/ipag.ttf');
+    fp = FontProperties(fname=setting.BASE_DIR +
+                        '/financial/static/financial/ttf/ipag.ttf')
     username = request.session["name"]
     user = User.objects.filter(name=username).first()
     expences = Balance.objects.filter(isIncome=False, writer=user)
@@ -198,22 +201,25 @@ def createExpenceCircle(request):
         ax = fig.add_subplot(111)
         ax.axis("equal")
         patches, texts, autotexts = ax.pie(amount,  # データ
-                    startangle=90,  # 円グラフ開始軸を指定
-                    #labels=label,  # ラベル
-                                           autopct=lambda p: '{:.1f}%'.format(p) if p >= 5 else '',  # パーセント表示
-                   # colors=colors,  # 色指定
-                    counterclock=False,  # 逆時計回り
-                    radius=getImgRatio(request, "expence"),  # 半径
-                    )
+                                           startangle=90,  # 円グラフ開始軸を指定
+                                           # labels=label,  # ラベル
+                                           autopct=lambda p: '{:.1f}%'.format(
+                                               p) if p >= 5 else '',  # パーセント表示
+                                           # colors=colors,  # 色指定
+                                           counterclock=False,  # 逆時計回り
+                                           radius=getImgRatio(
+                                               request, "expence"),  # 半径
+                                           )
         plt.legend(label, bbox_to_anchor=(0.5, -0.1), prop=fp, loc='upper center', borderaxespad=0,
                    ncol=4)
         plt.setp(texts, fontproperties=fp)
-        plt.suptitle('支出', size=256, fontproperties = fp)
+        plt.suptitle('支出', size=256, fontproperties=fp)
         plt.subplots_adjust(bottom=0.25)
         plt.tight_layout()
         # 保存
         time = datetime.datetime.today().strftime("%Y%m%d%H%M%S")
         plt.savefig(path+'/circle_expence'+time+'.png')
+
 
 def createLineGraph(request):
     createMonthlyLineGraph(request)
@@ -227,7 +233,8 @@ def createMonthlyLineGraph(request):
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     from matplotlib.font_manager import FontProperties
-    fp = FontProperties(fname=setting.BASE_DIR+'/financial/static/financial/ttf/ipag.ttf');
+    fp = FontProperties(fname=setting.BASE_DIR +
+                        '/financial/static/financial/ttf/ipag.ttf')
     username = request.session["name"]
     user = User.objects.filter(name=username).first()
     year = datetime.date.today().year
@@ -242,7 +249,7 @@ def createMonthlyLineGraph(request):
             os.remove(file)
     balances = Balance.objects.filter(writer=user)
     month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-    monthStr = map(lambda m:str(m)+'月', month)
+    monthStr = map(lambda m: str(m)+'月', month)
     monthlyIncome = [0]*12
     monthlyExpence = [0]*12
     for balance in balances:
@@ -268,7 +275,7 @@ def createMonthlyLineGraph(request):
     ax.plot(np.array(month), np.array(monthlyExpence),
             color="red",
             marker="D",
-            linewidth= 2,
+            linewidth=2,
             markersize=4,
             markeredgewidth=2,
             markeredgecolor="red",
@@ -283,7 +290,6 @@ def createMonthlyLineGraph(request):
     plt.savefig(path + '/monthly'+str(year)+'_' + time + '.png')
 
 
-
 def income(request):
     inputIncomeStr = request.POST["income"]
     description = request.POST["incomeDescription"]
@@ -294,7 +300,7 @@ def income(request):
         user = User.objects.filter(name=username).first()
         category = Category.objects.filter(
             writer=user, name=categoryName).first()
-        income = Balance(description=description, amount=inputIncome, isIncome=True, date=datetime.date.today(),
+        income = Balance(description=description, amount=inputIncome, isIncome=True,
                          category=category, writer=user)
         income.save()
         # グラフの用意
@@ -319,7 +325,7 @@ def expence(request):
         user = User.objects.filter(name=username).first()
         category = Category.objects.filter(
             writer=user, name=categoryName).first()
-        expence = Balance(description=description, amount=inputExpence, isIncome=False, date=datetime.date.today(),
+        expence = Balance(description=description, amount=inputExpence, isIncome=False,
                           category=category, writer=user)
         expence.save()
         # グラフの用意
