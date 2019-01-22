@@ -8,6 +8,7 @@ from .lib.sign import *
 from .lib.actions import *
 from functools import reduce
 from operator import add
+import copy
 
 # 収支・カテゴリ追加機能のテスト
 
@@ -50,7 +51,8 @@ class Test2(TestCase):
         Category.objects.all().delete()
 
         # (ユーザー名・パスワード) の列挙
-        users = [("username", "password")]
+        users = [("username", "password"),
+                 ("user2", "pass2")]
 
         # webdriver を作成
         try:
@@ -80,11 +82,13 @@ class Test2(TestCase):
                 addExpense(driver, **dic)
                 print("OK: 支出 %s を追加" % str(dic))
             # 簡易チェック
-            for dic in incomeDics:
+            __indics = copy.deepcopy(incomeDics)
+            __exdics = copy.deepcopy(expenseDics)
+            for dic in __indics:
                 dic["amount"] = "+%d" % dic["amount"]
-            for dic in expenseDics:
+            for dic in __exdics:
                 dic["amount"] = "-%d" % dic["amount"]
-            dics = incomeDics + expenseDics
+            dics = __indics + __exdics
             values = reduce(add, [list(dic.values()) for dic in dics])
             for value in values:
                 if not driver.exists(str(value)):
