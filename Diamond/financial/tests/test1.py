@@ -16,9 +16,7 @@ class Test1(TestCase):
         print('テスト準備: Userデータベースを削除しました.')
 
         # (ユーザー名・パスワード) の列挙
-        users = [("username", "password"),
-                 ("YjSnpi114514", "mazuuchi"),
-                 ("1919", "810364364")]
+        users = [("YjSnpi114514", "810364364")]
 
         # webdriver を作成
         try:
@@ -31,16 +29,16 @@ class Test1(TestCase):
         for user, password in users:
             print('[Case]\nuser : ' + user + '\npass:' + password)
             signup(driver, user, password)
-            print('signup OK')
+            print('OK: サインアップ完了画面の表示')
             signin(driver, user, password)
             driver.click_url("view")
-            print('signin OK')
+            print('OK: ログイン')
             signout(driver, user, password)
-            print('signout OK')
+            print('OK: ログアウト')
             signin(driver, user, password + 'wrong')
             if (driver.exists("view")):
                 raise AssertionError('間違ったパスワードでログインできてしまいました.')
-            print('password authentication OK')
+            print('OK: ログイン')
 
         # 閉じる
         driver.close()
