@@ -10,14 +10,16 @@ import datetime
 def home(request):
     return render(request, "home.html", {"name": request.session.get("name")})
 
-def view(request,*args):
+
+def view(request, *args):
     import matplotlib
     matplotlib.use('Agg')
     username = request.session["name"]
     if request.method == 'POST':
         if 'Category' in request.POST:
             categoryName = request.POST["Category"]
-            balances = Balance.objects.filter(categoryName=categoryName, writer=username)
+            balances = Balance.objects.filter(
+                categoryName=categoryName, writer=username)
         else:
             balances = Balance.objects.filter(writer=username)
     else:
@@ -265,6 +267,7 @@ def createMonthlyLineGraph(request):
     plt.savefig(path + '/monthly'+str(year)+'_' + time + '.png')
 
 
+
 def income(request):
     inputIncomeStr = request.POST["income"]
     description = request.POST["incomeDescription"]
@@ -273,7 +276,7 @@ def income(request):
         categoryName = request.POST["incomeCategory"]
         username = request.session["name"]
         income = Balance(description=description, amount=inputIncome, isIncome=True, date=datetime.date.today(),
-                     categoryName=categoryName,writer=username)
+                         categoryName=categoryName, writer=username)
         income.save()
         # グラフの用意
         createIncomeCircle(request)
@@ -286,6 +289,7 @@ def income(request):
         else:
             return view(request, "incomeError", "contentBlankError")
 
+
 def expence(request):
     inputExpenceStr = request.POST["expence"]
     description = request.POST["expenceDescription"]
@@ -294,7 +298,7 @@ def expence(request):
         categoryName = request.POST["expenseCategory"]
         username = request.session["name"]
         expence = Balance(description=description, amount=inputExpence, isIncome=False, date=datetime.date.today(),
-                      categoryName=categoryName,writer=username)
+                          categoryName=categoryName, writer=username)
         expence.save()
         # グラフの用意
         createIncomeCircle(request)
@@ -365,13 +369,15 @@ def category(request):  # カテゴリー登録関数
         return view(request, "categorySubscribeError", "blank")
     if categoryType == "income":
         if len(Category.objects.filter(categoryName=inputCategory, balance=True, writer=username)) == 0:
-            newcategory = Category(categoryName=inputCategory, balance=True, writer=username)
+            newcategory = Category(
+                categoryName=inputCategory, balance=True, writer=username)
             newcategory.save()
         else:
             return view(request, "categorySubscribeError", "duplication")
     else:
         if len(Category.objects.filter(categoryName=inputCategory, balance=False, writer=username)) == 0:
-            newcategory = Category(categoryName=inputCategory, balance=False, writer=username)
+            newcategory = Category(
+                categoryName=inputCategory, balance=False, writer=username)
             newcategory.save()
         else:
             return view(request, "categorySubscribeError", "duplication")
