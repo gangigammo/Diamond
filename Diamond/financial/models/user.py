@@ -10,6 +10,12 @@ class User(Model):
     """
     ユーザーのモデルです
 
+    使用例
+    user = User.new(name="hoge", password="foo")
+    user.setPassword(password="bar")
+    user.isCorrect("nanka")
+    user.delete()
+
     Fields
     ------
     name : CharField
@@ -26,6 +32,21 @@ class User(Model):
     # factory method
     @staticmethod
     def new(name, password):
+        """
+        新しいユーザーを返します
+
+        Parameters
+        ----------
+        name : str
+            ユーザー名
+        password : str
+            パスワード(平文)
+
+        Return
+        ------
+        user : User
+            新しいユーザー
+        """
         user = User(name=name, password="none")
         user.setPassword(password=password)
         return user
