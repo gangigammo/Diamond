@@ -1,337 +1,342 @@
 .wrap {
-    width:100%;
-    min-width:1200px;
-    margin:0px;
+  width: 100%;
+  min-width: 1200px;
+  margin: 0px;
 }
 
 /*トップ画面の上部メニュー*/
 
 .homemenu {
-    width: 100%;
+  width: 100%;
 }
-.homemenu a{
-	position: relative;
+.homemenu a {
+  position: relative;
 }
 
 .homemenu ul {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
-	background-color: #1b2538;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #1b2538;
 }
 .homemenu li {
-	float: right;
-	border-right: 1px solid #bbbbbb;
+  float: right;
+  border-right: 1px solid #bbbbbb;
 }
 
 .homemenu li a {
-	display: block;
-	color: white;
-	text-align: center;
-	padding: 14px 16px;
-	text-decoration: none;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
 }
 .homemenu li a:hover:not(.active) {
-	background-color: #a9bce2;
+  background-color: #a9bce2;
 }
 
 .homemenu li:first-child {
-	color: white;
-	text-align: center;
-	float: left;
-	border: none;
-	font-size: 30px;
-    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
+  color: white;
+  text-align: center;
+  float: left;
+  border: none;
+  font-size: 30px;
+  font-family: "YuGothic", "Yu Gothic", "Meiryo", "ヒラギノ角ゴ", "sans-serif";
 }
 
 /*トップ画面のアプリの簡易説明部分*/
 
 .descriptionBox {
-    position: relative;
-    width: 100%;
-    height: 350px;
+  position: relative;
+  width: 100%;
+  height: 350px;
 }
 
 .description {
-    position: relative;
-    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
-    width:50%;
-    height: 100%;
-    padding: 8px 0px;
-    color: #2c2c2f;
-    background: #e4fcff;/*背景色*/
-    border-top: solid 5px #1dc1d6;
-    border-bottom: solid 5px #1dc1d6;
-    float: left;
+  position: relative;
+  font-family: "YuGothic", "Yu Gothic", "Meiryo", "ヒラギノ角ゴ", "sans-serif";
+  width: 50%;
+  height: 100%;
+  padding: 8px 0px;
+  color: #2c2c2f;
+  background: #e4fcff; /*背景色*/
+  border-top: solid 5px #1dc1d6;
+  border-bottom: solid 5px #1dc1d6;
+  float: left;
 }
 
 .description h2 {
-    text-align: center;
-    color: rgb(0, 0, 0);
-    font-size: 40px;
-    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
+  text-align: center;
+  color: rgb(0, 0, 0);
+  font-size: 40px;
+  font-family: "YuGothic", "Yu Gothic", "Meiryo", "ヒラギノ角ゴ", "sans-serif";
 }
 .description p {
-    text-align: center;
-    padding: 70px 140px;
-    color: rgb(0, 0, 0);
-    font-size: 30px;
-    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
+  text-align: center;
+  padding: 70px 140px;
+  color: rgb(0, 0, 0);
+  font-size: 30px;
+  font-family: "YuGothic", "Yu Gothic", "Meiryo", "ヒラギノ角ゴ", "sans-serif";
 }
 
 .icon {
-    position: relative;
-    width: 50%;
-    height: 100%;
-    float: right;
-    text-align: center;
-    padding: 8px 0px;
-    color: #2c2c2f;
-    background: #e4fcff;/*背景色*/
-    border-top: solid 5px #1dc1d6;
-    border-bottom: solid 5px #1dc1d6;
+  position: relative;
+  width: 50%;
+  height: 100%;
+  float: right;
+  text-align: center;
+  padding: 8px 0px;
+  color: #2c2c2f;
+  background: #e4fcff; /*背景色*/
+  border-top: solid 5px #1dc1d6;
+  border-bottom: solid 5px #1dc1d6;
 }
 
 .icon img {
-    width: 20em;
-    height: 20em;
+  width: 20em;
+  height: 20em;
 }
 
 /*トップ画面下部の機能説明部分*/
 
 .function1 {
-    position: relative;
-    width: 100%;
-    height: 500px;
+  position: relative;
+  width: 100%;
+  height: 500px;
 }
 
 .text1 {
-    position: relative;
-    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
-    width:50%;
-    height: 100%;
-    padding: 8px 0px;
-    color: #2c2c2f;
-    background: #e4fcff;/*背景色*/
-    border-top: solid 5px #1dc1d6;
-    border-bottom: solid 5px #1dc1d6;
-    float: left;
+  position: relative;
+  font-family: "YuGothic", "Yu Gothic", "Meiryo", "ヒラギノ角ゴ", "sans-serif";
+  width: 50%;
+  height: 100%;
+  padding: 8px 0px;
+  color: #2c2c2f;
+  background: #e4fcff; /*背景色*/
+  border-top: solid 5px #1dc1d6;
+  border-bottom: solid 5px #1dc1d6;
+  float: left;
 }
 
 .text1 h2 {
-    text-align: center;
-    color: rgb(0, 0, 0);
-    font-size: 40px;
-    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
+  text-align: center;
+  color: rgb(0, 0, 0);
+  font-size: 40px;
+  font-family: "YuGothic", "Yu Gothic", "Meiryo", "ヒラギノ角ゴ", "sans-serif";
 }
 .text1 p {
-    text-align: center;
-    padding: 70px 140px;
-    color: rgb(0, 0, 0);
-    font-size: 30px;
-    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
+  text-align: center;
+  padding: 70px 140px;
+  color: rgb(0, 0, 0);
+  font-size: 30px;
+  font-family: "YuGothic", "Yu Gothic", "Meiryo", "ヒラギノ角ゴ", "sans-serif";
 }
 
 .img1 {
-    position: relative;
-    width: 50%;
-    height: 100%;
-    float: right;
-    text-align: center;
-    padding: 8px 0px;
-    color: #2c2c2f;
-    background: #e4fcff;/*背景色*/
-    border-top: solid 5px #1dc1d6;
-    border-bottom: solid 5px #1dc1d6;
+  position: relative;
+  width: 50%;
+  height: 100%;
+  float: right;
+  text-align: center;
+  padding: 8px 0px;
+  color: #2c2c2f;
+  background: #e4fcff; /*背景色*/
+  border-top: solid 5px #1dc1d6;
+  border-bottom: solid 5px #1dc1d6;
 }
 
 .img1 img {
-    width: 20em;
-    height: 20em;
+  width: 20em;
+  height: 20em;
 }
 
 .function2 {
-    position: relative;
-    width: 100%;
-    height: 500px;
+  position: relative;
+  width: 100%;
+  height: 500px;
 }
 
 .text2 {
-    position: relative;
-    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
-    width:50%;
-    height: 100%;
-    padding: 8px 0px;
-    color: #2c2c2f;
-    background: #e4fcff;/*背景色*/
-    border-top: solid 5px #1dc1d6;
-    border-bottom: solid 5px #1dc1d6;
-    float: left;
+  position: relative;
+  font-family: "YuGothic", "Yu Gothic", "Meiryo", "ヒラギノ角ゴ", "sans-serif";
+  width: 50%;
+  height: 100%;
+  padding: 8px 0px;
+  color: #2c2c2f;
+  background: #e4fcff; /*背景色*/
+  border-top: solid 5px #1dc1d6;
+  border-bottom: solid 5px #1dc1d6;
+  float: left;
 }
 
 .text2 h2 {
-    text-align: center;
-    color: rgb(0, 0, 0);
-    font-size: 40px;
-    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
+  text-align: center;
+  color: rgb(0, 0, 0);
+  font-size: 40px;
+  font-family: "YuGothic", "Yu Gothic", "Meiryo", "ヒラギノ角ゴ", "sans-serif";
 }
 .text2 p {
-    text-align: center;
-    padding: 70px 140px;
-    color: rgb(0, 0, 0);
-    font-size: 30px;
-    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
+  text-align: center;
+  padding: 70px 140px;
+  color: rgb(0, 0, 0);
+  font-size: 30px;
+  font-family: "YuGothic", "Yu Gothic", "Meiryo", "ヒラギノ角ゴ", "sans-serif";
 }
 
 .img2 {
-    position: relative;
-    width: 50%;
-    height: 100%;
-    float: right;
-    text-align: center;
-    padding: 8px 0px;
-    color: #2c2c2f;
-    background: #e4fcff;/*背景色*/
-    border-top: solid 5px #1dc1d6;
-    border-bottom: solid 5px #1dc1d6;
+  position: relative;
+  width: 50%;
+  height: 100%;
+  float: right;
+  text-align: center;
+  padding: 8px 0px;
+  color: #2c2c2f;
+  background: #e4fcff; /*背景色*/
+  border-top: solid 5px #1dc1d6;
+  border-bottom: solid 5px #1dc1d6;
 }
 
 .img2 img {
-    width: 20em;
-    height: 20em;
+  width: 20em;
+  height: 20em;
 }
 
 .function3 {
-    position: relative;
-    width: 100%;
-    height: 500px;
+  position: relative;
+  width: 100%;
+  height: 500px;
 }
 
 .text3 {
-    position: relative;
-    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
-    width:50%;
-    height: 100%;
-    padding: 8px 0px;
-    color: #2c2c2f;
-    background: #e4fcff;/*背景色*/
-    border-top: solid 5px #1dc1d6;
-    border-bottom: solid 5px #1dc1d6;
-    float: left;
+  position: relative;
+  font-family: "YuGothic", "Yu Gothic", "Meiryo", "ヒラギノ角ゴ", "sans-serif";
+  width: 50%;
+  height: 100%;
+  padding: 8px 0px;
+  color: #2c2c2f;
+  background: #e4fcff; /*背景色*/
+  border-top: solid 5px #1dc1d6;
+  border-bottom: solid 5px #1dc1d6;
+  float: left;
 }
 
 .text3 h2 {
-    text-align: center;
-    color: rgb(0, 0, 0);
-    font-size: 40px;
-    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
+  text-align: center;
+  color: rgb(0, 0, 0);
+  font-size: 40px;
+  font-family: "YuGothic", "Yu Gothic", "Meiryo", "ヒラギノ角ゴ", "sans-serif";
 }
 .text3 p {
-    text-align: center;
-    padding: 70px 140px;
-    color: rgb(0, 0, 0);
-    font-size: 30px;
-    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
+  text-align: center;
+  padding: 70px 140px;
+  color: rgb(0, 0, 0);
+  font-size: 30px;
+  font-family: "YuGothic", "Yu Gothic", "Meiryo", "ヒラギノ角ゴ", "sans-serif";
 }
 
 .img3 {
-    position: relative;
-    width: 50%;
-    height: 100%;
-    float: right;
-    text-align: center;
-    padding: 8px 0px;
-    color: #2c2c2f;
-    background: #e4fcff;/*背景色*/
-    border-top: solid 5px #1dc1d6;
-    border-bottom: solid 5px #1dc1d6;
+  position: relative;
+  width: 50%;
+  height: 100%;
+  float: right;
+  text-align: center;
+  padding: 8px 0px;
+  color: #2c2c2f;
+  background: #e4fcff; /*背景色*/
+  border-top: solid 5px #1dc1d6;
+  border-bottom: solid 5px #1dc1d6;
 }
 
 .img3 img {
-    width: 20em;
-    height: 20em;
+  width: 20em;
+  height: 20em;
 }
 
 /*トップ画面最下部のユーザー登録ボタン*/
 
 .invite {
-    position: relative;
-    width:100%;
-    height: 500px;
-    padding: 8px 0px;
-    color: #2c2c2f;
-    background: #e4fcff;/*背景色*/
-    border-top: solid 5px #1dc1d6;
-    border-bottom: solid 5px #1dc1d6;
-    float: left;
-    text-align: center;
+  position: relative;
+  width: 100%;
+  height: 500px;
+  padding: 8px 0px;
+  color: #2c2c2f;
+  background: #e4fcff; /*背景色*/
+  border-top: solid 5px #1dc1d6;
+  border-bottom: solid 5px #1dc1d6;
+  float: left;
+  text-align: center;
 }
 
 .invite h1 {
-    font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
-    font-size: 40px;
-    color: rgb(243, 157, 60)
+  font-family: "YuGothic", "Yu Gothic", "Meiryo", "ヒラギノ角ゴ", "sans-serif";
+  font-size: 40px;
+  color: rgb(243, 157, 60);
 }
 
 .invite button {
-	position: relative;
-	z-index: 1;
-	padding: 1em;
-	width: 300px;
-	line-height: 2.0;
-	cursor: pointer;
-	transition: color .3s cubic-bezier(.02,.01,.47,1),border-color .3s cubic-bezier(.02,.01,.47,1);
-	color: #F06292;
-	background: transparent;
-	overflow: hidden;
-	border: 1px solid #F06292;
-	border-radius: 100px;
-	background: #fff;
+  position: relative;
+  z-index: 1;
+  padding: 1em;
+  width: 300px;
+  line-height: 2;
+  cursor: pointer;
+  transition: color 0.3s cubic-bezier(0.02, 0.01, 0.47, 1),
+    border-color 0.3s cubic-bezier(0.02, 0.01, 0.47, 1);
+  color: #f06292;
+  background: transparent;
+  overflow: hidden;
+  border: 1px solid #f06292;
+  border-radius: 100px;
+  background: #fff;
 }
-.invite button:after, .invite button:before {
-	position: absolute;
-	z-index: -1;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 120%;
-	content: '';
-	transition: transform 0.15s cubic-bezier(0.02,0.01,0.47,1),opacity 0.15s cubic-bezier(0.02,0.01,0.47,1);
-	opacity: 0;
+.invite button:after,
+.invite button:before {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120%;
+  content: "";
+  transition: transform 0.15s cubic-bezier(0.02, 0.01, 0.47, 1),
+    opacity 0.15s cubic-bezier(0.02, 0.01, 0.47, 1);
+  opacity: 0;
 }
 .invite button:before {
-	background: #D81B60;
-	-webkit-transform: translate3d(-110%,-10%,0) skewX(-20deg);
-	transform: translate3d(-110%,-10%,0) skewX(-20deg);
+  background: #d81b60;
+  -webkit-transform: translate3d(-110%, -10%, 0) skewX(-20deg);
+  transform: translate3d(-110%, -10%, 0) skewX(-20deg);
 }
 .invite button:after {
-	-webkit-transform: translate3d(110%,-10%,0) skewX(-20deg);
-	transform: translate3d(110%,-10%,0) skewX(-20deg);
-	background: #F06292;
+  -webkit-transform: translate3d(110%, -10%, 0) skewX(-20deg);
+  transform: translate3d(110%, -10%, 0) skewX(-20deg);
+  background: #f06292;
 }
 .invite button:hover {
-	transition: all 0.5s cubic-bezier(0.02,0.01,0.47,1);
-	box-shadow: 0 1px 6px rgba(0,0,0,0.3);
-	color: #ffffff;
-	background: #E91E63;
-	border: 1px solid #F06292;
+  transition: all 0.5s cubic-bezier(0.02, 0.01, 0.47, 1);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+  background: #e91e63;
+  border: 1px solid #f06292;
 }
-.invite button:hover:after, .invite button:hover:before {
-	transition: transform 0.25s cubic-bezier(0.02,0.01,0.47,1),opacity 0.25s cubic-bezier(0.02,0.01,0.47,1);
-	-webkit-transform: translate3d(50%,-10%,0) skewX(-20deg);
-	transform: translate3d(50%,-10%,0) skewX(-20deg);
-	opacity: 1;
+.invite button:hover:after,
+.invite button:hover:before {
+  transition: transform 0.25s cubic-bezier(0.02, 0.01, 0.47, 1),
+    opacity 0.25s cubic-bezier(0.02, 0.01, 0.47, 1);
+  -webkit-transform: translate3d(50%, -10%, 0) skewX(-20deg);
+  transform: translate3d(50%, -10%, 0) skewX(-20deg);
+  opacity: 1;
 }
 .invite button:active {
-	opacity: 0.5;
-	color: #F06292;
+  opacity: 0.5;
+  color: #f06292;
 }
 .invite button:focus {
-	border: 1px solid #F06292;
-	color: #F06292;
+  border: 1px solid #f06292;
+  color: #f06292;
 }
 .invite button:focus:hover {
-	color: #ffffff;
-	border: 1px solid #F06292;
+  color: #ffffff;
+  border: 1px solid #f06292;
 }

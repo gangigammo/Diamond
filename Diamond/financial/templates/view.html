@@ -6,9 +6,6 @@
 
 {% block body %}
 
-<script>
-
-</script>
 <div class="wrap">
     <!--上部メニュー-->
     <div class="homemenu">
@@ -20,7 +17,9 @@
                     <i class="fas fa-bars header__icon"></i>
                 </a>
             </li>
-            <li><font color="white" size="5px">ようこそ{{name}}さん</font></li>
+            <li>
+                <font color="white" size="5px">ようこそ{{name}}さん</font>
+            </li>
         </ul>
     </div>
     <div class="content">
@@ -112,6 +111,8 @@
                             <input type="submit" value="検索">
                         </form>
                         <a href="/view">全表示</a>
+
+                        <a href="/export">エクスポート</a>
 
                         <h3>収支の合計は{{gain}}です</h3>
 
