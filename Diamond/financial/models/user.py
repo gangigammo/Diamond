@@ -64,19 +64,6 @@ class User(Model):
         """
         self.password = self.__digest(password)
 
-    def sum(self) -> int:
-        """
-        このユーザーが所持する合計を計算します
-
-        Returns
-        -------
-        sum : int
-            合計
-        """
-        balances = self.balances.all
-        sum = balances.value.aggregate(Sum("amount"))
-        return sum
-
     # private methods
 
     def __digest(self, password: str) -> str:
