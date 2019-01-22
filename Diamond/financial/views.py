@@ -198,8 +198,11 @@ def createExpenceCircle(request):
         time = datetime.datetime.today().strftime("%Y%m%d%H%M%S")
         plt.savefig(path+'/circle_expence'+time+'.png')
 
-
 def createLineGraph(request):
+    createMonthlyLineGraph(request)
+
+
+def createMonthlyLineGraph(request):
     import numpy as np
     import os
     import glob
@@ -238,7 +241,8 @@ def createLineGraph(request):
     ax.plot(np.array(month), np.array(monthlyIncome),
             color="blue",
             marker="D",
-            markersize=4,
+            linewidth=3,
+            markersize=6,
             markeredgewidth=2,
             markeredgecolor="blue",
             markerfacecolor="lightblue",
@@ -246,6 +250,7 @@ def createLineGraph(request):
     ax.plot(np.array(month), np.array(monthlyExpence),
             color="red",
             marker="D",
+            linewidth= 2,
             markersize=4,
             markeredgewidth=2,
             markeredgecolor="red",
