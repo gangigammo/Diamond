@@ -42,7 +42,7 @@ expenseDic1 = {
 class DeleteTest(TestCase):
     def test_main(self):
         # サインアップ
-        User(**userDic1).save()
+        User.new(**userDic1).save()
 
         # ログイン
         user = User.objects.filter(name=userDic1["name"]).first()
@@ -133,8 +133,8 @@ class DeleteTest(TestCase):
         if bala:
             raise AssertionError("削除されたユーザーの収支 %s がDB上に残っています", bala)
 
-        User(**userDic1).save()
-        User(**userDic2).save()
+        User.new(**userDic1).save()
+        User.new(**userDic2).save()
         user1 = User.objects.filter(name=userDic1["name"]).first()
         user2 = User.objects.filter(name=userDic2["name"]).first()
         users = User.objects.all()
