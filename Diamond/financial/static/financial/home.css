@@ -1,10 +1,14 @@
 .wrap {
     width:100%;
     min-width:1200px;
+    margin:0px;
 }
 
 /*トップ画面の上部メニュー*/
 
+.homemenu {
+    width: 100%;
+}
 .homemenu a{
 	position: relative;
 }
@@ -54,7 +58,7 @@
     font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
     width:50%;
     height: 100%;
-    padding: 8px 19px;
+    padding: 8px 0px;
     color: #2c2c2f;
     background: #e4fcff;/*背景色*/
     border-top: solid 5px #1dc1d6;
@@ -82,7 +86,7 @@
     height: 100%;
     float: right;
     text-align: center;
-    padding: 8px 19px;
+    padding: 8px 0px;
     color: #2c2c2f;
     background: #e4fcff;/*背景色*/
     border-top: solid 5px #1dc1d6;
@@ -107,7 +111,7 @@
     font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
     width:50%;
     height: 100%;
-    padding: 8px 19px;
+    padding: 8px 0px;
     color: #2c2c2f;
     background: #e4fcff;/*背景色*/
     border-top: solid 5px #1dc1d6;
@@ -135,7 +139,7 @@
     height: 100%;
     float: right;
     text-align: center;
-    padding: 50px 19px;
+    padding: 8px 0px;
     color: #2c2c2f;
     background: #e4fcff;/*背景色*/
     border-top: solid 5px #1dc1d6;
@@ -158,7 +162,7 @@
     font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
     width:50%;
     height: 100%;
-    padding: 8px 19px;
+    padding: 8px 0px;
     color: #2c2c2f;
     background: #e4fcff;/*背景色*/
     border-top: solid 5px #1dc1d6;
@@ -186,7 +190,7 @@
     height: 100%;
     float: right;
     text-align: center;
-    padding: 50px 19px;
+    padding: 8px 0px;
     color: #2c2c2f;
     background: #e4fcff;/*背景色*/
     border-top: solid 5px #1dc1d6;
@@ -209,7 +213,7 @@
     font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
     width:50%;
     height: 100%;
-    padding: 8px 19px;
+    padding: 8px 0px;
     color: #2c2c2f;
     background: #e4fcff;/*背景色*/
     border-top: solid 5px #1dc1d6;
@@ -237,7 +241,7 @@
     height: 100%;
     float: right;
     text-align: center;
-    padding: 50px 19px;
+    padding: 8px 0px;
     color: #2c2c2f;
     background: #e4fcff;/*背景色*/
     border-top: solid 5px #1dc1d6;
@@ -255,7 +259,7 @@
     position: relative;
     width:100%;
     height: 500px;
-    padding: 8px 19px;
+    padding: 8px 0px;
     color: #2c2c2f;
     background: #e4fcff;/*背景色*/
     border-top: solid 5px #1dc1d6;
