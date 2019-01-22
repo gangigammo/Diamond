@@ -18,13 +18,22 @@ def view(request, *args):
     username = request.session["name"]
     balances = Balance.objects.filter(writer=username)
     if request.method == 'POST':
-        if 'Category' in request.POST and 'selectCategory' in request.POST:
+        if 'selectCategory' in request.POST and 'Category' in request.POST:
             categoryName = request.POST["Category"]
             balances = balances.filter(categoryName=categoryName)
-        if 'description' in request.POST and 'selectDescription' in request.POST:
+        if 'selectDescription' in request.POST and 'description' in request.POST:
             description = request.POST["description"]
             if description != "":
                 balances = balances.filter(description__icontains=description)
+        if 'selectDate' in request.POST:
+            if 'periodFrom' in request.POST:
+                periodFrom = request.POST["periodFrom"]
+                if periodFrom != "":
+                    balances = balances.filter(date__gte=periodFrom)
+            if 'periodTo' in request.POST:
+                periodTo = request.POST["periodTo"]
+                if periodTo != "":
+                    balances = balances.filter(date__lte=periodTo)
     incomes = []
     expences = []
     categories = Category.objects.filter(writer=username)
