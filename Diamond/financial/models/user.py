@@ -28,7 +28,7 @@ class User(Model):
     # Fields
 
     name = CharField(max_length=128, unique=True)
-    password = CharField(max_length=128)  # TODO 平文にしない
+    password = CharField(max_length=128)
 
     # factory method
     @staticmethod
