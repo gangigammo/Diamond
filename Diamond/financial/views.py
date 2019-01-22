@@ -34,6 +34,7 @@ def view(request, *args):
                 periodTo = request.POST["periodTo"]
                 if periodTo != "":
                     balances = balances.filter(date__lte=periodTo)
+
     incomes = []
     expences = []
     categories = Category.objects.filter(writer=username)
