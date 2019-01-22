@@ -4,6 +4,9 @@ from financial.models import *
 import Diamond.settings as setting
 import datetime
 
+from django.http import HttpResponse
+import csv
+import hashlib
 # Create your views here.
 
 
@@ -19,17 +22,21 @@ def view(request, *args):
         if 'Category' in request.POST:
             categoryName = request.POST["Category"]
             balances = Balance.objects.filter(
-                categoryName=categoryName, writer=username)
+                categoryName=categoryName, writer=username).order_by("id").reverse()
         else:
-            balances = Balance.objects.filter(writer=username)
+            balances = Balance.objects.filter(
+                writer=username).order_by("id").reverse()
     else:
-        balances = Balance.objects.filter(writer=username)
-
+        balances = Balance.objects.filter(
+            writer=username).order_by("id").reverse()
     incomes = []
     expences = []
-    categories = Category.objects.filter(writer=username)
-    incomeCategories = Category.objects.filter(balance=True, writer=username)
-    expenseCategories = Category.objects.filter(balance=False, writer=username)
+    categories = Category.objects.filter(
+        writer=username).order_by("id").reverse()
+    incomeCategories = Category.objects.filter(
+        balance=True, writer=username).order_by("id").reverse()
+    expenseCategories = Category.objects.filter(
+        balance=False, writer=username).order_by("id").reverse()
     categories = categories.values(
         'categoryName').order_by('categoryName').distinct()
     sumIncomes = 0
@@ -285,7 +292,7 @@ def income(request):
         createIncomeCircle(request)
         createExpenceCircle(request)
         createLineGraph(request)
-        return render(request, "income.html")
+        return view(request)
     else:  # 入力が数字でない時のエラー
         if not inputIncomeStr.isdecimal():
             return view(request, "incomeError", "notDecimalError")
@@ -306,23 +313,12 @@ def expence(request):
         # グラフの用意
         createIncomeCircle(request)
         createExpenceCircle(request)
-        return render(request, "expence.html")
+        return view(request)
     else:  # 入力エラーの時
         if not inputExpenceStr.isdecimal():
             return view(request, "expenseError", "notDecimalError")
         else:
             return view(request, "expenseError", "contentBlankError")
-
-
-def delete(request):
-    balances = Balance.objects.all()
-    user = User.objects.all()
-    category = Category.objects.all()
-    balances.delete()
-    user.delete()
-    category.delete()
-    request.session.flush()
-    return render(request, "delete.html")
 
 
 def signin(request):
@@ -337,6 +333,11 @@ def signinconfirm(request):
     name = request.POST["name"]
     password = request.POST["password"]
     if len(User.objects.filter(name=name)) != 0:
+        user = User.objects.filter(name=name)[0]
+        # ハッシュ化
+        for val in range(0, 1000):
+            password = hashlib.sha256(
+                (str(user.id)+password).encode('utf-8')).hexdigest()
         if User.objects.filter(name=name)[0].password == password:
             request.session["name"] = name
             return view(request)
@@ -350,7 +351,13 @@ def signupconfirm(request):
     name = request.POST["name"]
     password = request.POST["password"]
     if len(User.objects.filter(name=name)) == 0:
-        user = User(name=name, password=password)
+        user = User(name=name, password="")
+        user.save()
+        # ハッシュ化
+        for val in range(0, 1000):
+            password = hashlib.sha256(
+                (str(user.id)+password).encode('utf-8')).hexdigest()
+        user.password = password
         user.save()
         return render(request, "signupconfirm.html")
     else:
@@ -384,4 +391,20 @@ def category(request):  # カテゴリー登録関数
             newcategory.save()
         else:
             return view(request, "categorySubscribeError", "duplication")
-    return render(request, "category.html")
+    return view(request)
+
+
+def export(request):  # csvファイルをエクスポート
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="data.csv"'
+    writer = csv.writer(response)
+    balances = Balance.objects.filter(writer=request.session.get(
+        "name")).order_by("id").reverse()  # あとで日付順にソートすべき
+    for balance in balances:  # 今は収支、内容、カテゴリーのみ。後で追加
+        if(balance.isIncome):
+            writer.writerow(
+                [balance.amount, balance.description, balance.categoryName])
+        else:
+            writer.writerow(
+                [-balance.amount, balance.description, balance.categoryName])
+    return response
