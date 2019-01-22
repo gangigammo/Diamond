@@ -25,23 +25,23 @@ def view(request, *args):
             requestCategory = Category.objects.filter(
                 writer=user, name=categoryName).first()
             balances = Balance.objects.filter(
-                categoryName=categoryName, writer=username).order_by("id").reverse()
+                category=requestCategory, writer=user).order_by("id").reverse()
         else:
             balances = Balance.objects.filter(
-                writer=username).order_by("id").reverse()
+                writer=user).order_by("id").reverse()
     else:
         balances = Balance.objects.filter(
-            writer=username).order_by("id").reverse()
+            writer=user).order_by("id").reverse()
     incomes = []
     expences = []
     categories = Category.objects.filter(
-        writer=username).order_by("id").reverse()
+        writer=user).order_by("id").reverse()
     incomeCategories = Category.objects.filter(
-        balance=True, writer=username).order_by("id").reverse()
+        isIncome=True, writer=user).order_by("id").reverse()
     expenseCategories = Category.objects.filter(
-        balance=False, writer=username).order_by("id").reverse()
+        isIncome=False, writer=user).order_by("id").reverse()
     categories = categories.values(
-        'categoryName').order_by('categoryName').distinct()
+        'name').order_by('name').distinct()
     sumIncomes = 0
     sumExpences = 0
     for balance in balances:
