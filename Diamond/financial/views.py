@@ -26,7 +26,7 @@ def view(request, *args):
         else:
             balances = Balance.objects.filter(writer=user)
     else:
-        balances = Balance.objects.filter(writer=username)
+        balances = Balance.objects.filter(writer=user)
 
     incomes = []
     expences = []
@@ -77,10 +77,11 @@ def getFileName(request, basename):
 def getImgRatio(request, balanceType):
     import math
     username = request.session["name"]
+    user = User.objects.filter(name=username).first()
     maxRatio = 2.0
     sumIncome = 0
     sumExpence = 0
-    for balance in Balance.objects.filter(writer=username):
+    for balance in Balance.objects.filter(writer=user):
         if balance.isIncome:
             sumIncome += balance.amount
         else:
@@ -107,7 +108,8 @@ def createIncomeCircle(request):
     from matplotlib.font_manager import FontProperties
     fp = FontProperties(fname=setting.BASE_DIR+'/financial/static/financial/ttf/ipag.ttf');
     username = request.session["name"]
-    incomes = Balance.objects.filter(isIncome=True, writer=username)
+    user = User.objects.filter(name=username).first()
+    incomes = Balance.objects.filter(isIncome=True, writer=user)
 
     # フォルダ作成、既存のファイル削除
     path = setting.BASE_DIR+'/financial/static/financial/img/' + username
@@ -161,7 +163,8 @@ def createExpenceCircle(request):
     from matplotlib.font_manager import FontProperties
     fp = FontProperties(fname=setting.BASE_DIR+'/financial/static/financial/ttf/ipag.ttf');
     username = request.session["name"]
-    expences = Balance.objects.filter(isIncome=False, writer=username)
+    user = User.objects.filter(name=username).first()
+    expences = Balance.objects.filter(isIncome=False, writer=user)
 
     # フォルダ作成、既存のファイル削除
     path = setting.BASE_DIR+'/financial/static/financial/img/' + username
@@ -219,6 +222,7 @@ def createMonthlyLineGraph(request):
     from matplotlib.font_manager import FontProperties
     fp = FontProperties(fname=setting.BASE_DIR+'/financial/static/financial/ttf/ipag.ttf');
     username = request.session["name"]
+    user = User.objects.filter(name=username).first()
     year = datetime.date.today().year
 
     # フォルダ作成、既存のファイル削除
@@ -229,7 +233,7 @@ def createMonthlyLineGraph(request):
         fileList = glob.glob(path + '/monthly'+str(year)+'_*.png')
         for file in fileList:
             os.remove(file)
-    balances = Balance.objects.filter(writer=username)
+    balances = Balance.objects.filter(writer=user)
     month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     monthStr = map(lambda m:str(m)+'月', month)
     monthlyIncome = [0]*12
