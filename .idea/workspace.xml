@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e27dcade-4f66-4ef7-bcf8-2afb82f0d5b4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Diamond/db.sqlite3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Diamond/figure.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="e27dcade-4f66-4ef7-bcf8-2afb82f0d5b4" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +24,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Diamond/financial/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="2523">
@@ -36,6 +32,24 @@
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Diamond/financial/migrations/0001_initial.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="405">
+              <caret line="27" column="31" selection-start-line="27" selection-start-column="31" selection-end-line="27" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="12" column="7" lean-forward="true" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -298,7 +312,14 @@
       <option name="project" value="LOCAL" />
       <updated>1548209219034</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="検索機能">
+      <created>1548213956168</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1548213956168</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TodoView">
@@ -315,7 +336,7 @@
     <layout>
       <window_info id="Structure" order="0" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="1" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.18322763" />
+      <window_info content_ui="combo" id="Project" order="2" visible="true" weight="0.18322763" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.4864865" weight="0.32970452" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -325,7 +346,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3288889" />
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4981871" weight="0.32867134" />
       <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.4855532" visible="true" weight="0.32867134" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5134155" side_tool="true" weight="0.32998565" />
+      <window_info active="true" anchor="bottom" id="Event Log" order="9" sideWeight="0.5144468" side_tool="true" visible="true" weight="0.32867134" />
       <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="bottom" id="GitHub Pull Requests" order="11" weight="0.3288889" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -471,13 +492,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Diamond/financial/tests/test1.py" />
-    <entry file="file://$PROJECT_DIR$/Diamond/financial/migrations/0001_initial.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="31" selection-start-line="27" selection-start-column="31" selection-end-line="27" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/figure.png" />
     <entry file="file:///usr/local/Cellar/python/3.7.1/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/test/selenium.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -553,13 +567,6 @@
     <entry file="file://$PROJECT_DIR$/Diamond/db.sqlite3">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="7" lean-forward="true" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Diamond/financial/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2523">
@@ -567,6 +574,20 @@
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Diamond/financial/migrations/0001_initial.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" column="31" selection-start-line="27" selection-start-column="31" selection-end-line="27" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="7" lean-forward="true" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="7" />
         </state>
       </provider>
     </entry>
