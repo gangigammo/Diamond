@@ -6,9 +6,6 @@
 
 {% block body %}
 
-<script>
-
-</script>
 <div class="wrap">
     <!--上部メニュー-->
     <div class="homemenu">
@@ -20,7 +17,9 @@
                     <i class="fas fa-bars header__icon"></i>
                 </a>
             </li>
-            <li><font color="white" size="5px">ようこそ{{name}}さん</font></li>
+            <li>
+                <font color="white" size="5px">ようこそ{{name}}さん</font>
+            </li>
         </ul>
     </div>
     <div class="content">
@@ -123,6 +122,8 @@
                     </form>
                     <a href="/view">全表示</a>
 
+                        <a href="/export">エクスポート</a>
+
                         <h3>収支の合計は{{gain}}です</h3>
 
                         <form id="balanceEdit" method="POST" action="/balanceedit/">
@@ -165,7 +166,9 @@
                     </div>
                     <div class="cp_tabpanel">
                         <h2>円グラフ</h2>
-                        <p>円グラフをここに表示</p>
+                        {% load static %}
+                        <img src="{% static 'financial/img/'%}{{name}}/{{incomeFileName}}" title="収入のグラフ" alt="収入のグラフ" align="top">
+                        <img src="{% static 'financial/img/'%}{{name}}/{{expenceFileName}}" title="支出のグラフ" alt="支出のグラフ" align="top">
                     </div>
                     <div class="cp_tabpanel">
                         <h2>折れ線グラフ</h2>
