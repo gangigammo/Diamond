@@ -18,27 +18,30 @@ def view(request, *args):
     import matplotlib
     matplotlib.use('Agg')
     username = request.session["name"]
+    user = User.objects.filter(name=username).first()
     if request.method == 'POST':
         if 'Category' in request.POST:
             categoryName = request.POST["Category"]
+            requestCategory = Category.objects.filter(
+                writer=user, name=categoryName).first()
             balances = Balance.objects.filter(
-                categoryName=categoryName, writer=username).order_by("id").reverse()
+                category=requestCategory, writer=user).order_by("id").reverse()
         else:
             balances = Balance.objects.filter(
-                writer=username).order_by("id").reverse()
+                writer=user).order_by("id").reverse()
     else:
         balances = Balance.objects.filter(
-            writer=username).order_by("id").reverse()
+            writer=user).order_by("id").reverse()
     incomes = []
     expences = []
     categories = Category.objects.filter(
-        writer=username).order_by("id").reverse()
+        writer=user).order_by("id").reverse()
     incomeCategories = Category.objects.filter(
-        balance=True, writer=username).order_by("id").reverse()
+        isIncome=True, writer=user).order_by("id").reverse()
     expenseCategories = Category.objects.filter(
-        balance=False, writer=username).order_by("id").reverse()
+        isIncome=False, writer=user).order_by("id").reverse()
     categories = categories.values(
-        'categoryName').order_by('categoryName').distinct()
+        'name').order_by('name').distinct()
     sumIncomes = 0
     sumExpences = 0
     for balance in balances:
@@ -82,10 +85,11 @@ def getFileName(request, basename):
 def getImgRatio(request, balanceType):
     import math
     username = request.session["name"]
+    user = User.objects.filter(name=username).first()
     maxRatio = 2.0
     sumIncome = 0
     sumExpence = 0
-    for balance in Balance.objects.filter(writer=username):
+    for balance in Balance.objects.filter(writer=user):
         if balance.isIncome:
             sumIncome += balance.amount
         else:
@@ -112,7 +116,8 @@ def createIncomeCircle(request):
     from matplotlib.font_manager import FontProperties
     fp = FontProperties(fname=setting.BASE_DIR+'/financial/static/financial/ttf/ipag.ttf');
     username = request.session["name"]
-    incomes = Balance.objects.filter(isIncome=True, writer=username)
+    user = User.objects.filter(name=username).first()
+    incomes = Balance.objects.filter(isIncome=True, writer=user)
 
     # フォルダ作成、既存のファイル削除
     path = setting.BASE_DIR+'/financial/static/financial/img/' + username
@@ -166,7 +171,8 @@ def createExpenceCircle(request):
     from matplotlib.font_manager import FontProperties
     fp = FontProperties(fname=setting.BASE_DIR+'/financial/static/financial/ttf/ipag.ttf');
     username = request.session["name"]
-    expences = Balance.objects.filter(isIncome=False, writer=username)
+    user = User.objects.filter(name=username).first()
+    expences = Balance.objects.filter(isIncome=False, writer=user)
 
     # フォルダ作成、既存のファイル削除
     path = setting.BASE_DIR+'/financial/static/financial/img/' + username
@@ -224,6 +230,7 @@ def createMonthlyLineGraph(request):
     from matplotlib.font_manager import FontProperties
     fp = FontProperties(fname=setting.BASE_DIR+'/financial/static/financial/ttf/ipag.ttf');
     username = request.session["name"]
+    user = User.objects.filter(name=username).first()
     year = datetime.date.today().year
 
     # フォルダ作成、既存のファイル削除
@@ -234,7 +241,7 @@ def createMonthlyLineGraph(request):
         fileList = glob.glob(path + '/monthly'+str(year)+'_*.png')
         for file in fileList:
             os.remove(file)
-    balances = Balance.objects.filter(writer=username)
+    balances = Balance.objects.filter(writer=user)
     month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     monthStr = map(lambda m:str(m)+'月', month)
     monthlyIncome = [0]*12
@@ -285,8 +292,11 @@ def income(request):
         inputIncome = int(inputIncomeStr)
         categoryName = request.POST["incomeCategory"]
         username = request.session["name"]
+        user = User.objects.filter(name=username).first()
+        category = Category.objects.filter(
+            writer=user, name=categoryName).first()
         income = Balance(description=description, amount=inputIncome, isIncome=True, date=datetime.date.today(),
-                         categoryName=categoryName, writer=username)
+                         category=category, writer=user)
         income.save()
         # グラフの用意
         createIncomeCircle(request)
@@ -307,8 +317,11 @@ def expence(request):
         inputExpence = int(inputExpenceStr)
         categoryName = request.POST["expenseCategory"]
         username = request.session["name"]
+        user = User.objects.filter(name=username).first()
+        category = Category.objects.filter(
+            writer=user, name=categoryName).first()
         expence = Balance(description=description, amount=inputExpence, isIncome=False, date=datetime.date.today(),
-                          categoryName=categoryName, writer=username)
+                          category=category, writer=user)
         expence.save()
         # グラフの用意
         createIncomeCircle(request)
@@ -372,22 +385,23 @@ def signout(request):
 def category(request):  # カテゴリー登録関数
     inputCategory = request.POST["registrationCategory"]
     categoryType = request.POST["categoryType"]
-    IncomeCategory = Category.objects.filter(balance=True)
-    ExpenseCategory = Category.objects.filter(balance=False)
+    IncomeCategory = Category.objects.filter(isIncome=True)
+    ExpenseCategory = Category.objects.filter(isIncome=False)
     username = request.session["name"]
+    user = User.objects.filter(name=username).first()
     if inputCategory == "":
         return view(request, "categorySubscribeError", "blank")
     if categoryType == "income":
-        if len(Category.objects.filter(categoryName=inputCategory, balance=True, writer=username)) == 0:
+        if len(Category.objects.filter(name=inputCategory, isIncome=True, writer=user)) == 0:
             newcategory = Category(
-                categoryName=inputCategory, balance=True, writer=username)
+                name=inputCategory, isIncome=True, writer=user)
             newcategory.save()
         else:
             return view(request, "categorySubscribeError", "duplication")
     else:
-        if len(Category.objects.filter(categoryName=inputCategory, balance=False, writer=username)) == 0:
+        if len(Category.objects.filter(name=inputCategory, isIncome=False, writer=user)) == 0:
             newcategory = Category(
-                categoryName=inputCategory, balance=False, writer=username)
+                name=inputCategory, isIncome=False, writer=user)
             newcategory.save()
         else:
             return view(request, "categorySubscribeError", "duplication")
