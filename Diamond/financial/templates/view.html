@@ -59,7 +59,7 @@
                                 <select name="incomeCategory">
                                     <option value="選択なし">選択なし</option>
                                     {% for incomeCategory in incomeCategories %}
-                                    <option value={{incomeCategory.categoryName}}>{{incomeCategory.categoryName}}</option>
+                                    <option value={{incomeCategory.name}}>{{incomeCategory.name}}</option>
                                     {% endfor %}
                                 </select>
                                 <br>
@@ -78,7 +78,7 @@
                                 <select name="expenseCategory">
                                     <option value="選択なし">選択なし</option>
                                     {% for expenseCategory in expenseCategories %}
-                                    <option value={{expenseCategory.categoryName}}>{{expenseCategory.categoryName}}</option>
+                                    <option value={{expenseCategory.name}}>{{expenseCategory.name}}</option>
                                     {% endfor %}
                                 </select>
                                 <br>
@@ -98,7 +98,6 @@
                         <input type="button" id="category_btn" class="view_button" value="カテゴリー追加">
                         <input type="button" id="income_btn" class="view_button" value="収入追加">
                         <input type="button" id="expense_btn" class="view_button" value="支出追加">
-
                         <p>検索ツール</p>
                     <form id="categorysearch" method="POST" action="/categorysearch/">
                      <p>カテゴリー</p>
