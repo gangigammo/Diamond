@@ -100,7 +100,7 @@
                         <input type="button" id="income_btn" class="view_button" value="収入追加">
                         <input type="button" id="expense_btn" class="view_button" value="支出追加">
 
-                        <p>検索システム</p>
+                        <p>検索ツール</p>
                     <form id="categorysearch" method="POST" action="/categorysearch/">
                      <p>カテゴリー</p>
                         <input type="checkbox" name="selectCategory">
@@ -116,6 +116,7 @@
                         <p>期間</p>
                         <input type="checkbox" name="selectDate">
                         <input type="date" name ="periodFrom">
+                        〜
                         <input type="date" name ="periodTo">
                         {% csrf_token %}
                         <p><input type="submit" value="検索"></p>
