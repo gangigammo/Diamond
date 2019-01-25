@@ -11,7 +11,7 @@ class UserModelTest(TestCase):
     def test_main(self):
         testname = "username"
         testpass = "password"
-        user = User(name=testname, password=testpass)
+        user = User.new(name=testname, password=testpass)
 
         if user.name != testname:
             raise AssertionError("User.nameをインスタンスに保持できていません")
@@ -33,7 +33,7 @@ class UsersTest(TestCase):
 
         testname = "username"
         testpass = "password"
-        user = User(name=testname, password=testpass)
+        user = User.new(name=testname, password=testpass)
         user.save()
 
         gotuser = User.objects.first()
