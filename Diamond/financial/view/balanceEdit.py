@@ -102,11 +102,12 @@ def __parseChange(dic):
         if not (id.isdecimal()):
             raise AssertionError("入力が正しく送られていません")
         if not (amount.isdecimal()):
-            raise ValueError("notDecimalError")  # viewに送られるエラーメッセージ
+            # viewに"incomeError"として送られるエラーメッセージ
+            raise ValueError("notDecimalError")
         if not bool(description):
-            raise TypeError("contentBlankError")  # viewに送られるエラーメッセージ
+            raise TypeError("contentBlankError")
         if not (isValidDate(date)):
-            raise ValueError("invalidDateError")  # viewに送られるエラーメッセージ
+            raise ValueError("invalidDateError")
         return True
 
     def isValidDate(dateStr: str):
