@@ -34,6 +34,10 @@ class Category(Model):
     # もとのユーザ削除時 -> このカテゴリも一緒に削除される (CASCADE)
     writer = ForeignKey(User, on_delete=CASCADE)
 
+    class Meta:
+        # 同一ユーザーが同じ名前のカテゴリを重複して持てないようにする
+        unique_together = ('name', 'writer', 'isIncome')
+
     # properties
     @property
     def categoryName(self):
