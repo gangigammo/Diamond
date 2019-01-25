@@ -98,19 +98,29 @@
                         <input type="button" id="category_btn" class="view_button" value="カテゴリー追加">
                         <input type="button" id="income_btn" class="view_button" value="収入追加">
                         <input type="button" id="expense_btn" class="view_button" value="支出追加">
-
-                        <form id="categorysearch" method="POST" action="/categorysearch/">
-                            <p>カテゴリーで絞り込み</p>
-                            <select name="Category">
-                                <option value="選択なし">選択なし</option>
-                                {% for category in Category %}
-                                <option value={{category.name}}>{{category.name}}</option>
-                                {% endfor %}
-                            </select>
-                            {% csrf_token %}
-                            <input type="submit" value="検索">
-                        </form>
-                        <a href="/view">全表示</a>
+                        <p>検索ツール</p>
+                    <form id="search" method="POST" action="/search/">
+                     <p>カテゴリー</p>
+                        <input type="checkbox" name="selectCategory">
+                        <select name="Category">
+                            <option value="選択なし">選択なし</option>
+                            {% for category in Category %}
+                            <option value={{category.categoryName}}>{{category.categoryName}}</option>
+                            {% endfor %}
+                        </select>
+                        <p>金額</p>
+                        <input type="text" name ="amountFrom">以上
+                        <input type="text" name ="amountTo">以下
+                        <p>内容（含まれる文字列）</p>
+                        <input type="text" name ="description">
+                        <p>期間</p>
+                        <input type="date" name ="periodFrom">
+                        〜
+                        <input type="date" name ="periodTo">
+                        {% csrf_token %}
+                        <p><input type="submit" value="検索"></p>
+                    </form>
+                    <a href="/view">全表示</a>
 
                         <a href="/export">エクスポート</a>
 
@@ -155,6 +165,7 @@
                                 </tbody>
                             </table>
                         </form>
+                    
                     </div>
                     <div class="cp_tabpanel">
                         <h2>円グラフ</h2>
@@ -245,7 +256,6 @@
                 300
             );
         });
-
         /*カテゴリー追加フォーム*/
         $("#category_btn").click(function () {
             $("#category_dialog").dialog({

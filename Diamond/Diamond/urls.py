@@ -31,7 +31,7 @@ urlpatterns = [
     path('signupconfirm/', financial_view.signupconfirm),
     path('signout/', financial_view.signout),
     path('category/', financial_view.category),
-    path('categorysearch/', financial_view.view),
+    path('search/', financial_view.view),
     path('export/', financial_view.export),
     # 収支エントリの変更
     path('balanceedit/', balanceEdit.main),
