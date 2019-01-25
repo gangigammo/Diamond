@@ -5,7 +5,7 @@ from financial.models import User, Balance, Category
 __topView = financial.views.view
 
 
-# ディスパッチャ
+# ディスパッチャ    balanceedit/
 def main(request):
     username = request.session["name"]              # 自分のユーザー名
     user = User.objects.filter(name=username).first()
@@ -49,7 +49,7 @@ def __change(request, user, selects):
     return render(request, "changeBalance.html", responseDict)
 
 
-# 編集を適用
+# 編集を適用    balanceedit/apply/
 def apply(request):
     post = request.POST
     for id_fields in __parseChange(post):
@@ -78,7 +78,7 @@ def __parseChange(dic):
     # (id, ...) : tuple[str]
     ids = (i.rstrip("-amount")
            for i in dic.keys() if i.endswith("-amount"))
-    #
+    # POSTされた入力の取り出し
     input = [(
         i,
         (
