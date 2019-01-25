@@ -9,3 +9,6 @@ chromedriver*
 
 # グラフ画像
 figure.png
+
+# 静的ファイル
+static/*.png
