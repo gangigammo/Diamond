@@ -6,7 +6,6 @@ import datetime
 
 from django.http import HttpResponse
 import csv
-import hashlib
 # Create your views here.
 
 
@@ -347,11 +346,7 @@ def signinconfirm(request):
     password = request.POST["password"]
     if len(User.objects.filter(name=name)) != 0:
         user = User.objects.filter(name=name)[0]
-        # ハッシュ化
-        for val in range(0, 1000):
-            password = hashlib.sha256(
-                (str(user.id)+password).encode('utf-8')).hexdigest()
-        if User.objects.filter(name=name)[0].password == password:
+        if user.isCorrect(password=password):
             request.session["name"] = name
             return view(request)
         else:
@@ -364,13 +359,7 @@ def signupconfirm(request):
     name = request.POST["name"]
     password = request.POST["password"]
     if len(User.objects.filter(name=name)) == 0:
-        user = User(name=name, password="")
-        user.save()
-        # ハッシュ化
-        for val in range(0, 1000):
-            password = hashlib.sha256(
-                (str(user.id)+password).encode('utf-8')).hexdigest()
-        user.password = password
+        user = User.new(name=name, password=password)  # パスワードのハッシュ化込みでユーザー作成
         user.save()
         return render(request, "signupconfirm.html")
     else:
