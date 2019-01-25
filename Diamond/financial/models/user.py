@@ -4,6 +4,7 @@
 from django.db.models import Model, CharField
 from django.db.models import Sum
 from django.db.models.query import QuerySet
+import hashlib
 
 
 class User(Model):
@@ -26,8 +27,8 @@ class User(Model):
 
     # Fields
 
-    name = CharField(max_length=128)
-    password = CharField(max_length=128)  # TODO 平文にしない
+    name = CharField(max_length=128, unique=True)
+    password = CharField(max_length=128)
 
     # factory method
     @staticmethod
@@ -88,5 +89,23 @@ class User(Model):
     # private methods
 
     def __digest(self, password: str) -> str:
-        digested = password  # TODO パスワードのダイジェスト化
+        """
+        文字列をハッシュ化します
+
+        Parameters
+        ----------
+        password : str
+            平文のパスワード
+
+        Returns
+        -------
+        digestedPassword : str
+            ダイジェスト化されたパスワード
+        """
+        # パスワードのハッシュ化
+        digested = password
+        for val in range(0, 1000):
+            digested = hashlib.sha256(
+                (str(self.name) + digested).encode('utf-8')
+            ).hexdigest()
         return digested

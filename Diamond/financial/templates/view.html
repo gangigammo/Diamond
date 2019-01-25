@@ -130,6 +130,7 @@
                             {% csrf_token %}
                             <span>選択を</span>
                             <!--編集ボタンなどはここに追加-->
+                            <input type="submit" name="change" value="編集">
                             <input type="submit" name="delete" value="削除">
                             <br>
                             <span id="prev">＜</span>　<span id="page"></span>ページ　<span id="next">＞</span>
@@ -139,6 +140,7 @@
                                         <th>収支</th>
                                         <th>内容</th>
                                         <th>カテゴリー</th>
+                                        <th>日付</th>
                                         <th>選択</th>
                                     </tr>
                                 </thead>
@@ -156,6 +158,7 @@
                                         {% endif %}
                                         <td>{{balance.description}}</td>
                                         <td>{{balance.categoryName}}</td>
+                                        <td>{{balance.date|date:'Y年m月d日'}}</td>
                                         <td><input name="balanceSelect" value={{balance.id}} type="checkbox"></td>
                                     </tr>
                                     {% endfor %}

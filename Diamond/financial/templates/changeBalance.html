@@ -1,0 +1,60 @@
+{% extends "main.html" %}
+{% block title %}
+収支編集
+{% endblock %}
+
+
+{% block body %}
+	<form id="changeIncomeCategoryForm" method="POST" action="apply/">
+        {% csrf_token %}
+        <p>収支編集</p>
+        <input type="submit" value="適用">
+        <br>
+        <a href="/view">収支表に戻る</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>金額</th>
+                    <th>内容</th>
+                    <th>カテゴリー</th>
+                    <th>日付</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for b in selects %}
+                <tr>
+                    <td>
+                        {% if b.isIncome %}
+                            <font color="green">+</font>
+                        {% else %}
+                            <font color="red">-</font>
+                        {% endif %}
+                        <input type="text" name="{{b.id}}-amount" value="{{b.amount}}">
+                    </td>
+                    <td>
+                        <input type="text" name="{{b.id}}-description" value="{{b.description}}">
+                    </td>
+                    <td>
+                        <select name="{{b.id}}-category" value="{{b.categoryName}}">
+                            <option value="選択なし">選択なし</option>
+                            {% if b.isIncome %}
+                                {% for c in incomeCategories %}
+                                    <option value={{c.name}} {% if c.name == b.categoryName %}selected{% endif %}>{{c.name}}</option>
+                                {% endfor %}
+                            {% else %}
+                                {% for c in expenseCategories %}
+                                    <option value={{c.name}} {% if c.name == b.categoryName %}selected{% endif %}>{{c.name}}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    </td>
+                    <td>
+                        <input type="date" name="{{b.id}}-date" value="{{b.date|date:'Y-m-d'}}">
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
+
+{% endblock %}
