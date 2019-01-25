@@ -52,17 +52,25 @@ def __change(request, user, selects):
 # 編集を適用    balanceedit/apply/
 def apply(request):
     post = request.POST
-    for id_fields in __parseChange(post):
-        (id, (amount, description, categoryName, date)) = id_fields
-        b = Balance.objects.filter(id=id).first()
-        category = Category.objects.filter(
-            writer=b.writer, name=categoryName).first()
-        b.amount = amount
-        b.description = description
-        b.category = category
-        b.date = date
-        b.save()
-    return __topView(request)
+
+    error = ()  # (エラー名, エラー詳細)のタプル。views.pyで処理される
+    try:
+        for id_fields in __parseChange(post):
+            (id, (amount, description, categoryName, date)) = id_fields
+            b = Balance.objects.filter(id=id).first()
+            category = Category.objects.filter(
+                writer=b.writer, name=categoryName).first()
+            b.amount = amount
+            b.description = description
+            b.category = category
+            b.date = date or b.date  # False(変更なし)ならそのまま
+            b.save()
+    except ValueError as ex:
+        error = ("incomeError", "notDecimalError")
+    except TypeError as ex:
+        error = ("incomeError", "contentBlankError")
+
+    return __topView(request, *error)
 
 
 def __parseChange(dic):
@@ -88,8 +96,19 @@ def __parseChange(dic):
             dic.get(i + "-date")
         )
     ) for i in ids]
-    # check
-    result = (i for i in input
-              if i[0].isdecimal() and i[1][0].isdecimal() and bool(i[1][1]) and bool(i[1][3])
-              )
+
+    # 入力が正しいかチェック
+    def isValid(i):
+        (id, amount, description, category, date) = (
+            i[0], i[1][0], i[1][1], i[1][2], i[1][3])
+        if not (id.isdecimal()):
+            raise AssertionError("入力が正しく送られていません")
+        if not (amount.isdecimal()):
+            raise ValueError("金額が数字で入力されていません")
+        if not bool(description):
+            raise TypeError("空欄があります")
+        return True
+
+    result = (i for i in input if isValid(i))
+
     return result
