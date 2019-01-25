@@ -199,6 +199,8 @@
             document.getElementById("income").innerHTML = "値は数字で入力してください";
         } else if (error == "contentBlankError") {
             document.getElementById("income").innerHTML = "内容が入力されていません";
+        } else if (error == "invalidDateError") {
+            document.getElementById("income").innerHTML = "未来の日付は指定できません";
         }
         error = "{{expenseError}}";
         if (error == "notDecimalError") {
