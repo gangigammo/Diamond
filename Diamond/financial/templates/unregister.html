@@ -1,6 +1,6 @@
 {% extends "main.html" %}
 {% block title %}
-パスワード変更
+退会
 {% endblock %}
 
 {% block body %}
@@ -17,6 +17,7 @@
     }
 
 </script>
+
 <div class="wrap">
     <!--上部メニュー-->
     <div class="homemenu">
@@ -26,17 +27,20 @@
     </div>
     <div class="signup">
 
-        <form method="POST" action="/passwordchangeconfirm/">
-            <p>現在のパスワード</p>
-            <input type="password" name="oldpassword">
-            <font color="red">
-                <p id="oldpassword"></p>
-            </font>
-            <p>新しいパスワード</p>
-            <input type="password" name="newpassword">
-            <br>
+        <form  name="myform" method="POST" unsubmit="return function">
             {% csrf_token %}
-            <button type="submit" name="action" bvalue="send" class="signupButton">変更</button>
+            <input type="submit" id="btn" name="action" value="退会" class="signupButton">
+            <script>
+                document.myform.btn.addEventListener('click', function() {
+                var result = window.confirm('本当に退会してよろしいですか？');
+
+                    if( result ) {
+                        document.myform.action = "/unregisterconfirm/";
+                    } else {
+                        return false;
+                    }
+                })
+            </script>
         </form>
 
         <a href="/view">戻る</a>

@@ -430,3 +430,13 @@ def passwordchangeconfirm(request):
         return render(request, "passwordchange.html", {"error": "oldpassword"})
 
 
+def unregister(request):
+    return render(request, "unregister.html")
+
+
+def unregisterconfirm(request):
+    username = request.session["name"]
+    user = User.objects.filter(name=username).first()
+    user.delete()
+    request.session.clear()
+    return render(request, "home.html")
