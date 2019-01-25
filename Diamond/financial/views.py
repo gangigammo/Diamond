@@ -425,7 +425,7 @@ def passwordchangeconfirm(request):
     if user.isCorrect(oldpassword):
         user.setPassword(newpassword)
         user.save()
-        return render(request, "view.html")
+        return view(request)
     else:
         return render(request, "passwordchange.html", {"error": "oldpassword"})
 
