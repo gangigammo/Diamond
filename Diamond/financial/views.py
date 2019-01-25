@@ -18,25 +18,34 @@ def view(request, *args):
     import matplotlib
     matplotlib.use('Agg')
     username = request.session["name"]
-    balances = Balance.objects.filter(writer=username).order_by("id").reverse()
     user = User.objects.filter(name=username).first()
+    balances = Balance.objects.filter(writer=user).order_by("id").reverse()
     if request.method == 'POST':
         if 'selectCategory' in request.POST and 'Category' in request.POST:
             categoryName = request.POST["Category"]
-            balances = balances.filter(categoryName=categoryName)
-        if 'selectDescription' in request.POST and 'description' in request.POST:
+            category = Category.objects.filter(
+                writer=user, name=categoryName).first()
+            balances = balances.filter(category=category)
+        if 'amountFrom' in request.POST:
+            amountFrom = request.POST["amountFrom"]
+            if amountFrom.isdecimal():
+                balances = balances.filter(amount__gte=amountFrom)
+        if 'amountTo' in request.POST:
+            amountTo = request.POST["amountTo"]
+            if amountTo.isdecimal():
+                balances = balances.filter(amount__lte=amountTo)
+        if 'description' in request.POST:
             description = request.POST["description"]
             if description != "":
                 balances = balances.filter(description__icontains=description)
-        if 'selectDate' in request.POST:
-            if 'periodFrom' in request.POST:
-                periodFrom = request.POST["periodFrom"]
-                if periodFrom != "":
-                    balances = balances.filter(date__gte=periodFrom)
-            if 'periodTo' in request.POST:
-                periodTo = request.POST["periodTo"]
-                if periodTo != "":
-                    balances = balances.filter(date__lte=periodTo)
+        if 'periodFrom' in request.POST:
+            periodFrom = request.POST["periodFrom"]
+            if periodFrom != "":
+                balances = balances.filter(date__gte=periodFrom)
+        if 'periodTo' in request.POST:
+            periodTo = request.POST["periodTo"]
+            if periodTo != "":
+                balances = balances.filter(date__lte=periodTo)
     incomes = []
     expences = []
     categories = Category.objects.filter(
@@ -45,8 +54,9 @@ def view(request, *args):
         isIncome=True, writer=user).order_by("id").reverse()
     expenseCategories = Category.objects.filter(
         isIncome=False, writer=user).order_by("id").reverse()
-    categories = categories.values(
-        'name').order_by('name').distinct()
+
+    #categories = categories.values(
+    #    'name').order_by('name').distinct()
     sumIncomes = 0
     sumExpences = 0
     for balance in balances:
