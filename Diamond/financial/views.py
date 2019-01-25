@@ -413,7 +413,7 @@ def export(request):  # csvファイルをエクスポート
     return response
 
 def passwordchange(request):
-    return render(request, "passwordchange")
+    return render(request, "passwordchange.html")
 
 def passwordchangeconfirm(request):
     username = request.session["name"]
@@ -425,8 +425,8 @@ def passwordchangeconfirm(request):
     if user.isCorrect(oldpassword):
         user.setPassword(newpassword)
         user.save()
-        return render(request, "/")
+        return render(request, "view.html")
     else:
-        return render(request, "changepassword.html", {"error": "oldpassword"})
+        return render(request, "passwordchange.html", {"error": "oldpassword"})
 
 
