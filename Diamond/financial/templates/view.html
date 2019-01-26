@@ -49,6 +49,21 @@
                             </form>
                         </div>
 
+                        <div id="category_edit_dialog">
+                            <form id="categoryEditForm" method="POST" action="/categoryedit/">
+                                <select name="categoryID">
+                                    {% for c in incomeCategories %} <option value={{c.id}}>収入: {{c.name}}</option>{% endfor %}
+                                    {% for c in expenseCategories %}<option value={{c.id}}>支出: {{c.name}}</option>{% endfor %}
+                                </select>
+                                <br>
+                                <p>カテゴリー名</p>
+                                <input type="text" name="categoryName">
+                                <br>
+                                {% csrf_token %}
+                                <input type="submit" value="適用">
+                            </form>
+                        </div>
+
                         <div id="income_dialog" style="display:none;">
                             <form id="incomeForm" method="POST" action="/income/">
                                 <p>値</p>
@@ -165,7 +180,7 @@
                                 </tbody>
                             </table>
                         </form>
-                    
+
                     </div>
                     <div class="cp_tabpanel">
                         <h2>円グラフ</h2>
