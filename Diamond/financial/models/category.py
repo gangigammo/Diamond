@@ -47,3 +47,20 @@ class Category(Model):
 
     def __str__(self):
         return self.name
+
+    def setName(self, name: str):
+        """
+        カテゴリ名をセットします
+
+        Parameters
+        ----------
+        name : str
+            新しいカテゴリ名
+
+        Returns
+        -------
+        category : Category
+            このカテゴリオブジェクト
+        """
+        self.name = name
+        return self
