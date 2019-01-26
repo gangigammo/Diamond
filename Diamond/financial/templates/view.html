@@ -51,17 +51,27 @@
 
                         <div id="category_edit_dialog" style="display:none;">
                             <form id="categoryEditForm" method="POST" action="/categoryedit/">
-                                <select name="categoryID">
-                                    {% for c in incomeCategories %} <option value={{c.id}}>収入: {{c.name}}</option>{% endfor %}
-                                    {% for c in expenseCategories %}<option value={{c.id}}>支出: {{c.name}}</option>{% endfor %}
-                                </select>
-                                <br>
-                                <p>カテゴリー名</p>
-                                <input type="text" name="categoryName">
-                                <br>
                                 {% csrf_token %}
-                                <input type="submit" name="change" value="適用">
-                                <input type="submit" name="delete" value="削除">
+                                <p>
+                                    編集対象
+                                    <br>
+                                    <select name="categoryID">
+                                        {% for c in incomeCategories %} <option value={{c.id}}>収入: {{c.name}}</option>{% endfor %}
+                                        {% for c in expenseCategories %}<option value={{c.id}}>支出: {{c.name}}</option>{% endfor %}
+                                    </select>
+                                </p>
+                                <p>
+                                    カテゴリー名変更
+                                    <br>
+                                    <input type="text" name="categoryName">
+                                    <br>
+                                    <input type="submit" name="change" value="適用">
+                                </p>
+                                <p>
+                                    カテゴリー削除
+                                    <br>
+                                    <input type="submit" name="delete" value="削除する">
+                                </p>
                             </form>
                         </div>
 
