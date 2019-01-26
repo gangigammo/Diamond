@@ -44,17 +44,33 @@ def __findForm(self: WebDriver, form_id: str):
     return form
 
 
-# フォームを送信する
-def form_submit(self: WebDriver, form_id: str, input_dict: dict):
+# フォームに入力する(送信はしない)
+def form_input(self: WebDriver, form_id: str, input_dict: dict):
     form = self.__findForm(form_id)
     for name, value in input_dict.items():
-        xpath = "//form[@id='%s']/input[@name='%s']" % (form_id, name)
+        xpath = "//form[@id='%s']//input[@name='%s']" % (form_id, name)
         element = self.__wait_xpath(xpath)
         element.send_keys(value)
+    return form
+
+
+# フォームを送信する
+def form_submit(self: WebDriver, form_id: str, input_dict: dict):
+    form = self.form_input(form_id, input_dict)
     form.submit()
 
 
+# フォームのボタンをクリックする
+def form_click(self: WebDriver, form_id: str, name: str):
+    xpath = "//form[@id='%s']//input[@name='%s']" % (form_id, name)
+    elements = self.find_elements_by_xpath(xpath)
+    if (len(elements) == 0):
+        raise NoSuchElementException(
+            "フォーム %s のボタン %s が見つかりません" % (form_id, name))
+    elements[0].click()
+
 # ページに文字列が存在するか
+
 
 def exists(self: WebDriver, string: str):
     elements = self.find_elements_by_xpath("//*[text()='" + string + "']")
@@ -78,7 +94,7 @@ def checkSelection(self: WebDriver, form_id: str, select_name: str, value: str):
     """
     try:
         option = self.find_element_by_xpath(
-            "//form[@id='%s']/select[@name='%s']/option[@value='%s']" % (form_id, select_name, value))
+            "//form[@id='%s']//select[@name='%s']/option[@value='%s']" % (form_id, select_name, value))
     except NoSuchElementException as ex:
         pass
         raise NoSuchElementException(
@@ -94,10 +110,18 @@ def pushButton(self: WebDriver, id: str):
 
 # 選択メニューを押す
 def pushSelect(self: WebDriver, form_id: str, name: str, value: str):
-    selectXpath = "//form[@id='%s']/select[@name='%s']" % (form_id, name)
+    selectXpath = "//form[@id='%s']//select[@name='%s']" % (form_id, name)
     element = self.find_element(By.XPATH, selectXpath)
     selectElement = Select(element)
     selectElement.select_by_value(value)
+
+
+# 選択メニューを押す(表示テキストで選択)
+def pushSelectByText(self: WebDriver, form_id: str, name: str, text: str):
+    selectXpath = "//form[@id='%s']//select[@name='%s']" % (form_id, name)
+    element = self.find_element(By.XPATH, selectXpath)
+    selectElement = Select(element)
+    selectElement.select_by_visible_text(text)
 
 
 # メソッドをWebDriverに追加
@@ -111,8 +135,11 @@ __setattr(__wait_name)
 __setattr(__wait_xpath)
 __setattr(click_url)
 __setattr(__findForm)
+__setattr(form_input)
 __setattr(form_submit)
+__setattr(form_click)
 __setattr(checkSelection)
 __setattr(exists)
 __setattr(pushButton)
 __setattr(pushSelect)
+__setattr(pushSelectByText)
