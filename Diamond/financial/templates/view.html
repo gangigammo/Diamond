@@ -49,7 +49,7 @@
                             </form>
                         </div>
 
-                        <div id="category_edit_dialog">
+                        <div id="category_edit_dialog" style="display:none;">
                             <form id="categoryEditForm" method="POST" action="/categoryedit/">
                                 <select name="categoryID">
                                     {% for c in incomeCategories %} <option value={{c.id}}>収入: {{c.name}}</option>{% endfor %}
@@ -112,6 +112,7 @@
                             <p id="expense"></p>
                         </font>
                         <input type="button" id="category_btn" class="view_button" value="カテゴリー追加">
+                        <input type="button" id="category_edit_btn" class="view_button" value="カテゴリー編集">
                         <input type="button" id="income_btn" class="view_button" value="収入追加">
                         <input type="button" id="expense_btn" class="view_button" value="支出追加">
                         <p>検索ツール</p>
@@ -277,6 +278,14 @@
             $("#category_dialog").dialog({
                 modal: true,
                 title: "カテゴリー追加",
+            });
+        });
+
+        /*カテゴリー編集フォーム*/
+        $("#category_edit_btn").click(function () {
+            $("#category_edit_dialog").dialog({
+                modal: true,
+                title: "カテゴリー編集",
             });
         });
 
