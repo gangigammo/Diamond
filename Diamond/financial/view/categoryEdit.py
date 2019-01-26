@@ -1,12 +1,14 @@
 from django.shortcuts import render
+from django.http.response import HttpResponse
 import financial.views
 from financial.models import User, Category
+from typing import Optional
 
 __topView = financial.views.view
 
 
 # categoryedit/
-def main(request):
+def main(request) -> HttpResponse:
     """
     カテゴリ編集画面
     categoryedit/
