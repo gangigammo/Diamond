@@ -35,5 +35,6 @@ urlpatterns = [
     path('export/', financial_view.export),
     # 収支エントリの変更
     path('balanceedit/', balanceEdit.main),
-    path('balanceedit/apply/', balanceEdit.apply)
+    path('balanceedit/apply/', balanceEdit.apply),
+    path('categoryedit/', categoryEdit.main)
 ]
