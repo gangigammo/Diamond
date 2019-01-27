@@ -1,6 +1,7 @@
 from django.shortcuts import render
 import financial.views
 from financial.models import User, Balance, Category
+import datetime
 
 __topView = financial.views.view
 
@@ -65,11 +66,8 @@ def apply(request):
             b.category = category
             b.date = date or b.date  # False(変更なし)ならそのまま
             b.save()
-    except ValueError as ex:
-        error = ("incomeError", "notDecimalError")
-    except TypeError as ex:
-        error = ("incomeError", "contentBlankError")
-
+    except (ValueError, TypeError) as ex:
+        error = ("incomeError", str(ex))
     return __topView(request, *error)
 
 
@@ -104,10 +102,21 @@ def __parseChange(dic):
         if not (id.isdecimal()):
             raise AssertionError("入力が正しく送られていません")
         if not (amount.isdecimal()):
-            raise ValueError("金額が数字で入力されていません")
+            # viewに"incomeError"として送られるエラーメッセージ
+            raise ValueError("notDecimalError")
         if not bool(description):
-            raise TypeError("空欄があります")
+            raise TypeError("contentBlankError")
+        if not (isValidDate(date)):
+            raise ValueError("invalidDateError")
         return True
+
+    def isValidDate(dateStr: str):
+        date = datetime.date.fromisoformat(dateStr)
+        today = datetime.date.today()
+        isNotFuture = date and bool(date <= today)  # 未来はFalse
+        # date=Noneは間違いではないのでTrue
+        isNone = bool(date is None)
+        return isNone or isNotFuture
 
     result = (i for i in input if isValid(i))
 
