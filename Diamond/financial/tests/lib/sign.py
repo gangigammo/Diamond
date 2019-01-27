@@ -28,3 +28,13 @@ def signin(driver: WebDriver, name: str, password: str):
 def signout(driver: WebDriver, name: str, password: str):
     driver.get(DriverConfig.default_url)
     driver.click_url("signout")
+
+
+# メソッドをWebDriverに追加
+def __setattr(method):
+    setattr(WebDriver, method.__name__, method)
+
+
+__setattr(signup)
+__setattr(signin)
+__setattr(signout)
