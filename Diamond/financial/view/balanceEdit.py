@@ -32,4 +32,7 @@ def __getSelects(request):
 def __delete(request, selects):
     for g in selects:
         g.delete()
+    financial.views.createIncomeCircle(request)
+    financial.views.createExpenceCircle(request)
+    financial.views.createLineGraph(request)
     return __topView(request)
