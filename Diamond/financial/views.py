@@ -434,3 +434,32 @@ def export(request):  # csvファイルをエクスポート
             writer.writerow(
                 [-balance.amount, balance.description, balance.categoryName])
     return response
+
+def passwordchange(request):
+    return render(request, "passwordchange.html")
+
+def passwordchangeconfirm(request):
+    username = request.session["name"]
+    user = User.objects.filter(name=username).first()
+
+    oldpassword = request.POST["oldpassword"]
+    newpassword = request.POST["newpassword"]
+
+    if user.isCorrect(oldpassword):
+        user.setPassword(newpassword)
+        user.save()
+        return view(request)
+    else:
+        return render(request, "passwordchange.html", {"error": "oldpassword"})
+
+
+def unregister(request):
+    return render(request, "unregister.html")
+
+
+def unregisterconfirm(request):
+    username = request.session["name"]
+    user = User.objects.filter(name=username).first()
+    user.delete()
+    request.session.clear()
+    return render(request, "home.html")
