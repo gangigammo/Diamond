@@ -73,9 +73,11 @@ def view(request, *args):
                        "incomeCategories": incomeCategories, "expenseCategories": expenseCategories,
                        "Category": categories})
     else:
-        filedict = dict([(name[7:name.find('_')], name) for name in getFileName(request, 'monthly')])
-        filedict = dict(sorted(filedict.items(), key=lambda x: -int(x[0])))
-        print(filedict)
+        filedict = [(name[7:name.find('_')], name) for name in getFileName(request, 'monthly')]
+        if getFileName(request, 'monthly')[0] == "":
+            filedict = {}
+        else:
+            filedict = dict(sorted(filedict, key=lambda x: -int(x[0])))
         return render(request, "view.html",
                       {"name": request.session.get("name"), "balances": balances, "gain": gain,
                        "incomeCategories": incomeCategories, "expenseCategories": expenseCategories,
@@ -88,13 +90,13 @@ def view(request, *args):
 
 def fileInit(request):
     import os
-    import glob
+    import shutil
     username = request.session["name"]
 
     # 既存のファイル削除
     path = setting.BASE_DIR + '/financial/static/financial/img/' + username
     if os.path.isdir(path):
-            os.remove(path)
+        shutil.rmtree(path)
 
 def getFileName(request, basename):
     # 更新日を付与した画像のファイル名を返す
@@ -284,7 +286,7 @@ def createMonthlyLineGraph(request, year):
                 monthlyIncome[balance.date.month-1] += balance.amount
             else:
                 monthlyExpence[balance.date.month-1] += balance.amount
-    if len(monthlyIncome+monthlyExpence) == 0:
+    if len(list(filter(lambda x: x != 0, monthlyIncome+monthlyExpence))) == 0:
         return
     plt.clf()
     fig = plt.figure(figsize=(4, 4))
@@ -461,3 +463,33 @@ def export(request):  # csvファイルをエクスポート
             writer.writerow(
                 [-balance.amount, balance.description, balance.categoryName])
     return response
+
+def passwordchange(request):
+    return render(request, "passwordchange.html")
+
+def passwordchangeconfirm(request):
+    username = request.session["name"]
+    user = User.objects.filter(name=username).first()
+
+    oldpassword = request.POST["oldpassword"]
+    newpassword = request.POST["newpassword"]
+
+    if user.isCorrect(oldpassword):
+        user.setPassword(newpassword)
+        user.save()
+        return view(request)
+    else:
+        return render(request, "passwordchange.html", {"error": "oldpassword"})
+
+
+def unregister(request):
+    return render(request, "unregister.html")
+
+
+def unregisterconfirm(request):
+    username = request.session["name"]
+    user = User.objects.filter(name=username).first()
+    fileInit(request)
+    user.delete()
+    request.session.clear()
+    return render(request, "home.html")
