@@ -408,10 +408,14 @@ def signinconfirm(request):
 def signupconfirm(request):
     name = request.POST["name"]
     password = request.POST["password"]
+    passwordConfirm = request.POST["passwordConfirm"]
     if len(User.objects.filter(name=name)) == 0:
-        user = User.new(name=name, password=password)  # パスワードのハッシュ化込みでユーザー作成
-        user.save()
-        return render(request, "signupconfirm.html")
+        if password == passwordConfirm:
+            user = User.new(name=name, password=password)  # パスワードのハッシュ化込みでユーザー作成
+            user.save()
+            return render(request, "signupconfirm.html")
+        else:
+            return render(request, "signup.html", {"error": "passwordConfirm"})
     else:
         return render(request, "signup.html", {"error": "name"})
 
