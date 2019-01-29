@@ -4,6 +4,8 @@ from financial.models import *
 import Diamond.settings as setting
 import datetime
 
+from django.http import HttpResponse
+import csv
 # Create your views here.
 
 
@@ -15,23 +17,45 @@ def view(request, *args):
     import matplotlib
     matplotlib.use('Agg')
     username = request.session["name"]
+    user = User.objects.filter(name=username).first()
+    balances = Balance.objects.filter(writer=user).order_by("id").reverse()
     if request.method == 'POST':
-        if 'Category' in request.POST:
+        if 'selectCategory' in request.POST and 'Category' in request.POST:
             categoryName = request.POST["Category"]
-            balances = Balance.objects.filter(
-                categoryName=categoryName, writer=username)
-        else:
-            balances = Balance.objects.filter(writer=username)
-    else:
-        balances = Balance.objects.filter(writer=username)
-
+            category = Category.objects.filter(
+                writer=user, name=categoryName).first()
+            balances = balances.filter(category=category)
+        if 'amountFrom' in request.POST:
+            amountFrom = request.POST["amountFrom"]
+            if amountFrom.isdecimal():
+                balances = balances.filter(amount__gte=amountFrom)
+        if 'amountTo' in request.POST:
+            amountTo = request.POST["amountTo"]
+            if amountTo.isdecimal():
+                balances = balances.filter(amount__lte=amountTo)
+        if 'description' in request.POST:
+            description = request.POST["description"]
+            if description != "":
+                balances = balances.filter(description__icontains=description)
+        if 'periodFrom' in request.POST:
+            periodFrom = request.POST["periodFrom"]
+            if periodFrom != "":
+                balances = balances.filter(date__gte=periodFrom)
+        if 'periodTo' in request.POST:
+            periodTo = request.POST["periodTo"]
+            if periodTo != "":
+                balances = balances.filter(date__lte=periodTo)
     incomes = []
     expences = []
-    categories = Category.objects.filter(writer=username)
-    incomeCategories = Category.objects.filter(balance=True, writer=username)
-    expenseCategories = Category.objects.filter(balance=False, writer=username)
-    categories = categories.values(
-        'categoryName').order_by('categoryName').distinct()
+    categories = Category.objects.filter(
+        writer=user).order_by("id").reverse()
+    incomeCategories = Category.objects.filter(
+        isIncome=True, writer=user).order_by("id").reverse()
+    expenseCategories = Category.objects.filter(
+        isIncome=False, writer=user).order_by("id").reverse()
+
+    #categories = categories.values(
+    #    'name').order_by('name').distinct()
     sumIncomes = 0
     sumExpences = 0
     for balance in balances:
@@ -62,6 +86,15 @@ def view(request, *args):
                        })
 
 
+def fileInit(request):
+    import os
+    import glob
+    username = request.session["name"]
+
+    # 既存のファイル削除
+    path = setting.BASE_DIR + '/financial/static/financial/img/' + username
+    if os.path.isdir(path):
+            os.remove(path)
 
 def getFileName(request, basename):
     # 更新日を付与した画像のファイル名を返す
@@ -79,10 +112,11 @@ def getFileName(request, basename):
 def getImgRatio(request, balanceType):
     import math
     username = request.session["name"]
+    user = User.objects.filter(name=username).first()
     maxRatio = 2.0
     sumIncome = 0
     sumExpence = 0
-    for balance in Balance.objects.filter(writer=username):
+    for balance in Balance.objects.filter(writer=user):
         if balance.isIncome:
             sumIncome += balance.amount
         else:
@@ -107,9 +141,11 @@ def createIncomeCircle(request):
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     from matplotlib.font_manager import FontProperties
-    fp = FontProperties(fname=setting.BASE_DIR+'/financial/static/financial/ttf/ipag.ttf');
+    fp = FontProperties(fname=setting.BASE_DIR +
+                        '/financial/static/financial/ttf/ipag.ttf')
     username = request.session["name"]
-    incomes = Balance.objects.filter(isIncome=True, writer=username)
+    user = User.objects.filter(name=username).first()
+    incomes = Balance.objects.filter(isIncome=True, writer=user)
 
     # フォルダ作成、既存のファイル削除
     path = setting.BASE_DIR+'/financial/static/financial/img/' + username
@@ -136,22 +172,22 @@ def createIncomeCircle(request):
         ax = fig.add_subplot(111)
         ax.axis("equal")
         patches, texts, autotexts = ax.pie(amount,  # データ
-                    startangle=90,  # 円グラフ開始軸を指定
-                    #labels=label,  # ラベル
-                    autopct = lambda p: '{:.1f}%'.format(p) if p >= 5 else '',  # パーセント表示
-                   # colors=colors,  # 色指定
-                    counterclock=False,  # 逆時計回り
-                    radius=getImgRatio(request, "income"),  # 半径
-                    )
+                                           startangle=90,  # 円グラフ開始軸を指定
+                                           # labels=label,  # ラベル
+                                           autopct=lambda p: '{:.1f}%'.format(
+                                               p) if p >= 5 else '',  # パーセント表示
+                                           # colors=colors,  # 色指定
+                                           counterclock=False,  # 逆時計回り
+                                           radius=getImgRatio(
+                                               request, "income"),  # 半径
+                                           )
         plt.legend(label, bbox_to_anchor=(0.5, -0.1), prop=fp, loc='upper center', borderaxespad=0,
                    ncol=4)
         plt.setp(texts, fontproperties=fp)
-        plt.title('収入', fontproperties = fp, fontsize=24)
+        plt.title('収入', fontproperties=fp, fontsize=24)
         plt.subplots_adjust(bottom=0.25)
-
-
-        # 保存
         plt.tight_layout()
+        # 保存
         time = datetime.datetime.today().strftime("%Y%m%d%H%M%S")
         plt.savefig(path+'/circle_income'+time+'.png')
 
@@ -163,9 +199,11 @@ def createExpenceCircle(request):
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     from matplotlib.font_manager import FontProperties
-    fp = FontProperties(fname=setting.BASE_DIR+'/financial/static/financial/ttf/ipag.ttf');
+    fp = FontProperties(fname=setting.BASE_DIR +
+                        '/financial/static/financial/ttf/ipag.ttf')
     username = request.session["name"]
-    expences = Balance.objects.filter(isIncome=False, writer=username)
+    user = User.objects.filter(name=username).first()
+    expences = Balance.objects.filter(isIncome=False, writer=user)
 
     # フォルダ作成、既存のファイル削除
     path = setting.BASE_DIR+'/financial/static/financial/img/' + username
@@ -192,25 +230,24 @@ def createExpenceCircle(request):
         ax = fig.add_subplot(111)
         ax.axis("equal")
         patches, texts, autotexts = ax.pie(amount,  # データ
-                    startangle=90,  # 円グラフ開始軸を指定
-                    #labels=label,  # ラベル
-                                           autopct=lambda p: '{:.1f}%'.format(p) if p >= 5 else '',  # パーセント表示
-                   # colors=colors,  # 色指定
-                    counterclock=False,  # 逆時計回り
-                    radius=getImgRatio(request, "expence"),  # 半径
-                    )
+                                           startangle=90,  # 円グラフ開始軸を指定
+                                           # labels=label,  # ラベル
+                                           autopct=lambda p: '{:.1f}%'.format(
+                                               p) if p >= 5 else '',  # パーセント表示
+                                           # colors=colors,  # 色指定
+                                           counterclock=False,  # 逆時計回り
+                                           radius=getImgRatio(
+                                               request, "expence"),  # 半径
+                                           )
         plt.legend(label, bbox_to_anchor=(0.5, -0.1), prop=fp, loc='upper center', borderaxespad=0,
                    ncol=4)
         plt.setp(texts, fontproperties=fp)
-        plt.title('支出', fontproperties = fp, fontsize=24)
+        plt.title('支出', fontproperties=fp, fontsize=24)
         plt.subplots_adjust(bottom=0.25)
         plt.tight_layout()
         # 保存
         time = datetime.datetime.today().strftime("%Y%m%d%H%M%S")
         plt.savefig(path+'/circle_expence'+time+'.png')
-
-def createLineGraph(request):
-    createMonthlyLineGraph(request, datetime.date.today().year)
 
 
 def createMonthlyLineGraph(request, year):
@@ -222,8 +259,10 @@ def createMonthlyLineGraph(request, year):
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     from matplotlib.font_manager import FontProperties
-    fp = FontProperties(fname=setting.BASE_DIR+'/financial/static/financial/ttf/ipag.ttf');
+    fp = FontProperties(fname=setting.BASE_DIR +
+                        '/financial/static/financial/ttf/ipag.ttf')
     username = request.session["name"]
+    user = User.objects.filter(name=username).first()
 
     # フォルダ作成、既存のファイル削除
     path = setting.BASE_DIR+'/financial/static/financial/img/' + username
@@ -233,23 +272,26 @@ def createMonthlyLineGraph(request, year):
         fileList = glob.glob(path + '/monthly'+str(year)+'_*.png')
         for file in fileList:
             os.remove(file)
-    balances = Balance.objects.filter(writer=username)
+    balances = Balance.objects.filter(writer=user)
     month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     monthStr = map(lambda m: str(m), month)
-    monthlyIncome = [0]*(datetime.date.today().month if year == datetime.date.today().year else 12)
-    monthlyExpence = [0]*(datetime.date.today().month if year == datetime.date.today().year else 12)
+    months = datetime.date.today().month if year == datetime.date.today().year else 12
+    monthlyIncome = [0]*months
+    monthlyExpence = [0]*months
     for balance in balances:
         if balance.date.year == year:
             if balance.isIncome:
                 monthlyIncome[balance.date.month-1] += balance.amount
             else:
                 monthlyExpence[balance.date.month-1] += balance.amount
+    if len(monthlyIncome+monthlyExpence) == 0:
+        return
     plt.clf()
     fig = plt.figure(figsize=(4, 4))
     fig.patch.set_alpha(0)
     ax = fig.add_subplot(111)
     ax.patch.set_alpha(0)
-    p1 = ax.plot(np.array(month[0:datetime.date.today().month]), np.array(monthlyIncome),
+    p1 = ax.plot(np.array(month[0:months]), np.array(monthlyIncome),
             color="blue",
             marker="D",
             linewidth=3,
@@ -258,10 +300,10 @@ def createMonthlyLineGraph(request, year):
             markeredgecolor="blue",
             markerfacecolor="lightblue",
             )
-    p2 = ax.plot(np.array(month[0:datetime.date.today().month]), np.array(monthlyExpence),
+    p2 = ax.plot(np.array(month[0:months]), np.array(monthlyExpence),
             color="red",
             marker="D",
-            linewidth= 2,
+            linewidth=2,
             markersize=4,
             markeredgewidth=2,
             markeredgecolor="red",
@@ -289,7 +331,6 @@ def createMonthlyLineGraph(request, year):
     plt.savefig(path + '/monthly'+str(year)+'_' + time + '.png',bbox_inches='tight')
 
 
-
 def income(request):
     inputIncomeStr = request.POST["income"]
     description = request.POST["incomeDescription"]
@@ -297,14 +338,17 @@ def income(request):
         inputIncome = int(inputIncomeStr)
         categoryName = request.POST["incomeCategory"]
         username = request.session["name"]
-        income = Balance(description=description, amount=inputIncome, isIncome=True, date=datetime.date.today(),
-                         categoryName=categoryName, writer=username)
+        user = User.objects.filter(name=username).first()
+        category = Category.objects.filter(
+            writer=user, name=categoryName).first()
+        income = Balance(description=description, amount=inputIncome, isIncome=True,
+                         category=category, writer=user)
         income.save()
         # グラフの用意
         createIncomeCircle(request)
         createExpenceCircle(request)
-        createLineGraph(request)
-        return render(request, "income.html")
+        createMonthlyLineGraph(request, income.date.year)
+        return view(request)
     else:  # 入力が数字でない時のエラー
         if not inputIncomeStr.isdecimal():
             return view(request, "incomeError", "notDecimalError")
@@ -319,30 +363,22 @@ def expence(request):
         inputExpence = int(inputExpenceStr)
         categoryName = request.POST["expenseCategory"]
         username = request.session["name"]
-        expence = Balance(description=description, amount=inputExpence, isIncome=False, date=datetime.date.today(),
-                          categoryName=categoryName, writer=username)
+        user = User.objects.filter(name=username).first()
+        category = Category.objects.filter(
+            writer=user, name=categoryName).first()
+        expence = Balance(description=description, amount=inputExpence, isIncome=False,
+                          category=category, writer=user)
         expence.save()
         # グラフの用意
         createIncomeCircle(request)
         createExpenceCircle(request)
-        createLineGraph(request)
-        return render(request, "expence.html")
+        createMonthlyLineGraph(request, expence.date.year)
+        return view(request)
     else:  # 入力エラーの時
         if not inputExpenceStr.isdecimal():
             return view(request, "expenseError", "notDecimalError")
         else:
             return view(request, "expenseError", "contentBlankError")
-
-
-def delete(request):
-    balances = Balance.objects.all()
-    user = User.objects.all()
-    category = Category.objects.all()
-    balances.delete()
-    user.delete()
-    category.delete()
-    request.session.flush()
-    return render(request, "delete.html")
 
 
 def signin(request):
@@ -357,7 +393,8 @@ def signinconfirm(request):
     name = request.POST["name"]
     password = request.POST["password"]
     if len(User.objects.filter(name=name)) != 0:
-        if User.objects.filter(name=name)[0].password == password:
+        user = User.objects.filter(name=name)[0]
+        if user.isCorrect(password=password):
             request.session["name"] = name
             return view(request)
         else:
@@ -370,7 +407,7 @@ def signupconfirm(request):
     name = request.POST["name"]
     password = request.POST["password"]
     if len(User.objects.filter(name=name)) == 0:
-        user = User(name=name, password=password)
+        user = User.new(name=name, password=password)  # パスワードのハッシュ化込みでユーザー作成
         user.save()
         return render(request, "signupconfirm.html")
     else:
@@ -385,23 +422,42 @@ def signout(request):
 def category(request):  # カテゴリー登録関数
     inputCategory = request.POST["registrationCategory"]
     categoryType = request.POST["categoryType"]
-    IncomeCategory = Category.objects.filter(balance=True)
-    ExpenseCategory = Category.objects.filter(balance=False)
+    IncomeCategory = Category.objects.filter(isIncome=True)
+    ExpenseCategory = Category.objects.filter(isIncome=False)
     username = request.session["name"]
+    user = User.objects.filter(name=username).first()
     if inputCategory == "":
         return view(request, "categorySubscribeError", "blank")
     if categoryType == "income":
-        if len(Category.objects.filter(categoryName=inputCategory, balance=True, writer=username)) == 0:
+        if len(Category.objects.filter(name=inputCategory, isIncome=True, writer=user)) == 0:
             newcategory = Category(
-                categoryName=inputCategory, balance=True, writer=username)
+                name=inputCategory, isIncome=True, writer=user)
             newcategory.save()
         else:
             return view(request, "categorySubscribeError", "duplication")
     else:
-        if len(Category.objects.filter(categoryName=inputCategory, balance=False, writer=username)) == 0:
+        if len(Category.objects.filter(name=inputCategory, isIncome=False, writer=user)) == 0:
             newcategory = Category(
-                categoryName=inputCategory, balance=False, writer=username)
+                name=inputCategory, isIncome=False, writer=user)
             newcategory.save()
         else:
             return view(request, "categorySubscribeError", "duplication")
-    return render(request, "category.html")
+    return view(request)
+
+
+def export(request):  # csvファイルをエクスポート
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="data.csv"'
+    writer = csv.writer(response)
+    username = request.session.get("name")
+    user = User.objects.filter(name=username).first()
+    balances = Balance.objects.filter(writer=user).order_by(
+        "id").reverse()  # あとで日付順にソートすべき
+    for balance in balances:  # 今は収支、内容、カテゴリーのみ。後で追加
+        if(balance.isIncome):
+            writer.writerow(
+                [balance.amount, balance.description, balance.categoryName])
+        else:
+            writer.writerow(
+                [-balance.amount, balance.description, balance.categoryName])
+    return response
