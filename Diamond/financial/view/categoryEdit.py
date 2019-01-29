@@ -59,6 +59,9 @@ def __change(request, category: Category) -> HttpResponse:
     changedCategory = category.setName(name)
     changedCategory and changedCategory.save()
     error = () if changedCategory else ("categorySubscribeError", "blank")
+    if not error:
+        financial.views.createIncomeCircle(request)
+        financial.views.createExpenceCircle(request)
     return __topView(request, *error)
 
 
@@ -72,4 +75,6 @@ def __delete(request, category: Category) -> HttpResponse:
         トップページ
     """
     category.delete()
+    financial.views.createIncomeCircle(request)
+    financial.views.createExpenceCircle(request)
     return __topView(request)

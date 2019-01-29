@@ -221,30 +221,43 @@ body %}
               </table>
             </form>
           </div>
-          <div class="cp_tabpanel">
-            <h2>円グラフ</h2>
-            {% load static %}
-            <img
-              src="{% static 'financial/img/'%}{{ name }}/{{ incomeFileName }}"
-              title="収入のグラフ"
-              alt="収入のグラフ"
-              align="top"
-            />
-            <img
-              src="{% static 'financial/img/'%}{{ name }}/{{ expenceFileName }}"
-              title="支出のグラフ"
-              alt="支出のグラフ"
-              align="top"
-            />
-          </div>
-          <div class="cp_tabpanel">
-            <h2>折れ線グラフ</h2>
-            <p>折れ線グラフをここに表示</p>
-          </div>
+                    <div class="cp_tabpanel">
+                        <h2>円グラフ</h2>
+                        {% load static %}
+                        {% if incomeFileName == "" %}
+                            <span>収入が登録されていません<br></span>
+                        {% else %}
+                            <img src="{% static 'financial/img/'%}{{name}}/{{incomeFileName}}" title="収入のグラフ" alt="収入のグラフ" align="top">
+                        {% endif %}
+                        {% if expenceFileName == "" %}
+                            <span>支出が登録されていません<br></span>
+                        {% else %}
+                            <img src="{% static 'financial/img/'%}{{name}}/{{expenceFileName}}" title="支出のグラフ" alt="支出のグラフ" align="top">
+                        {% endif %}
+                    </div>
+                    <div class="cp_tabpanel">
+                        <h2>折れ線グラフ</h2>
+                        {% if lineFileName_M_dict|length == 0 %}
+                                <span>収支が登録されていません</span>
+                        {% else %}
+                            <select id="lineGraphM_select" onchange="lineGraph_change('lineGraphM', {{lineFileName_M_dict}})">
+                            {% for key, value in lineFileName_M_dict.items %}
+                                <option>{{key}}</option>
+                            {% endfor %}
+                            </select><br>
+                            {% load static %}
+                            {% for key, value in lineFileName_M_dict.items %}
+                                {% if forloop.first %}
+                                    <img src="{% static 'financial/img/'%}{{name}}/{{value}}" id="lineGraphM_img" title="月別収支" alt="月別収支" align="top">
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
       </div>
     </div>
-  </div>
   <aside class="sidebar">
     <div class="sidebar__inner">
       <h2 class="sidebar__ttl">Menu</h2>
@@ -387,5 +400,12 @@ body %}
     });
     draw();
   });
+    /*月別グラフ選択*/
+    function lineGraph_change(baseID, dict){
+        var img = document.getElementById(baseID+"_img");
+        var year = document.getElementById(baseID+"_select").value;
+        var value = dict[year];
+        img.src = "{% static 'financial/img/'%}{{name}}/" +value;
+    };
 </script>
 {% endblock %}
