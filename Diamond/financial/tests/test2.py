@@ -19,6 +19,13 @@ exCateNames = [
     "大きな買い物"
 ]
 
+inCateNames_changed = [
+    "定期的に買うやつ"
+]
+exCateNames_changed = [
+    "とっても大きなお買い物"
+]
+
 incomeDics = [
     {
         "amount": 10000,
@@ -93,6 +100,25 @@ class Test2(TestCase):
             for value in values:
                 if not driver.exists(str(value)):
                     raise AssertionError("NG: 値 %s が収支表にありません" % value)
+            # カテゴリ名編集
+            driver.changeExpenseCategory(
+                name_from=exCateNames[0], name_to=exCateNames_changed[0])
+            values = [v if v != exCateNames[0] else exCateNames_changed[0]
+                      for v in values]
+            for value in values:
+                if not driver.exists(str(value)):
+                    pushSelectByText
+                    raise AssertionError(
+                        "NG: (カテゴリ名変更失敗) 値 %s が収支表にありません" % value)
+            print("OK: カテゴリ名の変更")
+            # カテゴリ削除
+            value = exCateNames_changed[0]
+            driver.deleteExpenseCategory(value)
+            if driver.exists(value):
+                raise AssertionError(
+                    "NG: (カテゴリ削除失敗) %s を削除できません" % value)
+            print("OK: カテゴリの削除")
+            # ログアウト
             signout(driver, user, password)
 
         # 閉じる
