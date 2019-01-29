@@ -59,7 +59,51 @@ def addExpenseCategory(self: WebDriver, name: str):
     self.__addCategory(name=name, categoryType="expense")
 
 
+__inCategoryPrefix = "収入: "
+__exCategoryPrefix = "支出: "
+
+
+def __changeCategory(self: WebDriver, name_from: str, name_to: str, prefix: str):
+    form_id = "categoryEditForm"
+    select_name = "categoryID"
+    value = prefix + name_from
+    input_dict = {"categoryName": name_to}
+    self.pushButton("category_edit_btn")
+    self.pushSelectByText(form_id=form_id, name=select_name, text=value)
+    self.form_input(form_id, input_dict)
+    self.form_click(form_id, "change")
+    print("    changed %s -> %s" % (value, name_to))
+
+
+def changeIncomeCategory(self: WebDriver, name_from: str, name_to: str):
+    self.__changeCategory(name_from, name_to, __inCategoryPrefix)
+
+
+def changeExpenseCategory(self: WebDriver, name_from: str, name_to: str):
+    self.__changeCategory(name_from, name_to, __exCategoryPrefix)
+
+
+def __deleteCategory(self: WebDriver, name: str, prefix: str):
+    form_id = "categoryEditForm"
+    select_name = "categoryID"
+    value = prefix + name
+    self.pushButton("category_edit_btn")
+    self.pushSelectByText(form_id=form_id, name=select_name, text=value)
+    self.form_click(form_id, "delete")
+    print("    deleted category %s" % value)
+
+
+def deleteIncomeCategory(self: WebDriver, name: str):
+    self.__deleteCategory(name, __inCategoryPrefix)
+
+
+def deleteExpenseCategory(self: WebDriver, name: str):
+    self.__deleteCategory(name, __exCategoryPrefix)
+
+
 # メソッドをWebDriverに追加
+
+
 def __setattr(method):
     setattr(WebDriver, method.__name__, method)
 
@@ -69,3 +113,9 @@ __setattr(addExpense)
 __setattr(__addCategory)
 __setattr(addIncomeCategory)
 __setattr(addExpenseCategory)
+__setattr(__changeCategory)
+__setattr(changeIncomeCategory)
+__setattr(changeExpenseCategory)
+__setattr(__deleteCategory)
+__setattr(deleteIncomeCategory)
+__setattr(deleteExpenseCategory)
