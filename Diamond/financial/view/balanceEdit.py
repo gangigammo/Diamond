@@ -16,8 +16,12 @@ def main(request):
     # keys の文字列によって操作を場合分け
     if "delete" in keys:
         result = __delete(request, user, selects)
+        financial.views.createIncomeCircle(request)
+        financial.views.createExpenceCircle(request)
     elif "change" in keys:
         result = __change(request, user, selects)
+        financial.views.createIncomeCircle(request)
+        financial.views.createExpenceCircle(request)
     # TODO elifで他のメソッドを追加
 
     result = result or __topView(request)
