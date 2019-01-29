@@ -6,32 +6,34 @@
 
 {% block body %}
 <div class="wrap">
-    <div class="content">
     <!--上部メニュー-->
     <div class="homemenu">
-        <ul>
-            <li>金剛会計</li>
-            <li>
-                <a>
-                    <!--ハンバーガーメニューのアイコン-->
-                    <i class="fas fa-bars header__icon"></i>
-                </a>
-            </li>
-            <li>
-                <font color="white" size="5px">ようこそ{{name}}さん</font>
-            </li>
-        </ul>
-    </div>
+            <ul>
+                <li>金剛会計</li>
+                <li>
+                    <a>
+                        <!--ハンバーガーメニューのアイコン-->
+                        <i class="fas fa-bars header__icon"></i>
+                    </a>
+                </li>
+                <li>
+                    <font color="white" size="5px">ようこそ{{name}}さん</font>
+                </li>
+            </ul>
+        </div>
+    <div class="content">
+    <h2>収支編集</h2>
+    <a href="/view">収支表に戻る</a>
+    <br>
+    <br>
     <form id="changeIncomeCategoryForm" method="POST" action="apply/">
         {% csrf_token %}
-        <p>収支編集</p>
-        <input type="submit" value="適用">
+        <input type="submit" value="変更を適用">
         <br>
-        <a href="/view">収支表に戻る</a>
         <table class="view_table">
             <thead>
                 <tr>
-                    <th>金額</th>
+                    <th>収支</th>
                     <th>内容</th>
                     <th>カテゴリー</th>
                     <th>日付</th>
