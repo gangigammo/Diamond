@@ -16,12 +16,8 @@ def main(request):
     # keys の文字列によって操作を場合分け
     if "delete" in keys:
         result = __delete(request, user, selects)
-        financial.views.createIncomeCircle(request)
-        financial.views.createExpenceCircle(request)
     elif "change" in keys:
         result = __change(request, user, selects)
-        financial.views.createIncomeCircle(request)
-        financial.views.createExpenceCircle(request)
     # TODO elifで他のメソッドを追加
 
     result = result or __topView(request)
@@ -86,6 +82,8 @@ def apply(request):
     except (ValueError, TypeError) as ex:
         error = ("incomeError", str(ex))
 
+    financial.views.createIncomeCircle(request)
+    financial.views.createExpenceCircle(request)
     for y in yearlist:
         financial.views.createMonthlyLineGraph(request, y)
     return __topView(request, *error)
