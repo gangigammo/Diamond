@@ -1,5 +1,8 @@
-{% extends "main.html" %} {% block title %} 収支表閲覧 {% endblock %} {% block
-body %}
+{% extends "main.html" %} 
+{% block title %} 
+収支表閲覧 
+{% endblock %} 
+{% block body %}
 
 <div class="wrap">
   <!--上部メニュー-->
@@ -83,9 +86,9 @@ body %}
                 <select name="incomeCategory">
                   <option value="選択なし">選択なし</option>
                   {% for incomeCategory in incomeCategories %}
-                  <option value="{{ incomeCategory.name }}">{{
-                    incomeCategory.name
-                  }}</option>
+                  <option value="{{incomeCategory.name}}">
+                      {{incomeCategory.name}}
+                    </option>
                   {% endfor %}
                 </select>
                 <br />
@@ -103,9 +106,8 @@ body %}
                 <select name="expenseCategory">
                   <option value="選択なし">選択なし</option>
                   {% for expenseCategory in expenseCategories %}
-                  <option value="{{ expenseCategory.name }}">{{
-                    expenseCategory.name
-                  }}</option>
+                  <option value="{{ expenseCategory.name }}">
+                      {{expenseCategory.name}}</option>
                   {% endfor %}
                 </select>
                 <br />
@@ -119,9 +121,9 @@ body %}
                 <select name="Category">
                   <option value="選択なし">選択なし</option>
                   {% for category in Category %}
-                  <option value="{{ category.categoryName }}">{{
-                    category.categoryName
-                  }}</option>
+                  <option value="{{ category.categoryName }}">
+                      {{category.categoryName}}
+                    </option>
                   {% endfor %}
                 </select>
                 <p>金額</p>
@@ -207,7 +209,7 @@ body %}
                     {% endif %}
                     <td>{{ balance.description }}</td>
                     <td>{{ balance.categoryName }}</td>
-                    <td>{{ balance.date | date: "Y年m月d日" }}</td>
+                    <td>{{balance.date|date:'Y年m月d日'}}</td>
                     <td>
                       <input
                         name="balanceSelect"
