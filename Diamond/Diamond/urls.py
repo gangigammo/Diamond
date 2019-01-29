@@ -33,6 +33,11 @@ urlpatterns = [
     path('category/', financial_view.category),
     path('search/', financial_view.view),
     path('export/', financial_view.export),
+    path('passwordchange/', financial_view.passwordchange),
+    path('passwordchangeconfirm/', financial_view.passwordchangeconfirm),
+    path('unregister/', financial_view.unregister),
+    path('unregisterconfirm/', financial_view.unregisterconfirm),
+
     # 収支エントリの変更
     path('balanceedit/', balanceEdit.main),
     path('balanceedit/apply/', balanceEdit.apply)
