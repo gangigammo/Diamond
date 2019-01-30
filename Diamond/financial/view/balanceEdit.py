@@ -35,8 +35,15 @@ def __getSelects(request, user):
 
 # 収支を削除
 def __delete(request, user, selects):
+    yearlist = []       # 折れ線グラフを作り直す年
     for g in selects:
+        if g.date.year not in yearlist:
+            yearlist += [g.date.year]
         g.delete()
+    financial.views.createIncomeCircle(request)
+    financial.views.createExpenceCircle(request)
+    for y in yearlist:
+        financial.views.createMonthlyLineGraph(request, y)
     return __topView(request)
 
 
@@ -53,12 +60,13 @@ def __change(request, user, selects):
 # 編集を適用    balanceedit/apply/
 def apply(request):
     post = request.POST
-
+    yearlist = []  # 折れ線グラフを作り直す年
     error = ()  # (エラー名, エラー詳細)のタプル。views.pyで処理される
     try:
         for id_fields in __parseChange(post):
             (id, (amount, description, categoryName, date)) = id_fields
             b = Balance.objects.filter(id=id).first()
+            datebefore = b.date
             category = Category.objects.filter(
                 writer=b.writer, name=categoryName).first()
             b.amount = amount
@@ -66,8 +74,18 @@ def apply(request):
             b.category = category
             b.date = date or b.date  # False(変更なし)ならそのまま
             b.save()
+            if datebefore.year not in yearlist:
+                yearlist += [datebefore.year]
+            if int(b.date[0:date.find("-")]) not in yearlist:
+                yearlist += [int(b.date[0:date.find("-")])]
+
     except (ValueError, TypeError) as ex:
         error = ("incomeError", str(ex))
+
+    financial.views.createIncomeCircle(request)
+    financial.views.createExpenceCircle(request)
+    for y in yearlist:
+        financial.views.createMonthlyLineGraph(request, y)
     return __topView(request, *error)
 
 
