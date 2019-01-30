@@ -5,16 +5,35 @@
 
 
 {% block body %}
-	<form id="changeIncomeCategoryForm" method="POST" action="apply/">
+<div class="wrap">
+    <!--上部メニュー-->
+    <div class="homemenu">
+            <ul>
+                <li>金剛会計</li>
+                <li>
+                    <a>
+                        <!--ハンバーガーメニューのアイコン-->
+                        <i class="fas fa-bars header__icon"></i>
+                    </a>
+                </li>
+                <li>
+                    <font color="white" size="5px">ようこそ{{name}}さん</font>
+                </li>
+            </ul>
+        </div>
+    <div class="content">
+    <h2>収支編集</h2>
+    <a href="/view">収支表に戻る</a>
+    <br>
+    <br>
+    <form id="changeIncomeCategoryForm" method="POST" action="apply/">
         {% csrf_token %}
-        <p>収支編集</p>
-        <input type="submit" value="適用">
+        <input type="submit" value="変更を適用">
         <br>
-        <a href="/view">収支表に戻る</a>
-        <table>
+        <table class="view_table">
             <thead>
                 <tr>
-                    <th>金額</th>
+                    <th>収支</th>
                     <th>内容</th>
                     <th>カテゴリー</th>
                     <th>日付</th>
@@ -25,9 +44,9 @@
                 <tr>
                     <td>
                         {% if b.isIncome %}
-                            <font color="green">+</font>
+                        <font color="green">+</font>
                         {% else %}
-                            <font color="red">-</font>
+                        <font color="red">-</font>
                         {% endif %}
                         <input type="text" name="{{b.id}}-amount" value="{{b.amount}}">
                     </td>
@@ -38,13 +57,13 @@
                         <select name="{{b.id}}-category" value="{{b.categoryName}}">
                             <option value="選択なし">選択なし</option>
                             {% if b.isIncome %}
-                                {% for c in incomeCategories %}
-                                    <option value={{c.name}} {% if c.name == b.categoryName %}selected{% endif %}>{{c.name}}</option>
-                                {% endfor %}
+                            {% for c in incomeCategories %}
+                            <option value={{c.name}} {% if c.name == b.categoryName %}selected{% endif %}>{{c.name}}</option>
+                            {% endfor %}
                             {% else %}
-                                {% for c in expenseCategories %}
-                                    <option value={{c.name}} {% if c.name == b.categoryName %}selected{% endif %}>{{c.name}}</option>
-                                {% endfor %}
+                            {% for c in expenseCategories %}
+                            <option value={{c.name}} {% if c.name == b.categoryName %}selected{% endif %}>{{c.name}}</option>
+                            {% endfor %}
                             {% endif %}
                         </select>
                     </td>
@@ -56,5 +75,65 @@
             </tbody>
         </table>
     </form>
-
+    <aside class="sidebar">
+        <div class="sidebar__inner">
+            <h2 class="sidebar__ttl">Menu</h2>
+            <i class="fas fa-times-circle sidebar__icon"></i>
+        </div>
+        <p class="sidebar__txt">
+            <a href="/">トップページ</a>
+        </p>
+        <p class="sidebar__txt">
+            <a href="/signout">ログアウト</a>
+        </p>
+        <p class="sidebar__txt">
+            <a href="/passwordchange">パスワード変更</a>
+        </p>
+        <p class="sidebar__txt">
+            <a href="/unregister">退会</a>
+        </p>
+    </aside>
+    <div class="sidebar-bg"></div>
+</div>
+</div>
+<script>
+        $(document).ready(function () {
+            /*ハンバーガーメニューopen*/
+            $('.header__icon').on('click', function () {
+                $('.sidebar').css(
+                    'display', 'block'
+                ).animate({
+                    right: '0'
+                },
+                    300
+                );
+                $('.sidebar-bg').css(
+                    'display', 'block'
+                ).animate({
+                    opacity: '0.5'
+                },
+                    300
+                )
+            });
+            /*ハンバーガーメニューclose*/
+            $('.sidebar__icon').on('click', function () {
+                $('.sidebar').animate({
+                    right: '-200px'
+                },
+                    300
+                );
+                $('.sidebar-bg').animate({
+                    opacity: '0'
+                },
+                    300
+                );
+                setTimeout(function () {
+                    $('.sidebar').css('display', 'none');
+                    $('.sidebar-bg').css('display', 'none');
+                },
+                    300
+                );
+            });
+        });
+    </script>
 {% endblock %}
