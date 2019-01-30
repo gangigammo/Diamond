@@ -101,22 +101,26 @@
                         <p>検索ツール</p>
                     <form id="search" method="POST" action="/search/">
                      <p>カテゴリー</p>
-                        <input type="checkbox" name="selectCategory">
-                        <select name="Category">
+                        <input id=searchSelectCategory type="checkbox" name="selectCategory">
+                        <select id="searchCategory" name="Category">
                             <option value="選択なし">選択なし</option>
                             {% for category in Category %}
+                            {% if category.categoryName == searchCategory %}
+                            <option selected value={{category.categoryName}}>{{category.categoryName}}</option>
+                            {% else %}
                             <option value={{category.categoryName}}>{{category.categoryName}}</option>
+                            {% endif %}
                             {% endfor %}
                         </select>
                         <p>金額</p>
-                        <input type="text" name ="amountFrom">以上
-                        <input type="text" name ="amountTo">以下
+                        <input id="searchAmountFrom" type="text" name ="amountFrom">以上
+                        <input id="searchAmountTo" type="text" name ="amountTo">以下
                         <p>内容（含まれる文字列）</p>
-                        <input type="text" name ="description">
+                        <input id="searchDescription" type="text" name ="description">
                         <p>期間</p>
-                        <input type="date" name ="periodFrom">
+                        <input id="searchPeriodFrom" type="date" name ="periodFrom">
                         〜
-                        <input type="date" name ="periodTo">
+                        <input id="searchPeriodTo" type="date" name ="periodTo">
                         {% csrf_token %}
                         <p><input type="submit" value="検索"></p>
                     </form>
@@ -201,8 +205,8 @@
     <div class="sidebar-bg"></div>
 </div>
 <script>
-    /*フォームのエラー表示*/
     window.onload = function () {
+        /*フォームのエラー表示*/
         error = "{{categorySubscribeError}}";
         if (error == "blank") {
             document.getElementById("category").innerHTML = "カテゴリー入力がされていません";
@@ -223,7 +227,37 @@
         } else if (error == "contentBlankError") {
             document.getElementById("expense").innerHTML = "内容が入力されていません";
         }
+
+        /*検索内容の保持*/
+        search = "{{searchSelectCategory}}";
+        if (search != ""){
+            document.getElementById("searchSelectCategory").checked = true;
+        }
+
+        search = "{{searchAmountFrom}}";
+        if (search != ""){
+            document.getElementById("searchAmountFrom").value = search;
+        }
+        search = "{{searchAmountTo}}";
+        if (search != ""){
+            document.getElementById("searchAmountTo").value = search;
+        }
+        search = "{{searchDescription}}";
+        if (search != ""){
+            document.getElementById("searchDescription").value = search;
+        }
+        search = "{{searchPeriodFrom}}";
+        if (search != ""){
+            document.getElementById("searchPeriodFrom").value = search;
+        }
+        search = "{{searchPeriodTo}}";
+        if (search != ""){
+            document.getElementById("searchPeriodTo").value = search;
+        }
     }
+
+
+
 
     $(document).ready(function () {
         /*ハンバーガーメニューopen*/

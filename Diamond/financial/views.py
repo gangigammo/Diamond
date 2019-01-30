@@ -19,32 +19,40 @@ def view(request, *args):
     username = request.session["name"]
     user = User.objects.filter(name=username).first()
     balances = Balance.objects.filter(writer=user).order_by("id").reverse()
+    searchControl = {}
     if request.method == 'POST':
         if 'selectCategory' in request.POST and 'Category' in request.POST:
             categoryName = request.POST["Category"]
             category = Category.objects.filter(
                 writer=user, name=categoryName).first()
             balances = balances.filter(category=category)
+            searchControl["searchSelectCategory"] = "checked"
+            searchControl["searchCategory"] = categoryName
         if 'amountFrom' in request.POST:
             amountFrom = request.POST["amountFrom"]
             if amountFrom.isdecimal():
                 balances = balances.filter(amount__gte=amountFrom)
+                searchControl["searchAmountFrom"] = amountFrom
         if 'amountTo' in request.POST:
             amountTo = request.POST["amountTo"]
             if amountTo.isdecimal():
                 balances = balances.filter(amount__lte=amountTo)
+                searchControl["searchAmountTo"] = amountTo
         if 'description' in request.POST:
             description = request.POST["description"]
             if description != "":
                 balances = balances.filter(description__icontains=description)
+                searchControl["searchDescription"] = description
         if 'periodFrom' in request.POST:
             periodFrom = request.POST["periodFrom"]
             if periodFrom != "":
                 balances = balances.filter(date__gte=periodFrom)
+                searchControl["searchPeriodFrom"] = periodFrom
         if 'periodTo' in request.POST:
             periodTo = request.POST["periodTo"]
             if periodTo != "":
                 balances = balances.filter(date__lte=periodTo)
+                searchControl["searchPeriodTo"] = periodTo
     incomes = []
     expences = []
     categories = Category.objects.filter(
@@ -79,7 +87,8 @@ def view(request, *args):
                        "Category": categories,
                        "incomeFileName": getFileName(request, 'circle_income'),
                        "expenceFileName": getFileName(request, 'circle_expence'),
-                       "lineFileName_M": getFileName(request, 'monthly')
+                       "lineFileName_M": getFileName(request, 'monthly'),
+                       **searchControl,
                        })
 
 
