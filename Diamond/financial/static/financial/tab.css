@@ -54,9 +54,9 @@
   border: 1px solid #dcedc8;
   background: #dcedc8;
 }
-.cp_tab #tab4_1:checked ~ .cp_tabpanels .cp_tabpanel:nth-of-type(1),
-.cp_tab #tab4_2:checked ~ .cp_tabpanels .cp_tabpanel:nth-of-type(2),
-.cp_tab #tab4_3:checked ~ .cp_tabpanels .cp_tabpanel:nth-of-type(3) {
+.cp_tab #tab1:checked ~ .cp_tabpanels .cp_tabpanel:nth-of-type(1),
+.cp_tab #tab2:checked ~ .cp_tabpanels .cp_tabpanel:nth-of-type(2),
+.cp_tab #tab3:checked ~ .cp_tabpanels .cp_tabpanel:nth-of-type(3) {
   z-index: 1;
   transform: rotateX(0);
   opacity: 1;

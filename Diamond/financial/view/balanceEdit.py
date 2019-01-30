@@ -52,7 +52,8 @@ def __change(request, user, selects):
     responseDict = {
         "selects": selects,
         "incomeCategories": Category.objects.filter(writer=user, isIncome=True),
-        "expenseCategories": Category.objects.filter(writer=user, isIncome=False)
+        "expenseCategories": Category.objects.filter(writer=user, isIncome=False),
+        "name": request.session.get("name")
     }
     return render(request, "changeBalance.html", responseDict)
 

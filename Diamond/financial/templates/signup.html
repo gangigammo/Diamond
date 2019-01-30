@@ -11,6 +11,8 @@
             document.getElementById("{{error}}").innerHTML = "そのユーザー名は既に使用されています";
         } else if (error == "password") { /*パスワードエラーを作成するならここに*/
             /*document.getElementById("{{error}}").innerHTML = "パスワードは8文字以上で数字、小文字、大文字を全て含んだものにしてください";*/
+        } else if (error == "passwordConfirm") {
+            document.getElementById("{{error}}").innerHTML = "パスワードとパスワード確認の入力が異なります";
         }
     }
 
@@ -35,6 +37,13 @@
             </font>
             <p>パスワード</p>
             <input type="password" name="password">
+            <br>
+            <br>
+            <p>パスワード確認</p>
+            <input type="password" name="passwordConfirm">
+            <font color="red">
+                <p id="passwordConfirm"></p>
+            </font>
             <br>
             {% csrf_token %}
             <button type="submit" name="action" bvalue="send" class="signupButton">登録</button>
