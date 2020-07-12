@@ -1,4 +1,5 @@
 # Diamond
+<img width="1419" alt="スクリーンショット 2020-07-13 1 20 44" src="https://user-images.githubusercontent.com/42495978/87251503-2c4c4580-c4a7-11ea-806b-9d7d1d0f5f26.png">
 収支計算アプリ「金剛会計」をDjangoを用いて作成  
 python3.7以上推奨(python3.6では収支編集機能などが動作せず)  
 必要なパッケージはrequirements.txtに記述  
